@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>全部分类</title>
+    <link rel="stylesheet" href="css/sta.css">
+    <link href="css/mui.css" rel="stylesheet" type="text/css">
+    <script src="js/mui.js"></script>
+
+</head>
+
+<body style="background:#F0F0F0;">
+    <div class="index_box" style="margin-top: 60px;margin-bottom: 0px;" id="app">
+        <div class="nearby_top">
+            <h1>全部分类</h1>
+            <a class="index_back mui-action-back"><img src="img/back.png" alt="" width="100%" height="100%"></a>
+        </div>
+        <!-- 列表 -->
+        <div class="fication" v-for="item in list">
+            <div class="fication_box">
+                <div class="fication_one" style="background:#fafafa;" @click="openCategoryPage(item.id)">
+                    <img :src="getImgUrl(item.icon)" alt="" width="20" height="20">
+                    <p>{{item.title}}</p>
+                </div>
+
+                <template v-for="sub in item.children.slice(0, 3)">
+                    <div class="fication_one" @click="openCategoryPage(sub.id)">
+                        <h5>{{sub.title}}</h5>
+                    </div>
+                </template>
+                
+
+                <div class="fication_one" v-if="item.children.length > 3" @click="item.show_more = !item.show_more">
+                    <span :class="item.show_more ? 'mui-icon mui-icon-arrowup' : 'mui-icon mui-icon-arrowdown'" style="margin-top: 10px;"></span>
+                </div>
+            </div>
+            <!-- 详细列表 -->
+            <div class="fication_mian_box" v-show="item.children.length > 3 && item.show_more">
+                <ul>
+                    <template v-for="sub in item.children.slice(3)">
+                        <li @click="openCategoryPage(sub.id)">{{sub.title}}</li>
+                    </template>
+                </ul>
+            </div>
+            <!-- 查看 -->
+            <div class="fication_mian_bt"  v-show="item.children.length > 3 && item.show_more">
+                <a @click="openCategoryPage(item.id)">查看全部{{item.title}} ></a>
+            </div>
+        </div>
+
+    </div>
+    <script src="js/common.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                list: null
+            },
+            created: function() {
+                var self = this;
+                getJson(
+                    'api/categoriesWithTree',
+                    null,
+                    function(ret) {
+                        if (ret.code == 200) {
+                            for (var i = 0, len = ret.data.length; i < len; i++) {
+                                ret.data[i].show_more = false;
+                            }
+                            self.list = ret.data
+                        }
+                    },
+                    null,
+                    false
+                )
+            },
+            methods: {
+                getImgUrl: function (url) {
+                    return config.imgBasePath + url;
+                },
+                openCategoryPage: function(category_id) {
+                    clicked('shoplist.html?category_id=' + category_id);
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>设置</title>
+  <link href="css/sta.css" rel="stylesheet" type="text/css">
+  <link href="css/mui.min.css" rel="stylesheet" type="text/css">
+  <script src="js/mui.min.js"></script>
+  <script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body style="background:#F0F0F0;">
+  <div class="index_box" style="margin-top:60px" id="app">
+    <div class="nearby_top">
+      <h1>更多功能</h1>
+      <a class="index_back mui-action-back"><img src="img/back.png" alt="" width="100%" height="100%"></a>
+    </div>
+
+    <div class="manage_list">
+      <a @tap="goPage('userinfo.html')"><b>个人资料</b><i><img src="img/bac.png" alt=""></i></a>
+    </div>
+    <div class="manage_list">
+      <a @tap="goPage('about_us.html')"><b>关于我们</b><i><img src="img/bac.png" alt=""></i></a>
+      <!--<a @tap="goPage('message_center.html')"><b>消息中心</b><i><img src="img/bac.png" alt=""></i></a>-->
+      <a @tap="goPage('help.html')"><b>用户帮助</b><i><img src="img/bac.png" alt=""></i></a>
+    </div>
+    <!-- <div class="manage_password">
+      手势密码
+      <div class="mui-switch mui-switch-mini" style="float: right;margin-right: 15px;margin-top: 15px;">
+        <div class="mui-switch-handle"></div>
+      </div>
+      <div class="clr"></div>
+    </div> -->
+
+    <div class="manage_list">
+      <a @tap="logout"><b>退出登录</b></a>
+    </div>
+  </div>
+  <script src="js/vue.js"></script>
+  <script type="text/javascript">
+    var vm = new Vue({
+      el: '#app',
+      methods: {
+        goPage: function (page) {
+          clicked(page);
+        },
+        logout: function () {
+          mui.confirm('确认退出', '提示', ['否', '是'], function(e) {
+							if(e.index == 0) {
+								return;
+              }
+              localStorage.removeItem('token');
+              localStorage.removeItem('userinfo');
+              clicked('login.html');
+          })
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

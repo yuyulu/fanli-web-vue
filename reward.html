@@ -1,0 +1,208 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>奖励</title>
+	<link href="css/sta.css" rel="stylesheet" type="text/css">
+	<link href="css/mui.css" rel="stylesheet" type="text/css">
+	<script src="js/mui.js"></script>
+	<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/config.js"></script>
+	<script src="js/vue.js"></script>
+	<style>
+		#chart-data {
+			width: 100%;
+			height: 300px;
+		}
+		.highcharts-credits {display: none;}
+
+		[v-cloak] {
+			display: none;
+		}
+	</style>
+</head>
+
+<body style="background:#A30B06;">
+	<div id="app" v-cloak>
+		<div class="reward_img">
+			<h4>{{year}}分红奖励</h4>
+			<h2>实时数据播报</h2>
+		</div>
+		<div class="reward_tittle">
+			<img src="img/jingxi.png" alt="">
+		</div>
+		<div class="reward_feng">
+			<p><span>商家{{day}}</span></p>
+		</div>
+		<div class="reward_jl">
+			<ul>
+				<li>
+					<a href="#"><img src="img/hongbao.png" alt=""><b>{{shop_count}}</b></a>
+					<p>商家领取</p>
+				</li>
+				<li>
+					<a href="#"><img src="img/hongbao.png" alt=""><b>{{user_count}}</b></a>
+					<p>会员领取</p>
+				</li>
+			</ul>
+			<div class="clr"></div>
+		</div>
+		<div class="reward_feng">
+			<p><span>本周奖励走势</span></p>
+		</div>
+		<!-- 曲线图 -->
+		<div class="reward_qs" id="chart-data">
+
+		</div>
+		<!-- 底部导航 -->
+		<div class="index_bottom">
+			<ul>
+				<li>
+					<a onclick="jump('index.html')"><img src="img/nav6.png" alt="">
+							<p>首页</p>
+						</a>
+				</li>
+				<li>
+					<a onclick="jump('nearby.html')"><img src="img/nav2.png" alt="">
+							<p>附近</p>
+						</a>
+				</li>
+				<li>
+					<a onclick="jump('reward.html')"><img src="img/nav3.png" alt="" style="margin-top: -15px;height: 50px;">
+							<p style="color:#FF7F00;">奖励</p>
+						</a>
+				</li>
+				<li>
+					<a onclick="jump('cart.html')"><img src="img/nav4.png" alt="">
+							<p>购物车</p>
+						</a>
+				</li>
+				<li>
+					<a onclick="jump('people_center.html')"><img src="img/nav5.png" alt="">
+							<p>我的</p>
+						</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<script src="js/highcharts.js"></script>
+	<script src="js/moment.min.js"></script>
+	<script type="text/javascript">
+		var vm = new Vue({
+			el: '#app',
+			data: {
+				year: 2017,
+				day: '',
+				shop_count: 0.00,
+				user_count: 0.00,
+			},
+			created: function(){
+				this.year = moment().format('YYYY')
+				this.day = moment().subtract(1, 'd').format('YYYY-MM-DD')
+			},
+			methods: {
+				initChart: function (xAxis, series) {
+					var lineChart = echarts.init(mui('#chart-data')[0]);
+					var options = {
+						color: ['#FFFFFF'],
+						grid: {
+							left: 0,
+							borderWidth: 2,
+						},
+						tooltip: {
+							trigger: 'axis',
+							axisPointer: { // 坐标轴指示器，坐标轴触发有效
+								type: 'cross' // 默认为直线，可选为：'line' | 'shadow'
+							}
+						},
+						xAxis: [{
+							type: 'category',
+							data: xAxis,
+						}],
+						yAxis: [{
+							type: 'category',
+							data: ['万', '百万', '千万', '亿']
+						}],
+						series: [{
+							name: '返利',
+							type: 'line',
+							smooth: true,
+							data: series
+						}]
+					};
+
+					lineChart.setOption(options);
+				},
+
+				initHighChart: function (xAxis, series) {
+					var chart = new Highcharts.Chart('chart-data', {
+						chart: {
+							backgroundColor: '#A30B06',
+
+						},
+						title: {
+							text: '',
+							x: -20
+						},
+						subtitle: {
+							text: '',
+							x: -20
+						},
+						backgroundColor: 'red',
+						xAxis: {
+							lineWidth: 2,
+							categories: xAxis
+						},
+						yAxis: {
+							title: {
+								text: ''
+							},
+							lineWidth: 2,
+							plotLines: [{
+								value: 0,
+								width: 1,
+								color: '#000000'
+							}]
+						},
+						legend: {
+							enabled: false,
+						},
+						series: [{
+							data: series
+						}]
+					});
+				}
+			},
+			mounted: function () {
+				var self = this;
+				getJson(
+					'api/reward',
+					null,
+					function (ret) {
+						self.shop_count = ret.data.businessIncentives;
+						self.user_count = ret.data.membershipAwards;
+						var xAxis = [];
+						var series = [];
+						var list = ret.data.rewardTrend;
+						for (var i = 0, len = list.length; i < len; i++) {
+							xAxis.push(list[i].handler_date);
+							series.push(list[i].total_money)
+
+						}
+						console.log(xAxis)
+						// self.initChart(xAxis, series);
+						self.initHighChart(xAxis, series);
+					}
+				)
+
+			}
+		})
+	</script>
+</body>
+
+</html>

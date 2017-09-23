@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+		<meta name="format-detection" content="telephone=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>产品管理</title>
+		<link rel="stylesheet" href="css/sta.css">
+		<link href="css/mui.css" rel="stylesheet" type="text/css">
+		<script src="js/mui.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/config.js"></script>
+	</head>
+	<style>
+		.tb_order {
+			width: 100%;
+		}
+		
+		.ctt {
+			clear: both;
+		}
+		
+		#tb_ {
+			height: 44px;
+			margin-top: 10px;
+			background: #fff;
+			padding: 0 10px;
+		}
+		
+		.tb_ li {
+			float: left;
+			height: 42px;
+			line-height: 42px;
+			cursor: pointer;
+			width: 33.333%;
+			font-size: 1em;
+			text-align: center;
+			font-weight: 600;
+		}
+		
+		.tb_t li {
+			float: left;
+			height: 22px;
+			line-height: 22px;
+			cursor: pointer;
+			margin-right: 20px;
+			font-size: 12px;
+			text-align: center;
+			padding: 0 10px;
+			border-radius: 2px;
+		}
+		
+		.normaltab {
+			color: #333;
+		}
+		
+		.hovertab {
+			border-bottom: 2px solid #008CEE;
+			color: #008CEE;
+		}
+
+    [v-cloak] {display: none;}
+	</style>
+
+	<body style="background:#f0f0f0;">
+		<div class="index_box" id="app" style="margin-top:50px" v-cloak>
+			<div class="nearby_top">
+				<h1>产品管理</h1>
+				<a class="index_back mui-action-back"><img src="img/back.png" alt="" width="100%" height="100%"></a>
+			</div>
+
+			<div class="tb_order">
+				<div id="tb_">
+					<ul class="tb_">
+						<li id="tb_1"  :class="status=='on_sale' ? 'hovertab' : 'normaltab'" @tap="status='on_sale'">出售中</li>
+						<li id="tb_2"  :class="status=='wait_check' ? 'hovertab' : 'normaltab'" @tap="status='wait_check'">审核中</li>
+						<li id="tb_3"  :class="status=='no_sale' ? 'hovertab' : 'normaltab'" @tap="status='no_sale'">已下架</li>
+					</ul>
+				</div>
+				<div class="ctt">
+					<!-- 出售中 -->
+          <div v-show="status=='on_sale'">
+  					<div v-for="item in on_sale_list">
+  						<div class="nearby_box" style="margin-top:10px;border:none;">
+  							<div class="nearbt_lf">
+  								<img :src="getImgUrl(item.pics[0])" alt="">
+  							</div>
+  							<div class="nearbt_rt">
+  								<h6>{{item.name}}</h6>
+  								<div class="clr"></div>
+  								<h5></h5>
+  								<p>库存：{{item.num}}</p>
+  								<h4>售价：<b>¥{{item.now_price}}</b></h4>
+  								<div class="clr"></div>
+  							</div>
+  						</div>
+  						<input type="button" value="下架" class="product_bt" @tap="changeStatus(item, 0)">
+  					</div>
+          </div>
+
+					<!-- 审核中 -->
+          <div v-show="status=='wait_check'">
+  					<div v-for="item in wait_check_list">
+  						<div class="nearby_box" style="margin-top:10px;border:none;">
+  							<div class="nearbt_lf">
+                  <img :src="getImgUrl(item.pics[0])" alt="">
+                </div>
+                <div class="nearbt_rt">
+                  <h6>{{item.name}}</h6>
+                  <div class="clr"></div>
+                  <h5></h5>
+                  <p>库存：{{item.num}}</p>
+                  <h4>售价：<b>¥{{item.now_price}}</b></h4>
+                  <div class="clr"></div>
+                </div>
+  						</div>
+  					</div>
+          </div>
+					<!-- 已下架 -->
+          <div v-show="status=='no_sale'">
+  					<div v-for="item in no_sale_list">
+  						<div class="nearby_box" style="margin-top:10px;border:none;">
+  							<div class="nearbt_lf">
+                  <img :src="getImgUrl(item.pics[0])" alt="">
+                </div>
+                <div class="nearbt_rt">
+                  <h6>{{item.name}}</h6>
+                  <div class="clr"></div>
+                  <h5></h5>
+                  <p>库存：{{item.num}}</p>
+                  <h4>售价：<b>¥{{item.now_price}}</b></h4>
+                  <div class="clr"></div>
+                </div>
+  						</div>
+              <input type="button" value="上架" class="product_bt" @tap="changeStatus(item, 1)">
+  					</div>
+          </div>
+				</div>
+			</div>
+		</div>
+    <script type="text/javascript">
+      const on_sale = 1; //出售中
+      const wait_check = 0; //审核中
+      const no_sale = 0; //下架
+      var vm = new Vue({
+        el: '#app',
+        data: {
+          status: 'on_sale',
+          list: []
+        },
+        methods: {
+          getImgUrl: function(url) {
+            return config.imgBasePath + url;
+          },
+          changeStatus: function(item, to) {
+            postJson(
+              'api/product/changeStatus',
+              {
+                product_id: item.id,
+                to: to
+              },
+              function(ret) {
+                mui.toast(ret.message);
+                if(ret.code == 200) {
+                  item.on_sale = to
+                }
+              },
+              null,
+              true
+            );
+          },
+        },
+        computed: {
+          on_sale_list: function() {
+            return this.list.filter(function(v){
+              return (v.checked != wait_check) && v.on_sale == on_sale
+            })
+          },
+          wait_check_list: function() {
+            return this.list.filter(function(v){
+              return v.checked == wait_check;
+            })
+          },
+          no_sale_list: function() {
+            return this.list.filter(function(v){
+              return (v.checked != wait_check) && (v.on_sale == no_sale)
+            })
+          }
+        },
+        created: function(){
+          var self = this;
+          getJson(
+            'api/products',
+            {},
+            function(ret) {
+              if (ret.code == 200) {
+                self.list = ret.data;
+              }
+            },
+            null,
+            true
+          );
+        },
+      })
+    </script>
+	</body>
+
+</html>

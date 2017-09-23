@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>商家详情</title>
+	<link href="css/sta.css" rel="stylesheet" type="text/css">
+	<link href="css/mui.css" rel="stylesheet" type="text/css">
+	<script src="js/mui.js"></script>
+	<script src="js/vue.js"></script>
+	<script src="js/config.js"></script>
+	<script src="js/common.js"></script>
+</head>
+
+<body style="background:#F0F0F0;">
+
+
+	<div class="index_box" style="margin-top:50px" id="app">
+		<div class="nearby_top">
+			<h1>商家详情</h1>
+			<a class="index_back mui-action-back"><img src="img/back.png" alt="" width="100%" height="100%"></a>
+		</div>
+		<div style="height:220px;width:100%;">
+			<img :src="getImgUrl(pics)" alt="" width="100%" height="100%">
+		</div>
+
+		<div class="merchant_name">
+			<h5>{{ name }}</h5>
+			<p><span><img src="img/dw1.png" alt=""></span><b>{{ city }}</b>
+				<a @click="goToMap"><img src="img/dw2.png" alt=""></a>
+			</p>
+			<div class="clr"></div>
+			<p><span><img src="img/ip1.png" alt=""></span><b>{{ phone }}</b>
+				<a :href="'tel:' + phone"><img src="img/ip2.png" alt=""></a>
+			</p>
+			<div class="clr"></div>
+		</div>
+		<div class="merchant_jl">
+			<h6>消费奖励</h6>
+		</div>
+
+		<div class="merchant_list">
+			<ul>
+				<template v-for="product in products">
+					<li @tap="goToProductDetail(product.id)">
+						<a>
+							<img :src="getImgUrl(product.pics[0])" alt="">
+							<p>{{product.name}}</p>
+							<h5>¥{{ product.price }}<span>{{product.sales}}人已付款</span></h5>
+						</a>
+					</li>
+				</template>
+			</ul>
+			<div class="clr"></div>
+		</div>
+
+	</div>
+	<div id="map"></div>
+	<script src="js/gps.js"></script>
+	<script type="text/javascript">
+		mui.init({
+			swipeBack: true //启用右滑关闭功能
+		})
+		
+		var vm = new Vue({
+			el: '#app',
+			data: {
+				name: '',
+				pics: '',
+				city: '',
+				phone: '',
+				lng: '',
+				lat: '',
+				products: []
+			},
+			created: function () {
+				var params = getQuery();
+				var shop_id = params.shop_id;
+				this.getDetail(shop_id)
+			},
+			methods: {
+				getImgUrl: function (url) {
+					return config.imgBasePath + url
+				},
+				goToProductDetail: function (product_id) {
+					clicked('productdetail.html?product_id=' + product_id);
+				},
+				goToMap: function () {
+					
+					var url = 'http://api.map.baidu.com/marker?location=' + this.lat + ',' + this.lng + '&title=' + this.name + '&content=' + this.name + '&output=html';
+					// window.location.href = url; return;
+					mui.openWindowWithTitle({
+						url: url,
+						id: 'map'
+					}, {
+							title: {
+								text: this.name
+							},
+							height: "44px",
+							backgroundColor: "#008CEE",
+							back: {
+								image: {
+									base64Data: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAnCAYAAAALkrgzAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTM4IDc5LjE1OTgyNCwgMjAxNi8wOS8xNC0wMTowOTowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTcgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjExOEQ3QzE0NUIxNDExRTc4M0Q0ODUwMkRGOTc0NTg5IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjExOEQ3QzE1NUIxNDExRTc4M0Q0ODUwMkRGOTc0NTg5Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MTE4RDdDMTI1QjE0MTFFNzgzRDQ4NTAyREY5NzQ1ODkiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MTE4RDdDMTM1QjE0MTFFNzgzRDQ4NTAyREY5NzQ1ODkiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4z5eOZAAABdElEQVR42qzUwSsFQRwH8MGmXr138yf4Jzgo0ktc6EkeDo8LJQ6KXrn4M0SKi+QgpxeF8g4uUorCyY38DzJ+w0w947uvnf3Or77b7uz0aXZ39qe01ipSavq33iW9sdAF/beuOhVfVcmeN/bGrnRN/68DSZFBKwC9dPfzohsAPZR0MTBa6ak/LxTdBOgRmhuCTgL0JG1+VnQ9y+OHwtMpH0ox8CpAG1mest3NRYDuZP0mIWgjZAehwSWA7ofud39gHqAXef7O1os6QLfz9hJ3UgXoGdP5zGHZAz8lW2zzN42+7DXpL8kx3f5F75Hcglcxw74KZfvoM8D7WdikKLkH+CwLm3RL7gA+xMImieQR4BUWNinYP86vURZ2eQH4eAy4JDkH+AgLt1v5WAy4YPuxXxMs7PIK8OEYcMl2Pb+mWNjlAeDlGHCSss9rLOyCfv/BGLBZeRPgcx0/Ol/XkoGW66dYsKkbSZ89X4kJJ5K65EOy+y3AAB9ldsQ8Jz+fAAAAAElFTkSuQmCC'
+								},
+								click: function () {
+									var wev = plus.webview.getWebviewById('map');
+									wev.close();
+								}
+							}
+						});
+					plus.webview.getWebviewById('map').evalJS("plus.key.addEventListener('backbutton',function(){plus.webview.getWebviewById('map').close();})");
+
+				},
+				getDetail: function (shop_id) {
+					var self = this;
+					mui.get(
+						config.host + 'api/shop/' + shop_id, {},
+						function (ret) {
+							console.log(ret.data.products);
+							if (ret.code == 200) {
+
+								self.name = ret.data.name;
+								self.pics = ret.data.pics;
+								self.city = ret.data.city;
+								self.phone = ret.data.phone;
+								self.products = ret.data.products;
+								self.lng = ret.data.lng;
+								self.lat = ret.data.lat;
+							}
+						},
+						'json'
+					)
+				}
+			}
+		})
+	</script>
+</body>
+
+</html>

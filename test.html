@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>购物车</title>
+    <link rel="stylesheet" href="css/sta.css">
+    <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
+    <link href="css/mui.css" rel="stylesheet" type="text/css">
+    <script src="js/mui.js"></script>
+    <!-- Swiper JS -->
+
+</head>
+<style>
+    .select_all {
+        position: absolute!important;
+        left: 0px;
+        top: 10px;
+        margin: 0;
+    }
+
+    .ckid {
+        margin-top: 40px;
+    }
+
+    input[type=checkbox] {
+        position: relative;
+        width: 15px;
+        height: 1px;
+    }
+
+    input[type=checkbox]::before,
+    input[type=checkbox]::after {
+        position: absolute;
+        display: block;
+        content: '';
+        border-radius: 50%;
+        transition: .3s all esae;
+    }
+
+    input[type=checkbox]::before {
+        top: 0;
+        left: 0;
+        width: 15px;
+        height: 15px;
+        border: 2px solid #7EC420;
+    }
+
+    input[type=checkbox]::after {
+        top: 4px;
+        left: 4px;
+        width: 11px;
+        height: 11px;
+    }
+
+    input[type=checkbox]:checked::before {
+        border-color: 1px solid #fff;
+    }
+
+    input[type=checkbox]:checked::after {
+        background-color: #7EC420;
+    }
+</style>
+<script language="javascript">
+    $('.select_all').live('click', function () {
+        if ($(this).attr('checked')) {
+            $('.ckid').attr('checked', true);
+        } else {
+            $('.ckid').attr('checked', false);
+        }
+    })
+
+</script>
+<script>
+    $(document).ready(function () {
+        //加的效果
+        $(".add").click(function () {
+            var n = $(this).prev().val();
+            var num = parseInt(n) + 1;
+            if (num == 0) { return; }
+            $(this).prev().val(num);
+        });
+        //减的效果
+        $(".jian").click(function () {
+            var n = $(this).next().val();
+            var num = parseInt(n) - 1;
+            if (num == 0) { return }
+            $(this).next().val(num);
+        });
+    })
+
+</script>
+
+<body style="background:#F0F0F0;">
+    <div class="index_box">
+        <div class="nearby_top">
+            <h1>购物车</h1>
+            <a href="" class="index_back"><img src="img/back.png" alt="" width="100%" height="100%"></a>
+            <a href="" class="index_empty">清空</a>
+        </div>
+
+        <!-- 购物车列表 -->
+        <div style="margin: 50px 0 150px 0;">
+
+            <div class="shopcar_box">
+                <div class="shopcar_top">
+                    <input type="checkbox" class="select_all" id="p2"></span>
+                    <img src="img/shopp.png" alt="">缤纷果园-花园路店 >
+                    <div class="clr"></div>
+                </div>
+                <div class="shopcar_center">
+                    <div class="shopcar_center1">
+                        <input type="checkbox" value="1" class="ckid" id="p2">
+                        <div class="clr"></div>
+                    </div>
+                    <div class="shopcar_center2">
+                        <img src="img/shop.png" alt="">
+                    </div>
+                    <div class="shopcar_center3">
+                        <h6>【自营】越南火龙果</h6>
+                        <p>火龙果约500G/个</p>
+                        <h5>¥28.00<span>¥30.00</span></h5>
+                    </div>
+                    <div class="shopcar_center4">
+                        <a href="#" onclick="show()"><img src="img/sc.png" alt=""></a>
+                        <div class="gw_num">
+                            <span class="jian">-</span>
+                            <input type="text" value="1" class="num" />
+                            <span class="add">+</span>
+                            <div class="clr"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="shopcar_center">
+                    <div class="shopcar_center1">
+                        <input type="checkbox" value="2" class="ckid" id="p2">
+                        <div class="clr"></div>
+                    </div>
+                    <div class="shopcar_center2">
+                        <img src="img/shop.png" alt="">
+                    </div>
+                    <div class="shopcar_center3">
+                        <h6>【自营】越南火龙果</h6>
+                        <p>火龙果约500G/个</p>
+                        <h5>¥28.00<span>¥30.00</span></h5>
+                    </div>
+                    <div class="shopcar_center4">
+                        <a href="#" onclick="show()"><img src="img/sc.png" alt=""></a>
+                        <div class="gw_num">
+                            <span class="jian">-</span>
+                            <input type="text" value="1" class="num" />
+                            <span class="add">+</span>
+                            <div class="clr"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="shopcar_box">
+                <div class="shopcar_top">
+                    <input type="checkbox" class="select_all" id="p2"></span>
+                    <img src="img/shopp.png" alt="">缤纷果园-花园路店 >
+                    <div class="clr"></div>
+                </div>
+                <div class="shopcar_center">
+                    <div class="shopcar_center1">
+                        <input type="checkbox" value="1" class="ckid" id="p2">
+                        <div class="clr"></div>
+                    </div>
+                    <div class="shopcar_center2">
+                        <img src="img/shop.png" alt="">
+                    </div>
+                    <div class="shopcar_center3">
+                        <h6>【自营】越南火龙果</h6>
+                        <p>火龙果约500G/个</p>
+                        <h5>¥28.00<span>¥30.00</span></h5>
+                    </div>
+                    <div class="shopcar_center4">
+                        <a href="#" onclick="show()"><img src="img/sc.png" alt=""></a>
+                        <div class="gw_num">
+                            <span class="jian">-</span>
+                            <input type="text" value="1" class="num" />
+                            <span class="add">+</span>
+                            <div class="clr"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="shopcar_center">
+                    <div class="shopcar_center1">
+                        <input type="checkbox" value="2" class="ckid" id="p2">
+                        <div class="clr"></div>
+                    </div>
+                    <div class="shopcar_center2">
+                        <img src="img/shop.png" alt="">
+                    </div>
+                    <div class="shopcar_center3">
+                        <h6>【自营】越南火龙果</h6>
+                        <p>火龙果约500G/个</p>
+                        <h5>¥28.00<span>¥30.00</span></h5>
+                    </div>
+                    <div class="shopcar_center4">
+                        <a href="#" onclick="show()"><img src="img/sc.png" alt=""></a>
+                        <div class="gw_num">
+                            <span class="jian">-</span>
+                            <input type="text" value="1" class="num" />
+                            <span class="add">+</span>
+                            <div class="clr"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <!-- 总价 -->
+        <div class="shop_price_box">
+            <div class="shop_price_l">
+                <input type="checkbox" class="select_all" id="p2" style="top:20px;left:10px;"><label for="">全选</label>
+            </div>
+            <div class="shop_price_c">
+                <p>合计：<b>¥138.00</b></p>
+                <p><span>共计2件</span></p>
+            </div>
+            <div class="shop_price_r">
+                <input type="button" value="去结算">
+            </div>
+        </div>
+
+        <!-- 底部导航 -->
+        <div class="index_bottom">
+            <ul>
+                <li><a href=""><img src="img/nav6.png" alt=""><p>首页</p></a></li>
+                <li><a href=""><img src="img/nav2.png" alt=""><p>附近</p></a></li>
+                <li><a href=""><img src="img/nav3.png" alt="" style="margin-top: -15px;height: 50px;"><p>奖励</p></a></li>
+                <li><a href=""><img src="img/nav8.png" alt=""><p style="color:#008CEE;">购物车</p></a></li>
+                <li><a href=""><img src="img/nav5.png" alt=""><p>我的</p></a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- 删除弹窗 -->
+    <div class="delete_box mui-backdrop" id="con" style="display:none;">
+        <!--  <div class="delete_bj"></div> -->
+        <div class="delete_fs">
+            <h6>确定删除该商品</h6>
+            <p>
+                <input type="button" value="确定" class="delete_fs_tp1">
+                <input type="button" value="点错啦" class="delete_fs_tp2" onclick="hide()">
+            </p>
+            <div class="clr"></div>
+        </div>
+    </div>
+
+    <script>
+        function hide() {
+            var mychar = document.getElementById("con");
+            mychar.style.display = "none";
+        }
+        function show() {
+            var mychar = document.getElementById("con");
+            mychar.style.display = "block";
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,417 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+		<meta name="format-detection" content="telephone=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>确认订单</title>
+		<link rel="stylesheet" href="css/sta.css">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
+		<script type="text/javascript" src="js/mui.min.js"></script>
+
+	</head>
+	<style>
+		.select_all {
+			position: absolute!important;
+			left: 0px;
+			top: 10px;
+			margin: 0;
+		}
+		
+		.ckid {
+			margin-top: 40px;
+		}
+		
+		input[type=checkbox] {
+			position: relative;
+			width: 15px;
+			height: 1px;
+		}
+		
+		input[type=checkbox]::before,
+		input[type=checkbox]::after {
+			position: absolute;
+			display: block;
+			content: '';
+			border-radius: 50%;
+			transition: .3s all esae;
+		}
+		
+		input[type=checkbox]::before {
+			top: 0;
+			left: 0;
+			width: 15px;
+			height: 15px;
+			border: 2px solid #7EC420;
+		}
+		
+		input[type=checkbox]::after {
+			top: 4px;
+			left: 4px;
+			width: 11px;
+			height: 11px;
+		}
+		
+		input[type=checkbox]:checked::before {
+			border-color: 1px solid #fff;
+		}
+		
+		input[type=checkbox]:checked::after {
+			background-color: #7EC420;
+		}
+		
+		.order_top_after {
+			height: 80px;
+			background: #008CEE;
+		}
+		
+		.order_top_after a {
+			width: 100%;
+			display: flex;
+			display: -webkit-flex;
+		}
+		
+		.order_top_after_l {
+			-webkit-flex: 1;
+			flex: 1;
+			height: 80px;
+		}
+		
+		.order_top_after_c {
+			-webkit-flex: 4;
+			flex: 4;
+			height: 80px;
+		}
+		
+		.order_top_after_c h6,
+		.order_top_after_c p {
+			color: #fff;
+		}
+		
+		.order_top_after_r {
+			-webkit-flex: 0.6;
+			flex: 0.6;
+			height: 80px;
+		}
+		
+		.order_top_after_c h6 span {
+			float: right;
+		}
+		
+		[v-cloak] {
+			display: none;
+		}
+	</style>
+
+	<body style="background:#F0F0F0;">
+		<div class="index_box" id="app" v-cloak>
+			<div class="nearby_top">
+				<h1>确认订单</h1>
+				<a class="index_back mui-action-back"><img src="img/back.png" alt="" width="100%" height="100%"></a>
+			</div>
+
+			<!-- 列表 -->
+			<div style="margin: 70px 0 150px 0;">
+
+				<div class="order_top" v-if="!address.id">
+					<a @tap="selectAddress"><img src="img/jia.png" alt="" class="order_top_l">添加联系人<img src="img/backk.png" alt="" class="order_top_r"></a>
+				</div>
+
+				<div class="order_top_after" v-if="address.id">
+					<a @tap="selectAddress">
+						<div class="order_top_after_l">
+							<img src="img/dw.png" alt="" class="order_top_l">
+						</div>
+						<div class="order_top_after_c">
+							<h6>联系人：{{address.name}}<span>{{address.phone}}</span></h6>
+							<p>{{address.province}}{{address.city}}{{address.country}}{{address.detail}}</p>
+						</div>
+						<div class="order_top_after_r">
+							<img src="img/backk.png" alt="" class="order_top_r">
+						</div>
+					</a>
+				</div>
+
+				<div class="shopcar_box" v-for="item in list">
+					<div class="shopcar_top">
+						<img src="img/shopp.png" alt="">{{ item[0].shop_name }}
+						<div class="clr"></div>
+					</div>
+					<div class="shopcar_center" v-for="product in item">
+						<div class="shopcar_center2">
+							<img :src="getImgUrl(product.pics)" alt="">
+						</div>
+						<div class="shopcar_center3">
+							<h6>{{ product.product_name }}</h6>
+							<!-- <p>火龙果约500G/个</p> -->
+							<h5>¥{{ product.now_price }}<span>¥{{ product.price }}</span></h5>
+						</div>
+						<div class="shopcar_center4">
+							<div class="gw_num">
+								×{{ product.num }}
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<!-- 买家留言 -->
+				<div class="order_ly">
+					<p>买家留言（选填）:</p><input v-model="remark" type="text" placeholder="可填写您与商家达成一致的要求">
+				</div>
+			</div>
+
+			<!-- 底部-->
+			<div class="order_bottom">
+				<p>合计：<span>¥{{ total_price }}</span></p>
+				<input type="submit" @tap="goPay" value="提交订单">
+			</div>
+
+			<!-- 支付弹窗 -->
+			<div class="shop_car_zf" style="display:none;" id="coon">
+				<div class="shop_car_zhe"></div>
+				<div class="shop_car_box">
+					<h4>请选择支付方式<a @tap="hidePay"><img src="img/close.png" alt="" width="16" height="15"></a></h4>
+					<ul>
+						<li class="shop_car1">
+							<a>¥ {{ total_price }}元</a>
+						</li>
+						<li class="shop_car2">
+							<a>订单支付</a>
+						</li>
+						<li>
+							<a @tap="payBy('amount')" class="shop_car"><span><img src="img/yue.png" alt=""></span><b>余额支付</b></a>
+						</li>
+						<li>
+							<a @tap="payBy('wx')" class="shop_car"><span><img src="img/yue.png" alt=""></span><b>微信支付</b></a>
+						</li>
+						<li>
+							<a @tap="payBy('ali')" class="shop_car"><span><img src="img/yue.png" alt=""></span><b>支付宝支付</b></a>
+						</li>
+						<!-- <li>
+						<a class="shop_car"><span><img src="img/yinlian.png" alt=""></span><b>银联支付</b></a>
+					</li> -->
+						<li>
+							<a @tap="payBy('offline')" class="shop_car"><span><img src="img/xianxia.png" alt=""></span><b>线下支付</b></a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+	</body>
+	<script src="js/vue.js"></script>
+	<script src="js/config.js"></script>
+	<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		Array.prototype.groupBy = function(key) {
+			var ret = {};
+			for(var i = 0, len = this.length; i < len; i++) {
+				if(!this[i][key]) {
+					continue;
+				}
+				if(!ret[this[i][key]]) {
+					ret[this[i][key]] = [];
+				}
+				ret[this[i][key]].push(this[i]);
+			}
+			return ret;
+		};
+
+		window.addEventListener('selectAddress', function(event) {
+			var address = event.detail.address;
+			vm.address = address;
+		});
+
+		var wxChannel = null; // 微信支付 
+		var aliChannel = null; // 支付宝支付 
+		mui.plusReady(function() {
+			// 获取支付通道 
+			plus.payment.getChannels(function(channels) {
+				for(var i in channels) {
+					if(channels[i].id == "wxpay") {
+						wxChannel = channels[i];
+					}
+
+					if(channels[i].id == "alipay") {
+						aliChannel = channels[i];
+					}
+				}
+			}, function(e) {
+				mui.alert("获取支付通道失败：" + e.message);
+			});
+		})
+
+		function pay(channel, str) {
+			var paychannel;
+			if(channel == 'ali') {
+				paychannel = aliChannel;
+			} else if(channel == 'wx') {
+				paychannel = wxChannel;
+			} else {
+				mui.toast('支付成功');
+				setTimeout(function() {
+					go("order_list.html");
+				}, 300);
+				return;
+			}
+			plus.payment.request(paychannel, str, function(result) {
+				plus.nativeUI.alert("支付成功！", function() {
+					go('order_list.html#/waitpay');
+				});
+			}, function(error) {
+				plus.nativeUI.alert("支付失败");
+				setTimeout(function(){
+					go('order_list.html#/waitpay');
+				}, 300);
+			});
+		}
+
+		var vm = new Vue({
+			el: '#app',
+			data: {
+				raw_list: [],
+				address: {
+					id: 0,
+					name: '',
+					phone: '',
+					province: '',
+					city: '',
+					country: '',
+					postcode: '',
+					detail: '',
+				},
+				remark: '',
+				payMethod: null,
+				order_token: null,
+			},
+			computed: {
+				list: function() {
+					return this.raw_list.groupBy('shop_id');
+				},
+				total_price: function() {
+					var ret = 0;
+					for(var i = this.raw_list.length - 1; i >= 0; i--) {
+						ret += parseFloat(this.raw_list[i].num * this.raw_list[i].now_price);
+					}
+					return ret.toFixed(2);
+				},
+			},
+			methods: {
+				getImgUrl: function(url) {
+					return config.imgBasePath + url
+				},
+				selectAddress: function() {
+					go('contacts.html');
+				},
+				payBy: function(method) {
+					this.hidePay()
+					this.payMethod = method;
+					var self = this;
+					mui.prompt('', '请输入支付密码', '请输入支付密码', ['取消', '确定'], function(e) {
+						if(e.index == 1) {
+							var password = e.value;
+							postJson(
+								'api/verifyPaymentPasswd', {
+									password: password
+								},
+								function(ret) {
+									if(ret.code == 200) {
+										self.confirmPay()
+									} else {
+										mui.toast(ret.message);
+									}
+								}
+
+							)
+
+						}
+					}, 'div')
+					document.querySelector('.mui-popup-input input').type = 'password'
+				},
+				confirmPay: function() {
+					var self = this;
+
+					postJson(
+						'api/order/create', {
+							list: self.raw_list,
+							address_id: self.address.id,
+							remark: self.remark,
+							payChannel: self.payMethod,
+							order_token: self.order_token,
+						},
+						function(ret) {
+							if(ret.code == 200) {
+								pay(self.payMethod, ret.data)
+							} else {
+								mui.toast(ret.message)
+							}
+						},
+						function(xhr, type, e) {
+
+						},
+						true
+					)
+
+				},
+				goPay: function() {
+					if (this.address.id == 0) {
+						mui.toast('请选择收货地址');
+						return;
+					}
+					mui('.shop_car_zf')[0].style.display = 'block';
+					return;
+					// document.getElementById('coon').style.display = "block";
+				},
+				hidePay: function() {
+					document.getElementById('coon').style.display = "none";
+				}
+			},
+			created: function() {
+				var self = this;
+
+				var products = getQuery().products;
+
+				products = products.split(',')
+
+				getJson(
+					'api/getCartByProduct', {
+						products: products
+					},
+					function(ret) {
+						if(ret.code == 200) {
+							self.raw_list = ret.data;
+						}
+					},
+					function() {
+						mui.toast('获取数据失败，请重试')
+					},
+					true
+				);
+
+				getJson(
+					'api/getDefaultAddress', {},
+					function(ret) {
+						if(ret.code == 200) {
+							self.address = ret.data
+						}
+					}
+				)
+
+				postJson(
+					'api/getOrderCreateToken', {},
+					function(ret) {
+						if(ret.code == 200) {
+							self.order_token = ret.data;
+						}
+					}
+				)
+
+			}
+		})
+	</script>
+
+</html>

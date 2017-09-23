@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="format-detection" content="telephone=no"/> 
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>银行卡</title>
+    <link rel="stylesheet" href="css/sta.css">
+    <link href="css/mui.css" rel="stylesheet" type="text/css">
+    <script src="js/mui.js"></script>
+</head>
+
+<body style="background:#FFF;">
+    <div id="app">
+      <router-view></router-view>
+    </div>
+</body>
+  <script src="js/config.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/vue.js"></script>
+  <script src="js/vue-router.js"></script>
+
+  <script type="text/template" id="index-page">
+    <div class="index_box">
+      <div class="nearby_top">
+        <h1>银行卡</h1>
+        <a class="index_back mui-action-back"><img src="img/back.png" alt="" width="100%" height="100%"></a>
+        <router-link to="add" class="index_empty">添加</router-link>
+      </div>
+      <div style="margin: 60px 0 60px 0;"  v-for="item in list">
+        <div class="card_box">
+          <p>真实姓名：{{item.account}}<span>{{item.bank}}</span></p>
+          <h6>银行卡号：{{item.card}}</h6>
+        </div>
+      </div> 
+    </div>
+  </script>
+
+  <script type="text/template" id="add-page">
+    <div class="index_box">
+      <div class="nearby_top">
+        <h1>添加银行卡</h1>
+        <a class="index_back" @tap="back"><img src="img/back.png" alt="" width="100%" height="100%"></a>
+      </div>
+      <div style="margin: 60px 0 60px 0;">
+        <div class="add_box_bank">
+           <!-- <p><span>登录账户</span><input type="text" placeholder="" value="15012345678"></p> -->
+           <p><span>银行名称</span><input v-model="bank" type="text" placeholder="请输入银行姓名" value=""></p>
+           <p><span>开户名称</span><input v-model="account" type="text" placeholder="请输入开户姓名" value=""></p>
+           <p><span>身份证号</span><input v-model="id_number" type="text" placeholder="请输入身份证号" value=""></p>
+           <p><span>银行卡号</span><input v-model="card" type="text" placeholder="请输入银行卡号" value=""></p>
+           <p><span>手机号码</span><input v-model="phone" type="text" placeholder="请输入银行预留手机号" value=""></p>
+         <div class="add_tijiao">
+          <input type="submit" value="保存" @tap="add">
+         </div>
+       </div>
+       
+      </div> 
+
+    </div>
+  </script>
+
+  <script type="text/javascript">
+    var index_page = {
+      template: document.getElementById('index-page'),
+      data: function() {
+        return {
+          list: []
+        }
+      },
+      created: function() {
+        var self = this;
+        getJson(
+          'api/user/banklist',
+          {},
+          function(ret) {
+            if (ret.code == 200) {
+              self.list = ret.data;
+            } 
+          }
+        );
+      }
+    };
+
+    var add_page = {
+      template: document.getElementById('add-page'),
+      data: function() {
+        return {
+          bank: null,
+          account: null,
+          id_number: null,
+          card: null,
+          phone: null
+        }
+      },
+      methods: {
+        back: function() {
+          this.$router.back();
+        },
+        add: function() {
+          var data = {
+            bank: this.bank,
+            account: this.account,
+            id_number: this.id_number,
+            card: this.card,
+            phone: this.phone
+          };
+          var self = this;
+          
+          postJson(
+            'api/user/addBankCard',
+            data,
+            function(ret){
+              if (ret.code == 200) {
+                mui.toast(ret.message);
+                self.$router.back();
+              } else {
+                mui.toast(ret.message);
+              }
+            },
+          );
+        }
+      }
+    };
+
+    var router = new VueRouter({
+      routes: [
+        {path: '/', component: index_page },
+        {path: '/add', component: add_page },
+      ]
+    })
+
+    var vm = new Vue({
+      router: router
+    }).$mount('#app');
+  </script>
+
+</html>

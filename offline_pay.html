@@ -1,0 +1,289 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>
+        转账付款
+    </title>
+    <link href="css/sta.css" rel="stylesheet" type="text/css">
+    <link href="css/mui.css" rel="stylesheet" type="text/css">
+    <script src="js/mui.js">
+
+    </script>
+</head>
+<style>
+    .register_ip input {
+        background: none;
+        padding: 0;
+        font-size: 1em;
+    }
+
+    .fk_tittle {
+        text-align: center;
+        background: #fff;
+        padding: 20px 0;
+    }
+
+    .fk_tittle h4 {
+        margin-top: 20px;
+    }
+
+    [v-cloak] {
+        display: none;
+    }
+</style>
+
+<body style="background:#F0F0F0;">
+    <div class="index_box" id="app" style="margin-top:50px" v-cloak>
+        <div class="nearby_top">
+            <h1>
+                转账付款
+            </h1>
+            <a class="index_back mui-action-back">
+                    <img src="img/back.png" alt="" width="100%" height="100%">
+                </a>
+        </div>
+        <div class="fk_tittle">
+            <h3>
+                商户名称
+            </h3>
+            <h4>
+                编号：{{saler.name}}
+            </h4>
+        </div>
+        <div class="register_box">
+            <div class="register_ip" style="border:none;margin-bottom:10px;">
+                <p>
+                    <span>
+                            付款金额
+                        </span>
+                    <input type="text" v-model="money" placeholder="请输入付款金额" class="reg_ip1">
+                </p>
+                <div class="clr">
+                </div>
+            </div>
+            <div class="register_ip" style="border:none;margin-bottom:10px;">
+                <p>
+                    <span>
+                            支付密码
+                        </span>
+                    <input type="password" v-model="password" placeholder="请输入支付密码" class="reg_ip1">
+                </p>
+                <div class="clr">
+                </div>
+            </div>
+            <div class="register_ip" style="border:none;margin-bottom:10px;">
+                <p>
+                    <span>
+                            转账备注
+                        </span>
+                    <input type="text" v-model="mark" placeholder="请输入提示备注" class="reg_ip1">
+                </p>
+                <div class="clr">
+                </div>
+            </div>
+            <div class="register_ip" style="border:none;">
+                <p>
+                    <span>
+                            支付方式
+                        </span>
+                    <input type="button" :value="payChannelText" class="reg_ip1" @tap="showPayChannel">
+                </p>
+                <div class="clr">
+                </div>
+            </div>
+            <div class="register_bt">
+                <input type="submit" value="确认" @tap="confirmPay">
+            </div>
+        </div>
+        <!-- 支付方式弹窗 -->
+        <div class="shop_car_zf mui-backdrop" id="pay-channel" style="display:none;">
+            <div class="shop_car_zhe">
+            </div>
+            <div class="shop_car_box">
+                <h4>
+                    请选择支付方式
+                    <a>
+                            <img @tap="hidePayChannel" src="img/close.png" alt="" width="16" height="15">
+                        </a>
+                </h4>
+                <ul>
+                    <li class="shop_car1">
+                        <a>
+                                ¥ {{money}}元
+                            </a>
+                    </li>
+                    <li class="shop_car2">
+                        <a>
+                                订单支付
+                            </a>
+                    </li>
+                    <li @tap="setPayChannel('amount')">
+                        <a class="shop_car">
+                                <span>
+                                    <img src="img/yue.png" alt="">
+                                </span>
+                                <b>
+                                    余额支付
+                                </b>
+                            </a>
+                    </li>
+                    <li @tap="setPayChannel('ali')">
+                        <a class="shop_car">
+                                <span>
+                                    <img src="img/yinlian.png" alt="">
+                                </span>
+                                <b>
+                                    支付宝支付
+                                </b>
+                            </a>
+                    </li>
+                    <li @tap="setPayChannel('wx')">
+                        <a class="shop_car">
+                                <span>
+                                    <img src="img/xianxia.png" alt="">
+                                </span>
+                                <b>
+                                    微信支付
+                                </b>
+                            </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/vue.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/config.js"></script>
+    <script>
+        var wxChannel = null; // 微信支付 
+        var aliChannel = null; // 支付宝支付 
+        mui.plusReady(function () {
+            // 获取支付通道 
+            plus.payment.getChannels(function (channels) {
+                for (var i in channels) {
+                    if (channels[i].id == "wxpay") {
+                        wxChannel = channels[i];
+                    }
+
+                    if (channels[i].id == "alipay") {
+                        aliChannel = channels[i];
+                    }
+                }
+            }, function (e) {
+                alert("获取支付通道失败：" + e.message);
+            });
+        })
+
+        function pay(channel, str) {
+            var paychannel;
+            if (channel == 'ali') {
+                paychannel = aliChannel;
+            } else if (channel == 'wx') {
+                paychannel = wxChannel;
+            } else {
+                return;
+            }
+            plus.payment.request(paychannel, str, function (result) {
+                plus.nativeUI.alert("支付成功！", function () {
+                    back();
+                });
+            }, function (error) {
+                plus.nativeUI.alert("支付失败：" + JSON.stringify(error));
+            });
+        }
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                saler: {
+                    id: 0,
+                    name: '',
+                },
+                money: null,
+                password: null,
+                mark: null,
+                payChannel: null,
+            },
+            computed: {
+                payChannelText: function () {
+                    var channel_text = {
+                        amount: '余额支付',
+                        wx: '微信支付',
+                        ali: '支付宝支付'
+                    }
+
+                    return channel_text[this.payChannel] ? channel_text[this.payChannel] : '请选择支付方式';
+                },
+            },
+            methods: {
+                showPayChannel: function () {
+                    document.getElementById('pay-channel').style.display = 'block';
+                },
+                hidePayChannel: function () {
+                    document.getElementById('pay-channel').style.display = 'none';
+                },
+                setPayChannel: function (payChannel) {
+                    this.payChannel = payChannel;
+                    this.hidePayChannel();
+                },
+                confirmPay: function () {
+                    var data = {
+                        saler_uid: this.saler.id,
+                        money: this.money,
+                        mark: this.mark,
+                        password: this.password,
+                        payChannel: this.payChannel
+                    }
+
+                    postJson(
+                        'api/order/createTranferOrder',
+                        data,
+                        function (ret) {
+                            if (data.payChannel == 'amount') {
+                                go('people_center.html');
+                            }
+                            if (data.payChannel == 'ali') {
+                                pay('ali', ret.data);
+                            }
+                            if (data.payChannel == 'wx') {
+                                pay('wx', ret.data);
+                            }
+                        }
+                    )
+                }
+            },
+            created: function () {
+                var self = this;
+                var param = getQuery();
+                if (param && param.code) {
+                    getJson(
+                        'api/user/getUserinfoByPhone',
+                        {
+                            phone: param.code,
+                        },
+                        function (ret) {
+                            if (ret.code == 200) {
+                                self.saler = ret.data;
+                            } else {
+                                mui.toast(ret.message);
+                                setTimeout(function () {
+                                    mui.back();
+                                }, 300)
+                            }
+                        }
+                    )
+                } else {
+                    mui.back();
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

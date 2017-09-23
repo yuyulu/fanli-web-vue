@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+		<meta name="format-detection" content="telephone=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>购物车</title>
+		<link rel="stylesheet" href="css/sta.css">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
+		<script type="text/javascript" src="js/mui.js"></script>
+	</head>
+	<style>
+		.select_all {
+			position: absolute!important;
+			left: 0px;
+			top: 10px;
+			margin: 0;
+		}
+		
+		.ckid {
+			margin-top: 40px;
+		}
+		
+		input[type=checkbox] {
+			position: relative;
+			width: 20px;
+			height: 1px;
+		}
+		
+		input[type=checkbox]::before,
+		input[type=checkbox]::after {
+			position: absolute;
+			display: block;
+			content: '';
+			border-radius: 50%;
+			transition: .3s all esae;
+		}
+		
+		input[type=checkbox]::before {
+			top: 0;
+			left: 0;
+			width: 17px;
+			height: 17px;
+			border: 2px solid #7EC420;
+		}
+		
+		input[type=checkbox]::after {
+			top: 4px;
+			left: 4px;
+			width: 13px;
+			height: 13px;
+		}
+		
+		input[type=checkbox]:checked::before {
+			border-color: 1px solid #fff;
+		}
+		
+		input[type=checkbox]:checked::after {
+			background-color: #7EC420;
+		}
+        [v-cloak] {display: none;}
+	</style>
+
+	<body style="background:#F0F0F0;">
+		<div class="index_box" id="app" v-cloak>
+			<div class="nearby_top">
+				<h1>购物车</h1>
+				<a v-if="from_sub" class="index_back mui-action-back"><img src="img/back.png" alt="" width="100%" height="100%"></a>
+				<a class="index_empty" @tap="clearCart">清空</a>
+			</div>
+
+			<!-- 购物车列表 -->
+			<div style="margin: 50px 0 150px 0;">
+				<div class="shopcar_box" v-for="item in list">
+					<div class="shopcar_top">
+						<input type="checkbox" class="select_all shop-gourp" @tap="selectGroup(item)" :checked="shopIsChecked(item)"></span>
+						<img src="img/shopp.png" alt="">{{ item[0].shop_name }}
+						<div class="clr"></div>
+					</div>
+					<div class="shopcar_center" v-for="product in item">
+						<div class="shopcar_center1">
+							<input type="checkbox" v-model="checked_products" :value="product.product_id" class="ckid">
+							<div class="clr"></div>
+						</div>
+						<div class="shopcar_center2">
+							<img :src="getImgUrl(product.pics)" alt="">
+						</div>
+						<div class="shopcar_center3">
+							<h6>{{ product.product_name }}</h6>
+							<!-- <p>火龙果约500G/个</p> -->
+							<h5>{{ product.now_price }}<span>¥{{ product.price }}</span></h5>
+						</div>
+						<div class="shopcar_center4">
+							<a @tap="remove(product.product_id)"><img src="img/sc.png" alt=""></a>
+							<div class="gw_num">
+								<span class="jian" @tap="sub(product.product_id)">-</span>
+								<input type="text" :value="product.total" class="num" />
+								<span class="add" @tap="add(product.product_id)">+</span>
+								<div class="clr"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<!-- 总价 -->
+			<div class="shop_price_box" :style="from_sub ? 'bottom: 0px;' : 'bottom: 61px;'">
+				<div class="shop_price_l">
+					<input type="checkbox" v-model="checkedAll" class="select_all" style="top:20px;left:10px;"><label for="">全选</label>
+				</div>
+				<div class="shop_price_c">
+					<p>合计：<b>¥{{total_price}}</b></p>
+					<p><span>共计{{total_num}}件</span></p>
+				</div>
+				<div class="shop_price_r">
+					<input type="button" value="去结算" @tap="confirm">
+				</div>
+			</div>
+
+			<!-- 底部导航 -->
+			<div class="index_bottom" v-if="!from_sub">
+				<ul>
+					<li>
+						<a onclick="jump('index.html')"><img src="img/nav6.png" alt="">
+							<p>首页</p>
+						</a>
+					</li>
+					<li>
+						<a onclick="jump('nearby.html')"><img src="img/nav2.png" alt="">
+							<p>附近</p>
+						</a>
+					</li>
+					<li>
+						<a onclick="jump('reward.html')"><img src="img/nav3.png" alt="" style="margin-top: -15px;height: 50px;">
+							<p>奖励</p>
+						</a>
+					</li>
+					<li>
+						<a onclick="jump('cart.html')"><img src="img/nav8.png" alt="">
+							<p style="color:#008CEE;">购物车</p>
+						</a>
+					</li>
+					<li>
+						<a onclick="jump('people_center.html')"><img src="img/nav5.png" alt="">
+							<p>我的</p>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<script src="js/vue.js"></script>
+        <script src="js/config.js"></script>
+		<script src="js/common.js"></script>
+		<script type="text/javascript">
+			Array.prototype.groupBy = function(key) {
+				var ret = {};
+				for(var i = 0, len = this.length; i < len; i++) {
+					if(!this[i][key]) {
+						continue;
+					}
+					if(!ret[this[i][key]]) {
+						ret[this[i][key]] = [];
+					}
+					ret[this[i][key]].push(this[i]);
+				}
+				return ret;
+			};
+
+            Array.prototype.delete = function(value) {
+                for (var i = this.length - 1; i >= 0; i--) {
+                    if (this[i] == value) {
+                        this.splice(i, 1);
+                        break;
+                    }
+                }
+            };
+
+			var vm = new Vue({
+				el: '#app',
+				data: {
+					raw_list: [],
+					checked_products: [],
+					from_sub: false,
+				},
+				computed: {
+					list: function() {
+						return this.raw_list.groupBy('shop_id');
+					},
+					total_price: function() {
+						var ret = 0;
+						for(var i = this.raw_list.length - 1; i >= 0; i--) {
+							ret += parseFloat(this.raw_list[i].total * this.raw_list[i].now_price);
+						}
+						return ret.toFixed(2);
+					},
+                    all_ids: function() {
+                        var ret = [];
+                        for (var i = 0, len = this.raw_list.length; i < len; i ++) {
+                            ret.push(this.raw_list[i].product_id);
+                        }
+                        return ret;
+                    },
+                    total_num: function() {
+                        var ret = 0;
+                        for (var i = this.raw_list.length - 1; i >= 0; i--) {
+                            ret += parseInt(this.raw_list[i].total)
+                        }
+                        return ret;
+                    },
+                    checkedAll: {
+                        get: function() {
+                            for (var i = this.all_ids.length - 1; i >= 0; i--) {
+                                if (this.checked_products.indexOf(this.all_ids[i]) === -1) {
+                                    return false;
+                                }
+                            }
+                            return true;
+                        },
+                        set: function(newval) {
+                            if (newval) {
+                                this.checked_products = this.all_ids;
+                            } else {
+                                this.checked_products = [];
+                            }
+                        }  
+                    },
+				},
+				created: function() {
+					if (getQuery().from) {
+						this.from_sub = true;
+					}
+					var self = this;
+
+					getJson(
+						'api/cart', {},
+						function(ret) {
+							if(ret.code == 200) {
+								self.raw_list = ret.data
+							}
+						}
+					)
+				},
+				methods: {
+					getImgUrl: function(url) {
+						return config.imgBasePath + url
+					},
+                    selectGroup: function(item) {
+                        var checked = this.shopIsChecked(item);
+                        for (var i = item.length - 1; i >= 0; i--) {
+                            if (this.checked_products.indexOf(item[i].product_id) === -1) {
+                                if (!checked) {
+                                    this.checked_products.push(item[i].product_id)
+                                }
+                            } else {
+                                if (checked) {
+                                    this.checked_products.delete(item[i].product_id)
+                                }
+                            }
+                            
+                        }
+                    },
+                    shopIsChecked: function(item) {
+                        for (var i = item.length - 1; i >= 0; i--) {
+                            if (this.checked_products.indexOf(item[i].product_id) === -1) {
+                                return false;
+                            }
+                            
+                        }
+                        return true;
+                    },
+					add: function(product_id) {
+						var self = this;
+						postJson(
+							'api/addToCart', {
+								product_id: product_id,
+								num: 1
+							},
+							function(ret) {
+								if(ret.code == 200) {
+									for(var i = self.raw_list.length - 1; i >= 0; i--) {
+										if(self.raw_list[i].product_id == product_id) {
+											self.raw_list[i].total = parseInt(self.raw_list[i].total) + 1;
+										}
+									}
+								} else {
+									mui.toast(ret.message)
+								}
+							},
+							function(xhr, type, errorThrown) {
+								mui.toast('操作失败');
+							},
+							true
+						);
+					},
+					sub: function(product_id) {
+						var index = -1;
+						for(var i = this.raw_list.length - 1; i >= 0; i--) {
+							if(this.raw_list[i].product_id == product_id) {
+								if(this.raw_list[i].total == 1) {
+									return;
+								}
+								index = i;
+							}
+						}
+						var self = this;
+						postJson(
+							'api/addToCart', {
+								product_id: product_id,
+								num: -1
+							},
+							function(ret) {
+								if(ret.code == 200) {
+									self.raw_list[index].total = parseInt(self.raw_list[index].total) - 1;
+								} else {
+									mui.toast(ret.message)
+								}
+							},
+							function(xhr, type, errorThrown) {
+								mui.toast('操作失败');
+							},
+							true
+						);
+					},
+					remove: function(product_id) {
+                        var self = this;
+						mui.confirm('是否删除该商品', '提示', ['取消', '确定'], function(e) {
+							if(e.index == 0) {
+								return;
+							}
+                            var index = -1;
+                            for(var i = self.raw_list.length - 1; i >= 0; i--) {
+                                if(self.raw_list[i].product_id == product_id) {
+                                    index = i;
+                                }
+                            }
+                            if (index === -1) {
+                                return;
+                            }
+                            postJson(
+                                'api/deleteFromCart', {
+                                    product_id: product_id,
+                                },
+                                function(ret) {
+                                    if(ret.code == 200) {
+                                        self.raw_list.splice(index, 1);
+                                    } else {
+                                        mui.toast(ret.message)
+                                    }
+                                },
+                                function(xhr, type, errorThrown) {
+                                    mui.toast('操作失败');
+                                },
+                                true
+                            );
+						})
+					},
+					clearCart: function() {
+						var self = this;
+						mui.confirm('是否确认清空购物车', '提示', ['点错了', '清空'], function(e) {
+							if(e.index == 0) {
+								return;
+							}
+                            postJson(
+                                'api/clearCart', 
+                                {},
+                                function(ret) {
+                                    if(ret.code == 200) {
+                                        self.raw_list = [];
+                                    } else {
+                                        mui.toast(ret.message)
+                                    }
+                                },
+                                function(xhr, type, errorThrown) {
+                                    mui.toast('操作失败');
+                                },
+                                true
+                            );
+						})
+					},
+                    confirm: function() {
+                        if (this.checked_products.length === 0) {
+                            mui.toast('未选择商品');
+                            return;
+                        }
+
+                        var checked_shops = 0;
+
+                        for (var k in this.list) {
+                            if (this.shopIsChecked(this.list[k])) {
+                                checked_shops += 1;
+                            }
+                            if (checked_shops > 1) {
+                                mui.toast('不同商家请分别结算');
+                                return;
+                            }
+                        }
+
+                        go('confirm_order.html?products=' + this.checked_products.join(','))
+                    }
+				}
+			})
+		</script>
+	</body>
+
+</html>

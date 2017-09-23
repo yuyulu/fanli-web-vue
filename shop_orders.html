@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>订单</title>
+  <link rel="stylesheet" href="css/sta.css">
+  <link href="css/mui.css" rel="stylesheet" type="text/css">
+  <script src="js/mui.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/vue.js"></script>
+  <script src="js/vue-router.js"></script>
+</head>
+<style>
+  .tb_order {
+    width: 100%;
+  }
+
+  .ctt {
+    clear: both;
+  }
+
+  #tb_ {
+    height: 44px;
+    margin-top: 10px;
+    background: #fff;
+    padding: 0 10px;
+  }
+
+  .tb_ li {
+    float: left;
+    height: 42px;
+    line-height: 42px;
+    cursor: pointer;
+    width: 50%;
+    font-size: 1em;
+    text-align: center;
+  }
+
+  .tb_t li {
+    float: left;
+    height: 22px;
+    line-height: 22px;
+    cursor: pointer;
+    margin-right: 20px;
+    font-size: 12px;
+    text-align: center;
+    padding: 0 10px;
+    border-radius: 2px;
+  }
+
+  .normaltab {
+    color: #333;
+  }
+
+  .hovertab {
+    border-bottom: 2px solid #008CEE;
+    color: #008cee;
+  }
+
+  .dis {
+    display: block;
+  }
+
+  .undis {
+    display: none;
+  }
+
+  .tabs {
+    width: 100%;
+    float: none;
+    list-style: none;
+    position: relative;
+  }
+
+  .tabs li {
+    float: left;
+    display: block;
+    width: 50%;
+    text-align: center;
+  }
+
+  .tabs input[type="radio"] {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .tabs label {
+    display: block;
+    font-size: 1em;
+    font-weight: normal;
+    color: #333;
+    text-transform: uppercase;
+    background: #fff;
+    cursor: pointer;
+    line-height: 40px;
+    position: relative;
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .tabs .tab-content {
+    z-index: 2;
+    display: none;
+    overflow: hidden;
+    width: 100%;
+    line-height: 25px;
+    position: absolute;
+    left: 0;
+    background: #fff;
+    color: #333;
+    text-align: left;
+  }
+
+  .tabs [id^="tab"]:checked+label {
+    top: 0;
+    background: #fff;
+    color: #008cee;
+    border-bottom: 2px solid #008cee;
+  }
+
+  .tabs [id^="tab"]:checked~[id^="tab-content"] {
+    display: block;
+  }
+
+  .express_box {
+    width: 100%;
+    height: 100%;
+  }
+
+  .express {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 80%;
+    left: 10%;
+    background: #fff;
+    z-index: 999;
+    border-radius: 10px;
+    padding: 20px 0;
+  }
+
+  .express label {
+    margin-left: 10%;
+    line-height: 40px;
+  }
+
+  .express input {
+    width: 80%;
+    margin-left: 10%;
+    margin-bottom: 10px;
+  }
+</style>
+
+
+<body style="background:#F0F0F0;">
+  <div class="index_box" id="app" style="margin-top: 60px;margin-bottom: 0px;">
+    <div class="nearby_top">
+      <a id="openPopove" class="mui-btn mui-btn-primary mui-btn-block">
+        {{online_show ? '线上订单' : '线下订单'}}
+      </a>
+      <a class="index_back" onclick="go('shop_manage.html')"><img src="img/back.png" alt="" width="100%" height="100%"></a>
+    </div>
+    <!-- 线上订单 -->
+    <div class="tb_order">
+      <div id="tb_">
+        <ul class="tb_" v-show="online_show">
+          <li id="tb_1" :class="url == '/waitpay' ? 'hovertab' : 'normaltab'" @tap="setUrl('/waitpay')">待发货</li>
+          <li id="tb_2" :class="url == '/completed' ? 'hovertab' : 'normaltab'" @tap="setUrl('/completed')">已完成</li>
+        </ul>
+        <ul class="tb_" v-show="!online_show">
+          <li id="tb_1" :class="url == '/waitconsume' ? 'hovertab' : 'normaltab'" @tap="setUrl('/waitconsume')">待缴让利</li>
+          <li id="tb_2" :class="url == '/consumed' ? 'hovertab' : 'normaltab'" @tap="setUrl('/consumed')">已缴让利</li>
+        </ul>
+      </div>
+
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
+    </div>
+
+
+  </div>
+
+  <script type="text/template" id="waitpay">
+    <div>
+      <div v-for="order in list">
+        <div class="order_bh">
+          订单编号：{{order.sn}}
+        </div>
+
+        <div class="nearby_box" v-for="order_product in order.order_products">
+          <div class="nearbt_lf">
+            <img :src="getImgUrl(order_product.product.pics[0])" alt="">
+          </div>
+          <div class="nearbt_rt">
+            <h6 style="width:180px;">{{order_product.product.name}}</h6>
+            <div class="clr"></div>
+            <h5></h5>
+            <p>下单时间：{{order.created_at}}</p>
+            <h4>价格：¥{{order_product.product.now_price}}<span style="color:#000;font-size:1em;">X{{order_product.num}}</span></h4>
+            <div class="clr"></div>
+          </div>
+        </div>
+
+        <div class="roder_hj">
+          <span>共{{order.total_num}}件商品</span>合计：¥{{order.total_price}}
+        </div>
+        <div class="roder_bt">
+          <button @tap="confirmExpress(order.id)">{{order.pay_order.pay_channel == 0 ? '确认收款并发货' : '发货'}}</button>
+        </div>
+      </div>
+
+      <div class="express_box mui-backdrop" v-show="express_show">
+        <div class="express">
+          <div class="express_main">
+            <label for="">快递名称：</label>
+            <input type="text" placeholder="请输入快递名称" v-model.trim="express_ca">
+          </div>
+          <div class="express_main">
+            <label for="">快递单号：</label>
+            <input type="text" placeholder="请输入快递单号" v-model.trim="express_sn">
+          </div>
+          <div class="express_main">
+            <input type="submit" value="确定" @tap="expressOrder">
+            <input type="submit" value="取消" @tap="express_show=false">
+          </div>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <script type="text/template" id="completed">
+    <div>
+      <div v-for="order in list">
+        <div class="order_bh">
+          订单编号：{{order.order_sn}}
+        </div>
+        <div class="nearby_box" v-if="order.is_online" v-for="order_product in order.order_products">
+          <div class="nearbt_lf">
+            <img :src="getImgUrl(order_product.product.pics[0])" alt="">
+          </div>
+          <div class="nearbt_rt">
+            <h6 style="width:180px;">{{order_product.product.name}}</h6>
+            <div class="clr"></div>
+            <h5></h5>
+            <p>下单时间：{{order.created_at}}</p>
+            <h4>价格：¥{{order_product.product.now_price}}<span style="color:#000;font-size:1em;">X{{order_product.num}}</span></h4>
+            <div class="clr"></div>
+          </div>
+        </div>
+        <div class="roder_hj">
+          <span></span>合计：¥{{order.order_price}}
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <script type="text/template" id="waitconsume">
+    <div>
+      <div v-for="order in list">
+        <div class="order_bh">
+          订单编号：{{order.sn}}
+        </div>
+
+        <div class="nearby_box" v-for="order_product in order.order_products">
+          <div class="nearbt_lf">
+            <img :src="getImgUrl(order_product.product.pics[0])" alt="">
+          </div>
+          <div class="nearbt_rt">
+            <h6 style="width:180px;">{{order_product.product.name}}</h6>
+            <div class="clr"></div>
+            <h5></h5>
+            <p>下单时间：{{order.created_at}}</p>
+            <h4>价格：¥{{order_product.product.now_price}}<span style="color:#000;font-size:1em;">X{{order_product.num}}</span></h4>
+            <div class="clr"></div>
+          </div>
+        </div>
+
+        <div class="roder_hj">
+          <span>共{{order.total_num}}件商品</span>合计：¥{{order.total_price}} 待缴返利：{{(order.total_price * discount).toFixed(2)}}
+        </div>
+        <div class="roder_bt">
+          <button @tap="cofirmPayBySaler(order)">缴纳返利</button>
+        </div>
+      </div>
+
+      <!-- 支付弹窗 -->
+      <div class="shop_car_zf" v-show="payModal_show" id="coon">
+        <div class="shop_car_zhe"></div>
+        <div class="shop_car_box">
+          <h4>请选择支付方式<a @tap="payModal_show=false"><img src="img/close.png" alt="" width="16" height="15"></a></h4>
+          <ul>
+            <li class="shop_car1">
+              <a>¥ {{(order.total_price * discount).toFixed(2)}}元</a>
+            </li>
+            <li class="shop_car2">
+              <a>缴纳返利</a>
+            </li>
+            <li>
+              <a @tap="payBy('wx')" class="shop_car"><span><img src="img/yue.png" alt=""></span><b>微信支付</b></a>
+            </li>
+            <li>
+              <a @tap="payBy('ali')" class="shop_car"><span><img src="img/yue.png" alt=""></span><b>支付宝支付</b></a>
+            </li>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <script type="text/template" id="consumed">
+    <div>
+      <div v-for="order in list">
+        <div class="order_bh">
+          订单编号：{{order.sn}}
+        </div>
+        <div class="nearby_box" v-for="order_product in order.order_products">
+          <div class="nearbt_lf">
+            <img :src="getImgUrl(order_product.product.pics[0])" alt="">
+          </div>
+          <div class="nearbt_rt">
+            <h6 style="width:180px;">{{order_product.product.name}}</h6>
+            <div class="clr"></div>
+            <h5></h5>
+            <p>下单时间：{{order.created_at}}</p>
+            <h4>价格：¥{{order_product.product.now_price}}<span style="color:#000;font-size:1em;">X{{order_product.num}}</span></h4>
+            <div class="clr"></div>
+          </div>
+        </div>
+        <div class="roder_hj">
+          <span>共{{order.total_num}}件商品</span>合计：¥{{order.total_price}} 已缴返利：{{(order.total_price * discount).toFixed(2)}}
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <script>
+    var wxChannel = null; // 微信支付 
+    var aliChannel = null; // 支付宝支付 
+    mui.plusReady(function () {
+      // 获取支付通道 
+      plus.payment.getChannels(function (channels) {
+        for (var i in channels) {
+          if (channels[i].id == "wxpay") {
+            wxChannel = channels[i];
+          }
+
+          if (channels[i].id == "alipay") {
+            aliChannel = channels[i];
+          }
+        }
+      }, function (e) {
+        mui.alert("获取支付通道失败：" + e.message);
+      });
+    })
+
+    function pay(channel, str) {
+      var paychannel;
+      if (channel == 'ali') {
+        paychannel = aliChannel;
+      } else if (channel == 'wx') {
+        paychannel = wxChannel;
+      } else {
+        mui.toast('支付成功');
+        setTimeout(function () {
+          go("order_list.html");
+        }, 300);
+        return;
+      }
+      plus.payment.request(paychannel, str, function (result) {
+        plus.nativeUI.alert("支付成功！", function () {
+          back();
+        });
+      }, function (error) {
+        plus.nativeUI.alert("支付失败：" + JSON.stringify(error));
+      });
+    }
+
+
+    var waitpay = {
+      template: '#waitpay',
+      data: function () {
+        return {
+          list: [],
+          express_show: false,
+          order_id: 0,
+          express_ca: '',
+          express_sn: '',
+        }
+      },
+      methods: {
+        getImgUrl: function (url) {
+          return config.imgBasePath + url;
+        },
+        confirmExpress: function (order_id) {
+          this.express_show = true;
+          this.order_id = order_id;
+        },
+        getlist: function () {
+          this.list = [];
+          var self = this;
+          getJson(
+            'api/order/waitExpress',
+            null,
+            function (ret) {
+              if (ret.code == 200) {
+                self.list = ret.data
+              }
+            }
+          )
+        },
+        expressOrder: function () {
+          var self = this;
+          if (this.express_ca.length == 0) {
+            mui.toast('请输入快递公司名称');
+            return;
+          }
+          if (this.express_sn.length == 0) {
+            mui.toast('请输入快递单号');
+            return;
+          }
+
+          var data = {
+            order_id: this.order_id,
+            express_ca: this.express_ca,
+            express_sn: this.express_sn
+          };
+          this.express_show = false;
+          this.express_ca = '';
+          this.express_sn = '';
+          postJson(
+            'api/order/setExpress',
+            data,
+            function (ret) {
+              mui.toast(ret.message);
+              if (ret.code == 200) {
+                setTimeout(function () {
+                  self.getlist();
+                }, 300);
+              }
+            }
+          )
+        }
+      },
+      created: function () {
+        this.getlist();
+      }
+    };
+
+    var completed = {
+      template: '#completed',
+      data: function () {
+        return {
+          list: []
+        }
+      },
+      methods: {
+        getImgUrl: function (url) {
+          return config.imgBasePath + url;
+        }
+      },
+      created: function () {
+        var self = this;
+        getJson(
+          'api/order/completed',
+          {
+            is_saler: 1
+          },
+          function (ret) {
+            if (ret.code == 200) {
+              self.list = ret.data
+            }
+          }
+        )
+      }
+    };
+
+    var waitconsume = {
+      template: '#waitconsume',
+      data: function () {
+        return {
+          list: [],
+          payModal_show: false,
+          discount: 0.1,
+          order: {},
+          payMethod: '',
+        }
+      },
+      methods: {
+        getImgUrl: function (url) {
+          return config.imgBasePath + url;
+        },
+        cofirmPayBySaler: function (order) {
+          this.payModal_show = true;
+          this.order = order;
+        },
+        payBy: function (method) {
+          this.payModal_show = false;
+          this.payMethod = method;
+          var self = this;
+          mui.prompt('', '请输入支付密码', '请输入支付密码', ['取消', '确定'], function (e) {
+            if (e.index == 1) {
+              var password = e.value;
+              postJson(
+                'api/verifyPaymentPasswd', {
+                  password: password
+                },
+                function (ret) {
+                  if (ret.code == 200) {
+                    self.confirmPay()
+                  } else {
+                    mui.toast(ret.message);
+                  }
+                }
+
+              )
+            }
+          }, 'div')
+          document.querySelector('.mui-popup-input input').type = 'password'
+        },
+        confirmPay: function () {
+          var self = this;
+
+          postJson(
+            'api/order/setPayBack',
+            {
+              payChannel: self.payMethod,
+              order_id: self.order.id,
+            },
+            function(ret) {
+              if(ret.code == 200) {
+								pay(self.payMethod, ret.data)
+							} else {
+								mui.toast(ret.message)
+							}
+            }
+          )
+
+        },
+      },
+      created: function () {
+        var self = this;
+        getJson(
+          'api/order/shopWaitPayBack',
+          null,
+          function (ret) {
+            if (ret.code == 200) {
+              self.list = ret.data
+            }
+          }
+        )
+      }
+    }
+
+    var consumed = {
+      template: '#consumed',
+      data: function () {
+        return {
+          list: []
+        }
+      },
+      methods: {
+        getImgUrl: function (url) {
+          return config.imgBasePath + url;
+        }
+      },
+      created: function () {
+        var self = this;
+        getJson(
+          'api/order/shopPayBackCompleted',
+          null,
+          function (ret) {
+            if (ret.code == 200) {
+              self.list = ret.data
+            }
+          }
+        )
+      }
+    }
+
+    var router = new VueRouter({
+      routes: [
+        { path: '/waitpay', component: waitpay },
+        { path: '/completed', component: completed },
+        { path: '/waitconsume', component: waitconsume },
+        { path: '/consumed', component: consumed },
+      ]
+    })
+
+    var vm = new Vue({
+      data: {
+
+      },
+      computed: {
+        url: {
+          set: function (val) {
+            this.$router.push(val)
+          },
+          get: function () {
+            return this.$route.path;
+          }
+        },
+        online_show: function () {
+          return this.url == '/waitpay' || this.url == '/completed';
+        }
+      },
+      methods: {
+        setUrl: function (url) {
+          this.url = url
+        },
+      },
+      router: router
+    }).$mount('#app');
+  </script>
+</body>
+
+</html>

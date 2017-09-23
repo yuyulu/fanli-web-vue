@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/mui.indexedlist.css" rel="stylesheet" />
+		<script type="text/javascript" src="js/common.js"></script>
+		<style>
+			html,
+			body {
+				height: 100%;
+				overflow: hidden;
+			}
+			
+			.mui-bar {
+				-webkit-box-shadow: none;
+				box-shadow: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">城市列表</h1>
+		</header>
+		<div class="mui-content">
+			<div id='list' class="mui-indexed-list">
+				<div class="mui-indexed-list-search mui-input-row mui-search">
+					<input type="search" class="mui-input-clear mui-indexed-list-search-input" placeholder="搜索城市">
+				</div>
+				<div class="mui-indexed-list-bar">
+					<a>A</a>
+					<a>B</a>
+					<a>C</a>
+					<a>D</a>
+					<a>E</a>
+					<a>F</a>
+					<a>G</a>
+					<a>H</a>
+					<a>I</a>
+					<a>J</a>
+					<a>K</a>
+					<a>L</a>
+					<a>M</a>
+					<a>N</a>
+					<a>O</a>
+					<a>P</a>
+					<a>Q</a>
+					<a>R</a>
+					<a>S</a>
+					<a>T</a>
+					<a>U</a>
+					<a>V</a>
+					<a>W</a>
+					<a>X</a>
+					<a>Y</a>
+					<a>Z</a>
+				</div>
+				<div class="mui-indexed-list-alert"></div>
+				<div class="mui-indexed-list-inner">
+					<div class="mui-indexed-list-empty-alert">没有数据</div>
+					<ul class="mui-table-view" id="city-list">
+
+						<li data-group="A" class="mui-table-view-divider mui-indexed-list-group">A</li>
+						<li data-value="alsm" data-tags="alsm" data-position="105.72898102,38.85152817" class="mui-table-view-cell mui-indexed-list-item">阿拉善盟</li>
+						<li data-value="ass" data-tags="ass" data-position="122.99459839,41.10776901" class="mui-table-view-cell mui-indexed-list-item">鞍山市</li>
+						<li data-value="aqs" data-tags="aqs" data-position="117.0635376,30.54294014" class="mui-table-view-cell mui-indexed-list-item">安庆市</li>
+						<li data-value="ays" data-tags="ays" data-position="114.39309692,36.09770966" class="mui-table-view-cell mui-indexed-list-item">安阳市</li>
+						<li data-value="abzzqzzzz" data-tags="abzzqzzzz" data-position="102.22476959,31.89940071" class="mui-table-view-cell mui-indexed-list-item">阿坝藏族羌族自治州</li>
+						<li data-value="ass" data-tags="ass" data-position="105.94619751,26.25366974" class="mui-table-view-cell mui-indexed-list-item">安顺市</li>
+						<li data-value="aldq" data-tags="aldq" data-position="81.145401,30.40051079" class="mui-table-view-cell mui-indexed-list-item">阿里地区</li>
+						<li data-value="aks" data-tags="aks" data-position="109.02931976,32.68486023" class="mui-table-view-cell mui-indexed-list-item">安康市</li>
+						<li data-value="aksdq" data-tags="aksdq" data-position="80.26007843,41.16841888" class="mui-table-view-cell mui-indexed-list-item">阿克苏地区</li>
+						<li data-value="altdq" data-tags="altdq" data-position="88.14022827,47.84563828" class="mui-table-view-cell mui-indexed-list-item">阿勒泰地区</li>
+						<li data-value="ales" data-tags="ales" data-position="81.28067017,40.54798126" class="mui-table-view-cell mui-indexed-list-item">阿拉尔市</li>
+						<li data-value="ales" data-tags="ales" data-position="81.28067017,40.54798126" class="mui-table-view-cell mui-indexed-list-item">阿拉尔市</li>
+						<li data-value="amtbxzq" data-tags="amtbxzq" data-position="113.54293823,22.18684006" class="mui-table-view-cell mui-indexed-list-item">澳门特别行政区</li>
+						<li data-value="ambd" data-tags="ambd" data-position="113.54293823,22.18684006" class="mui-table-view-cell mui-indexed-list-item">澳门半岛</li>
+
+						<li data-group="B" class="mui-table-view-divider mui-indexed-list-group">B</li>
+						<li data-value="bcq" data-tags="bcq" data-position="117.13543701,39.22393036" class="mui-table-view-cell mui-indexed-list-item">北辰区</li>
+						<li data-value="bdq" data-tags="bdq" data-position="117.30982971,39.71754837" class="mui-table-view-cell mui-indexed-list-item">宝坻区</li>
+						<li data-value="bhxq" data-tags="bhxq" data-position="117.71070862,39.00320053" class="mui-table-view-cell mui-indexed-list-item">滨海新区</li>
+						<li data-value="bds" data-tags="bds" data-position="115.46459198,38.87395859" class="mui-table-view-cell mui-indexed-list-item">保定市</li>
+						<li data-value="bts" data-tags="bts" data-position="109.84020996,40.65781021" class="mui-table-view-cell mui-indexed-list-item">包头市</li>
+						<li data-value="bynes" data-tags="bynes" data-position="107.38773346,40.74317169" class="mui-table-view-cell mui-indexed-list-item">巴彦淖尔市</li>
+						<li data-value="bxs" data-tags="bxs" data-position="123.76686096,41.29412842" class="mui-table-view-cell mui-indexed-list-item">本溪市</li>
+						<li data-value="bss" data-tags="bss" data-position="126.42443085,41.94079971" class="mui-table-view-cell mui-indexed-list-item">白山市</li>
+						<li data-value="bcs" data-tags="bcs" data-position="122.83870697,45.61959839" class="mui-table-view-cell mui-indexed-list-item">白城市</li>
+						<li data-value="bsq" data-tags="bsq" data-position="121.4894104,31.40526962" class="mui-table-view-cell mui-indexed-list-item">宝山区</li>
+						<li data-value="bbs" data-tags="bbs" data-position="117.38932037,32.91548157" class="mui-table-view-cell mui-indexed-list-item">蚌埠市</li>
+						<li data-value="bzs" data-tags="bzs" data-position="115.77931213,33.84460831" class="mui-table-view-cell mui-indexed-list-item">亳州市</li>
+						<li data-value="bzs" data-tags="bzs" data-position="117.97279358,37.3821106" class="mui-table-view-cell mui-indexed-list-item">滨州市</li>
+						<li data-value="bhs" data-tags="bhs" data-position="109.12007904,21.48111916" class="mui-table-view-cell mui-indexed-list-item">北海市</li>
+						<li data-value="bss" data-tags="bss" data-position="106.61837769,23.90216064" class="mui-table-view-cell mui-indexed-list-item">百色市</li>
+						<li data-value="bslzzzx" data-tags="bslzzzx" data-position="109.45166779,19.22542953" class="mui-table-view-cell mui-indexed-list-item">白沙黎族自治县</li>
+						<li data-value="btlzmzzzx" data-tags="btlzmzzzx" data-position="109.70259094,18.63904953" class="mui-table-view-cell mui-indexed-list-item">保亭黎族苗族自治县</li>
+						<li data-value="btlzmzzzx" data-tags="btlzmzzzx" data-position="109.70259094,18.63904953" class="mui-table-view-cell mui-indexed-list-item">保亭黎族苗族自治县</li>
+						<li data-value="bslzzzx" data-tags="bslzzzx" data-position="109.45166779,19.22542953" class="mui-table-view-cell mui-indexed-list-item">白沙黎族自治县</li>
+						<li data-value="bbq" data-tags="bbq" data-position="106.39627838,29.80583" class="mui-table-view-cell mui-indexed-list-item">北碚区</li>
+						<li data-value="bnq" data-tags="bnq" data-position="106.5404129,29.40267944" class="mui-table-view-cell mui-indexed-list-item">巴南区</li>
+						<li data-value="bsq" data-tags="bsq" data-position="106.22741699,29.59202003" class="mui-table-view-cell mui-indexed-list-item">璧山区</li>
+						<li data-value="bzs" data-tags="bzs" data-position="106.74732971,31.86714935" class="mui-table-view-cell mui-indexed-list-item">巴中市</li>
+						<li data-value="bjs" data-tags="bjs" data-position="105.30503845,27.29846954" class="mui-table-view-cell mui-indexed-list-item">毕节市</li>
+						<li data-value="bss" data-tags="bss" data-position="99.16181183,25.1120491" class="mui-table-view-cell mui-indexed-list-item">保山市</li>
+						<li data-value="bjs" data-tags="bjs" data-position="107.23731995,34.36193848" class="mui-table-view-cell mui-indexed-list-item">宝鸡市</li>
+						<li data-value="bys" data-tags="bys" data-position="104.13773346,36.54470062" class="mui-table-view-cell mui-indexed-list-item">白银市</li>
+						<li data-value="betlmgzzz" data-tags="betlmgzzz" data-position="82.06665039,44.90597153" class="mui-table-view-cell mui-indexed-list-item">博尔塔拉蒙古自治州</li>
+						<li data-value="byglmgzzz" data-tags="byglmgzzz" data-position="86.14517212,41.7640419" class="mui-table-view-cell mui-indexed-list-item">巴音郭楞蒙古自治州</li>
+						<li data-value="bts" data-tags="bts" data-position="87.80014038,47.36326981" class="mui-table-view-cell mui-indexed-list-item">北屯市</li>
+						<li data-value="bts" data-tags="bts" data-position="87.80014801,47.36326981" class="mui-table-view-cell mui-indexed-list-item">北屯市</li>
+						<li data-value="bq" data-tags="bq" data-position="114.14311981,22.49180984" class="mui-table-view-cell mui-indexed-list-item">北区</li>
+
+						<li data-group="C" class="mui-table-view-divider mui-indexed-list-group">C</li>
+						<li data-value="cpq" data-tags="cpq" data-position="116.23127747,40.22077179" class="mui-table-view-cell mui-indexed-list-item">昌平区</li>
+						<li data-value="cds" data-tags="cds" data-position="117.96340179,40.95149994" class="mui-table-view-cell mui-indexed-list-item">承德市</li>
+						<li data-value="czs" data-tags="czs" data-position="116.83869171,38.30440903" class="mui-table-view-cell mui-indexed-list-item">沧州市</li>
+						<li data-value="czs" data-tags="czs" data-position="113.11649323,36.19580841" class="mui-table-view-cell mui-indexed-list-item">长治市</li>
+						<li data-value="cfs" data-tags="cfs" data-position="118.8889389,42.25859833" class="mui-table-view-cell mui-indexed-list-item">赤峰市</li>
+						<li data-value="ccs" data-tags="ccs" data-position="125.32357025,43.81602097" class="mui-table-view-cell mui-indexed-list-item">长春市</li>
+						<li data-value="cnq" data-tags="cnq" data-position="121.42394257,31.22023964" class="mui-table-view-cell mui-indexed-list-item">长宁区</li>
+						<li data-value="cmx" data-tags="cmx" data-position="121.39730072,31.62290001" class="mui-table-view-cell mui-indexed-list-item">崇明县</li>
+						<li data-value="czs" data-tags="czs" data-position="119.97364807,31.81072044" class="mui-table-view-cell mui-indexed-list-item">常州市</li>
+						<li data-value="czs" data-tags="czs" data-position="118.3168335,32.30181122" class="mui-table-view-cell mui-indexed-list-item">滁州市</li>
+						<li data-value="czs" data-tags="czs" data-position="117.49141693,30.66469002" class="mui-table-view-cell mui-indexed-list-item">池州市</li>
+						<li data-value="css" data-tags="css" data-position="112.93885803,28.22777939" class="mui-table-view-cell mui-indexed-list-item">长沙市</li>
+						<li data-value="cds" data-tags="cds" data-position="111.69853973,29.03157997" class="mui-table-view-cell mui-indexed-list-item">常德市</li>
+						<li data-value="czs" data-tags="czs" data-position="113.0148468,25.77062988" class="mui-table-view-cell mui-indexed-list-item">郴州市</li>
+						<li data-value="czs" data-tags="czs" data-position="116.62296295,23.65670013" class="mui-table-view-cell mui-indexed-list-item">潮州市</li>
+						<li data-value="czs" data-tags="czs" data-position="107.36485291,22.37895012" class="mui-table-view-cell mui-indexed-list-item">崇左市</li>
+						<li data-value="cmx" data-tags="cmx" data-position="110.00486755,19.73848915" class="mui-table-view-cell mui-indexed-list-item">澄迈县</li>
+						<li data-value="cjlzzzx" data-tags="cjlzzzx" data-position="109.05558777,19.29828072" class="mui-table-view-cell mui-indexed-list-item">昌江黎族自治县</li>
+						<li data-value="cjlzzzx" data-tags="cjlzzzx" data-position="109.05558777,19.29828072" class="mui-table-view-cell mui-indexed-list-item">昌江黎族自治县</li>
+						<li data-value="cmx" data-tags="cmx" data-position="110.00486755,19.73848915" class="mui-table-view-cell mui-indexed-list-item">澄迈县</li>
+						<li data-value="csq" data-tags="csq" data-position="107.08104706,29.85780907" class="mui-table-view-cell mui-indexed-list-item">长寿区</li>
+						<li data-value="ckx" data-tags="ckx" data-position="108.66432953,31.94766998" class="mui-table-view-cell mui-indexed-list-item">城口县</li>
+						<li data-value="cds" data-tags="cds" data-position="104.0647583,30.57019997" class="mui-table-view-cell mui-indexed-list-item">成都市</li>
+						<li data-value="cxyzzzz" data-tags="cxyzzzz" data-position="101.52767181,25.04495049" class="mui-table-view-cell mui-indexed-list-item">楚雄彝族自治州</li>
+						<li data-value="cds" data-tags="cds" data-position="97.17224884,31.1407299" class="mui-table-view-cell mui-indexed-list-item">昌都市</li>
+						<li data-value="cjhzzzz" data-tags="cjhzzzz" data-position="87.30821991,44.01116943" class="mui-table-view-cell mui-indexed-list-item">昌吉回族自治州</li>
+
+						<li data-group="D" class="mui-table-view-divider mui-indexed-list-group">D</li>
+						<li data-value="dcq" data-tags="dcq" data-position="116.41636658,39.92855072" class="mui-table-view-cell mui-indexed-list-item">东城区</li>
+						<li data-value="dxq" data-tags="dxq" data-position="116.43965149,39.65950012" class="mui-table-view-cell mui-indexed-list-item">大兴区</li>
+						<li data-value="dlq" data-tags="dlq" data-position="117.31427765,39.08652115" class="mui-table-view-cell mui-indexed-list-item">东丽区</li>
+						<li data-value="dts" data-tags="dts" data-position="113.30001068,40.07637024" class="mui-table-view-cell mui-indexed-list-item">大同市</li>
+						<li data-value="dls" data-tags="dls" data-position="121.61476135,38.91368866" class="mui-table-view-cell mui-indexed-list-item">大连市</li>
+						<li data-value="dds" data-tags="dds" data-position="124.35601044,39.99980164" class="mui-table-view-cell mui-indexed-list-item">丹东市</li>
+						<li data-value="dqs" data-tags="dqs" data-position="125.10307312,46.58758163" class="mui-table-view-cell mui-indexed-list-item">大庆市</li>
+						<li data-value="dxaldq" data-tags="dxaldq" data-position="124.59216309,51.92398071" class="mui-table-view-cell mui-indexed-list-item">大兴安岭地区</li>
+						<li data-value="dys" data-tags="dys" data-position="118.67465973,37.43365097" class="mui-table-view-cell mui-indexed-list-item">东营市</li>
+						<li data-value="dzs" data-tags="dzs" data-position="116.35926819,37.4355011" class="mui-table-view-cell mui-indexed-list-item">德州市</li>
+						<li data-value="dgs" data-tags="dgs" data-position="113.75180817,23.02069092" class="mui-table-view-cell mui-indexed-list-item">东莞市</li>
+						<li data-value="dzs" data-tags="dzs" data-position="109.58068848,19.52092934" class="mui-table-view-cell mui-indexed-list-item">儋州市</li>
+						<li data-value="dfs" data-tags="dfs" data-position="108.65367126,19.09613991" class="mui-table-view-cell mui-indexed-list-item">东方市</li>
+						<li data-value="dax" data-tags="dax" data-position="110.35929871,19.68120956" class="mui-table-view-cell mui-indexed-list-item">定安县</li>
+						<li data-value="dax" data-tags="dax" data-position="110.35929871,19.68120956" class="mui-table-view-cell mui-indexed-list-item">定安县</li>
+						<li data-value="dfs" data-tags="dfs" data-position="108.65367126,19.09613991" class="mui-table-view-cell mui-indexed-list-item">东方市</li>
+						<li data-value="ddkq" data-tags="ddkq" data-position="106.4822464,29.48407936" class="mui-table-view-cell mui-indexed-list-item">大渡口区</li>
+						<li data-value="dzq" data-tags="dzq" data-position="105.78016663,29.48604012" class="mui-table-view-cell mui-indexed-list-item">大足区</li>
+						<li data-value="djx" data-tags="djx" data-position="107.33515167,30.32679939" class="mui-table-view-cell mui-indexed-list-item">垫江县</li>
+						<li data-value="dys" data-tags="dys" data-position="104.39790344,31.12678909" class="mui-table-view-cell mui-indexed-list-item">德阳市</li>
+						<li data-value="dzs" data-tags="dzs" data-position="107.46791077,31.20863914" class="mui-table-view-cell mui-indexed-list-item">达州市</li>
+						<li data-value="dlbzzzz" data-tags="dlbzzzz" data-position="100.26763916,25.60647964" class="mui-table-view-cell mui-indexed-list-item">大理白族自治州</li>
+						<li data-value="dhdzjpzzzz" data-tags="dhdzjpzzzz" data-position="98.58486176,24.43231964" class="mui-table-view-cell mui-indexed-list-item">德宏傣族景颇族自治州</li>
+						<li data-value="dqzzzzz" data-tags="dqzzzzz" data-position="99.70304871,27.81908035" class="mui-table-view-cell mui-indexed-list-item">迪庆藏族自治州</li>
+						<li data-value="dxs" data-tags="dxs" data-position="104.62523651,35.58113098" class="mui-table-view-cell mui-indexed-list-item">定西市</li>
+						<li data-value="dq" data-tags="dq" data-position="114.22914124,22.28137016" class="mui-table-view-cell mui-indexed-list-item">东区</li>
+						<li data-value="dbq" data-tags="dbq" data-position="114.16945648,22.44799995" class="mui-table-view-cell mui-indexed-list-item">大埔区</li>
+						<li data-value="dz" data-tags="dz" data-position="113.55928802,22.15472984" class="mui-table-view-cell mui-indexed-list-item">凼仔</li>
+
+						<li data-group="E" class="mui-table-view-divider mui-indexed-list-group">E</li>
+						<li data-value="eedss" data-tags="eedss" data-position="109.78086853,39.60845184" class="mui-table-view-cell mui-indexed-list-item">鄂尔多斯市</li>
+						<li data-value="ezs" data-tags="ezs" data-position="114.89495087,30.39085007" class="mui-table-view-cell mui-indexed-list-item">鄂州市</li>
+						<li data-value="estjzmzzzz" data-tags="estjzmzzzz" data-position="109.48816681,30.27216911" class="mui-table-view-cell mui-indexed-list-item">恩施土家族苗族自治州</li>
+
+						<li data-group="F" class="mui-table-view-divider mui-indexed-list-group">F</li>
+						<li data-value="ftq" data-tags="ftq" data-position="116.28616333,39.85855865" class="mui-table-view-cell mui-indexed-list-item">丰台区</li>
+						<li data-value="fsq" data-tags="fsq" data-position="116.14293671,39.74787903" class="mui-table-view-cell mui-indexed-list-item">房山区</li>
+						<li data-value="fss" data-tags="fss" data-position="123.95722198,41.87971115" class="mui-table-view-cell mui-indexed-list-item">抚顺市</li>
+						<li data-value="fxs" data-tags="fxs" data-position="121.67011261,42.02165985" class="mui-table-view-cell mui-indexed-list-item">阜新市</li>
+						<li data-value="fxq" data-tags="fxq" data-position="121.47409821,30.91802979" class="mui-table-view-cell mui-indexed-list-item">奉贤区</li>
+						<li data-value="fys" data-tags="fys" data-position="115.81494904,32.88962936" class="mui-table-view-cell mui-indexed-list-item">阜阳市</li>
+						<li data-value="fzs" data-tags="fzs" data-position="119.29647064,26.07420921" class="mui-table-view-cell mui-indexed-list-item">福州市</li>
+						<li data-value="fzs" data-tags="fzs" data-position="116.35809326,27.94780922" class="mui-table-view-cell mui-indexed-list-item">抚州市</li>
+						<li data-value="fss" data-tags="fss" data-position="113.12191772,23.02185059" class="mui-table-view-cell mui-indexed-list-item">佛山市</li>
+						<li data-value="fcgs" data-tags="fcgs" data-position="108.35472107,21.68712997" class="mui-table-view-cell mui-indexed-list-item">防城港市</li>
+						<li data-value="flq" data-tags="flq" data-position="107.38981628,29.7031498" class="mui-table-view-cell mui-indexed-list-item">涪陵区</li>
+						<li data-value="fdx" data-tags="fdx" data-position="107.73085022,29.86351967" class="mui-table-view-cell mui-indexed-list-item">丰都县</li>
+						<li data-value="fjx" data-tags="fjx" data-position="109.46405792,31.01845932" class="mui-table-view-cell mui-indexed-list-item">奉节县</li>
+
+						<li data-group="G" class="mui-table-view-divider mui-indexed-list-group">G</li>
+						<li data-value="gzs" data-tags="gzs" data-position="114.93476105,25.83109093" class="mui-table-view-cell mui-indexed-list-item">赣州市</li>
+						<li data-value="gzs" data-tags="gzs" data-position="113.26435852,23.12907982" class="mui-table-view-cell mui-indexed-list-item">广州市</li>
+						<li data-value="gls" data-tags="gls" data-position="110.2900238,25.27360916" class="mui-table-view-cell mui-indexed-list-item">桂林市</li>
+						<li data-value="ggs" data-tags="ggs" data-position="109.59764099,23.11306" class="mui-table-view-cell mui-indexed-list-item">贵港市</li>
+						<li data-value="gys" data-tags="gys" data-position="105.84356689,32.43548965" class="mui-table-view-cell mui-indexed-list-item">广元市</li>
+						<li data-value="gas" data-tags="gas" data-position="106.63321686,30.45595932" class="mui-table-view-cell mui-indexed-list-item">广安市</li>
+						<li data-value="gzzzzzz" data-tags="gzzzzzz" data-position="101.96253967,30.04932022" class="mui-table-view-cell mui-indexed-list-item">甘孜藏族自治州</li>
+						<li data-value="gys" data-tags="gys" data-position="106.63024139,26.64702034" class="mui-table-view-cell mui-indexed-list-item">贵阳市</li>
+						<li data-value="gnzzzzz" data-tags="gnzzzzz" data-position="102.91101837,34.98326874" class="mui-table-view-cell mui-indexed-list-item">甘南藏族自治州</li>
+						<li data-value="glzzzzz" data-tags="glzzzzz" data-position="100.24475098,34.47140884" class="mui-table-view-cell mui-indexed-list-item">果洛藏族自治州</li>
+						<li data-value="gys" data-tags="gys" data-position="106.24259186,36.01580048" class="mui-table-view-cell mui-indexed-list-item">固原市</li>
+						<li data-value="gtq" data-tags="gtq" data-position="114.23059845,22.31056976" class="mui-table-view-cell mui-indexed-list-item">观塘区</li>
+
+						<li data-group="H" class="mui-table-view-divider mui-indexed-list-group">H</li>
+						<li data-value="hdq" data-tags="hdq" data-position="116.29844666,39.95933151" class="mui-table-view-cell mui-indexed-list-item">海淀区</li>
+						<li data-value="hrq" data-tags="hrq" data-position="116.63176727,40.31600189" class="mui-table-view-cell mui-indexed-list-item">怀柔区</li>
+						<li data-value="hpq" data-tags="hpq" data-position="117.21469879,39.11711884" class="mui-table-view-cell mui-indexed-list-item">和平区</li>
+						<li data-value="hdq" data-tags="hdq" data-position="117.25228119,39.1282692" class="mui-table-view-cell mui-indexed-list-item">河东区</li>
+						<li data-value="hxq" data-tags="hxq" data-position="117.22335815,39.10953903" class="mui-table-view-cell mui-indexed-list-item">河西区</li>
+						<li data-value="hbq" data-tags="hbq" data-position="117.1967392,39.14783859" class="mui-table-view-cell mui-indexed-list-item">河北区</li>
+						<li data-value="hqq" data-tags="hqq" data-position="117.15161133,39.16733932" class="mui-table-view-cell mui-indexed-list-item">红桥区</li>
+						<li data-value="hds" data-tags="hds" data-position="114.53917694,36.62556076" class="mui-table-view-cell mui-indexed-list-item">邯郸市</li>
+						<li data-value="hss" data-tags="hss" data-position="115.67053986,37.73886108" class="mui-table-view-cell mui-indexed-list-item">衡水市</li>
+						<li data-value="hhhts" data-tags="hhhts" data-position="111.75199127,40.8414917" class="mui-table-view-cell mui-indexed-list-item">呼和浩特市</li>
+						<li data-value="hlbes" data-tags="hlbes" data-position="119.76583862,49.21163177" class="mui-table-view-cell mui-indexed-list-item">呼伦贝尔市</li>
+						<li data-value="hlds" data-tags="hlds" data-position="120.83699036,40.71099854" class="mui-table-view-cell mui-indexed-list-item">葫芦岛市</li>
+						<li data-value="hebs" data-tags="hebs" data-position="126.53579712,45.80215836" class="mui-table-view-cell mui-indexed-list-item">哈尔滨市</li>
+						<li data-value="hgs" data-tags="hgs" data-position="130.29785156,47.34989166" class="mui-table-view-cell mui-indexed-list-item">鹤岗市</li>
+						<li data-value="hhs" data-tags="hhs" data-position="127.52851868,50.24523163" class="mui-table-view-cell mui-indexed-list-item">黑河市</li>
+						<li data-value="hpq" data-tags="hpq" data-position="121.48461151,31.23162079" class="mui-table-view-cell mui-indexed-list-item">黄浦区</li>
+						<li data-value="hkq" data-tags="hkq" data-position="121.50514984,31.2645092" class="mui-table-view-cell mui-indexed-list-item">虹口区</li>
+						<li data-value="has" data-tags="has" data-position="119.01595306,33.61016083" class="mui-table-view-cell mui-indexed-list-item">淮安市</li>
+						<li data-value="hzs" data-tags="hzs" data-position="120.15515137,30.27415085" class="mui-table-view-cell mui-indexed-list-item">杭州市</li>
+						<li data-value="hzs" data-tags="hzs" data-position="120.08805084,30.89304924" class="mui-table-view-cell mui-indexed-list-item">湖州市</li>
+						<li data-value="hfs" data-tags="hfs" data-position="117.22901154,31.82056999" class="mui-table-view-cell mui-indexed-list-item">合肥市</li>
+						<li data-value="hns" data-tags="hns" data-position="116.99980164,32.62548828" class="mui-table-view-cell mui-indexed-list-item">淮南市</li>
+						<li data-value="hbs" data-tags="hbs" data-position="116.79833984,33.95478821" class="mui-table-view-cell mui-indexed-list-item">淮北市</li>
+						<li data-value="hss" data-tags="hss" data-position="118.33866119,29.71516991" class="mui-table-view-cell mui-indexed-list-item">黄山市</li>
+						<li data-value="hzs" data-tags="hzs" data-position="115.48114777,35.23363113" class="mui-table-view-cell mui-indexed-list-item">菏泽市</li>
+						<li data-value="hbs" data-tags="hbs" data-position="114.2974472,35.74700165" class="mui-table-view-cell mui-indexed-list-item">鹤壁市</li>
+						<li data-value="hss" data-tags="hss" data-position="115.03890228,30.19952965" class="mui-table-view-cell mui-indexed-list-item">黄石市</li>
+						<li data-value="hgs" data-tags="hgs" data-position="114.87238312,30.45347023" class="mui-table-view-cell mui-indexed-list-item">黄冈市</li>
+						<li data-value="hys" data-tags="hys" data-position="112.57195282,26.89323997" class="mui-table-view-cell mui-indexed-list-item">衡阳市</li>
+						<li data-value="hhs" data-tags="hhs" data-position="110.00160217,27.5697403" class="mui-table-view-cell mui-indexed-list-item">怀化市</li>
+						<li data-value="hzs" data-tags="hzs" data-position="114.41678619,23.1107502" class="mui-table-view-cell mui-indexed-list-item">惠州市</li>
+						<li data-value="hys" data-tags="hys" data-position="114.70065308,23.74365044" class="mui-table-view-cell mui-indexed-list-item">河源市</li>
+						<li data-value="hzs" data-tags="hzs" data-position="111.56655121,24.40345955" class="mui-table-view-cell mui-indexed-list-item">贺州市</li>
+						<li data-value="hcs" data-tags="hcs" data-position="108.08540344,24.69290924" class="mui-table-view-cell mui-indexed-list-item">河池市</li>
+						<li data-value="hks" data-tags="hks" data-position="110.19989014,20.04421997" class="mui-table-view-cell mui-indexed-list-item">海口市</li>
+						<li data-value="hcq" data-tags="hcq" data-position="106.2767868,29.97287941" class="mui-table-view-cell mui-indexed-list-item">合川区</li>
+						<li data-value="hhhnzyzzzz" data-tags="hhhnzyzzzz" data-position="103.37560272,23.36421967" class="mui-table-view-cell mui-indexed-list-item">红河哈尼族彝族自治州</li>
+						<li data-value="hzs" data-tags="hzs" data-position="107.02377319,33.06761169" class="mui-table-view-cell mui-indexed-list-item">汉中市</li>
+						<li data-value="hds" data-tags="hds" data-position="102.4017334,36.48209" class="mui-table-view-cell mui-indexed-list-item">海东市</li>
+						<li data-value="hbzzzzz" data-tags="hbzzzzz" data-position="100.90096283,36.95454025" class="mui-table-view-cell mui-indexed-list-item">海北藏族自治州</li>
+						<li data-value="hnzzzzz" data-tags="hnzzzzz" data-position="102.01506805,35.51990891" class="mui-table-view-cell mui-indexed-list-item">黄南藏族自治州</li>
+						<li data-value="hnzzzzz" data-tags="hnzzzzz" data-position="100.62036896,36.28662872" class="mui-table-view-cell mui-indexed-list-item">海南藏族自治州</li>
+						<li data-value="hxmgzzzzzz" data-tags="hxmgzzzzzz" data-position="97.37122345,37.3771019" class="mui-table-view-cell mui-indexed-list-item">海西蒙古族藏族自治州</li>
+						<li data-value="hms" data-tags="hms" data-position="93.51538086,42.81855011" class="mui-table-view-cell mui-indexed-list-item">哈密市</li>
+						<li data-value="htdq" data-tags="htdq" data-position="79.92247009,37.11431122" class="mui-table-view-cell mui-indexed-list-item">和田地区</li>
+						<li data-value="hdxq" data-tags="hdxq" data-position="114.19583893,22.34003067" class="mui-table-view-cell mui-indexed-list-item">黄大仙区</li>
+
+						<li data-group="J" class="mui-table-view-divider mui-indexed-list-group">J</li>
+						<li data-value="jnq" data-tags="jnq" data-position="117.35710144,38.9375" class="mui-table-view-cell mui-indexed-list-item">津南区</li>
+						<li data-value="jhq" data-tags="jhq" data-position="116.97428131,38.94736862" class="mui-table-view-cell mui-indexed-list-item">静海区</li>
+						<li data-value="jx" data-tags="jx" data-position="117.40828705,40.04576874" class="mui-table-view-cell mui-indexed-list-item">蓟县</li>
+						<li data-value="jcs" data-tags="jcs" data-position="112.85112762,35.49039078" class="mui-table-view-cell mui-indexed-list-item">晋城市</li>
+						<li data-value="jzs" data-tags="jzs" data-position="112.7527771,37.68701935" class="mui-table-view-cell mui-indexed-list-item">晋中市</li>
+						<li data-value="jzs" data-tags="jzs" data-position="121.12702942,41.09514999" class="mui-table-view-cell mui-indexed-list-item">锦州市</li>
+						<li data-value="jls" data-tags="jls" data-position="126.54943848,43.83784103" class="mui-table-view-cell mui-indexed-list-item">吉林市</li>
+						<li data-value="jxs" data-tags="jxs" data-position="130.96954346,45.29523849" class="mui-table-view-cell mui-indexed-list-item">鸡西市</li>
+						<li data-value="jmss" data-tags="jmss" data-position="130.32060242,46.80018997" class="mui-table-view-cell mui-indexed-list-item">佳木斯市</li>
+						<li data-value="jaq" data-tags="jaq" data-position="121.45590973,31.22352028" class="mui-table-view-cell mui-indexed-list-item">静安区</li>
+						<li data-value="jdq" data-tags="jdq" data-position="121.26621246,31.37482071" class="mui-table-view-cell mui-indexed-list-item">嘉定区</li>
+						<li data-value="jsq" data-tags="jsq" data-position="121.34242249,30.7418499" class="mui-table-view-cell mui-indexed-list-item">金山区</li>
+						<li data-value="jxs" data-tags="jxs" data-position="120.75550079,30.74501038" class="mui-table-view-cell mui-indexed-list-item">嘉兴市</li>
+						<li data-value="jhs" data-tags="jhs" data-position="119.64759064,29.07811928" class="mui-table-view-cell mui-indexed-list-item">金华市</li>
+						<li data-value="jdzs" data-tags="jdzs" data-position="117.1783905,29.26869011" class="mui-table-view-cell mui-indexed-list-item">景德镇市</li>
+						<li data-value="jjs" data-tags="jjs" data-position="116.00145721,29.70548058" class="mui-table-view-cell mui-indexed-list-item">九江市</li>
+						<li data-value="jas" data-tags="jas" data-position="114.99375916,27.11381912" class="mui-table-view-cell mui-indexed-list-item">吉安市</li>
+						<li data-value="jns" data-tags="jns" data-position="117.12008667,36.65184021" class="mui-table-view-cell mui-indexed-list-item">济南市</li>
+						<li data-value="jns" data-tags="jns" data-position="116.58724213,35.41458893" class="mui-table-view-cell mui-indexed-list-item">济宁市</li>
+						<li data-value="jzs" data-tags="jzs" data-position="113.24201202,35.21562958" class="mui-table-view-cell mui-indexed-list-item">焦作市</li>
+						<li data-value="jys" data-tags="jys" data-position="112.6027298,35.06707001" class="mui-table-view-cell mui-indexed-list-item">济源市</li>
+						<li data-value="jys" data-tags="jys" data-position="112.6027298,35.06707001" class="mui-table-view-cell mui-indexed-list-item">济源市</li>
+						<li data-value="jms" data-tags="jms" data-position="112.19944763,31.03545952" class="mui-table-view-cell mui-indexed-list-item">荆门市</li>
+						<li data-value="jzs" data-tags="jzs" data-position="112.24069214,30.33478928" class="mui-table-view-cell mui-indexed-list-item">荆州市</li>
+						<li data-value="jms" data-tags="jms" data-position="113.08161163,22.57864952" class="mui-table-view-cell mui-indexed-list-item">江门市</li>
+						<li data-value="jys" data-tags="jys" data-position="116.37271118,23.54972076" class="mui-table-view-cell mui-indexed-list-item">揭阳市</li>
+						<li data-value="jbq" data-tags="jbq" data-position="106.5743866,29.60660934" class="mui-table-view-cell mui-indexed-list-item">江北区</li>
+						<li data-value="jlpq" data-tags="jlpq" data-position="106.51139832,29.50206947" class="mui-table-view-cell mui-indexed-list-item">九龙坡区</li>
+						<li data-value="jjq" data-tags="jjq" data-position="106.25936127,29.29014015" class="mui-table-view-cell mui-indexed-list-item">江津区</li>
+						<li data-value="jygs" data-tags="jygs" data-position="98.29010773,39.7720108" class="mui-table-view-cell mui-indexed-list-item">嘉峪关市</li>
+						<li data-value="jcs" data-tags="jcs" data-position="102.18759155,38.52006149" class="mui-table-view-cell mui-indexed-list-item">金昌市</li>
+						<li data-value="jqs" data-tags="jqs" data-position="98.49394226,39.73255157" class="mui-table-view-cell mui-indexed-list-item">酒泉市</li>
+						<li data-value="jlcq" data-tags="jlcq" data-position="114.18894958,22.30817986" class="mui-table-view-cell mui-indexed-list-item">九龙城区</li>
+						<li data-value="jl" data-tags="jl" data-position="114.18894958,22.30817986" class="mui-table-view-cell mui-indexed-list-item">九龙</li>
+
+						<li data-group="K" class="mui-table-view-divider mui-indexed-list-group">K</li>
+						<li data-value="kfs" data-tags="kfs" data-position="114.30731201,34.79726028" class="mui-table-view-cell mui-indexed-list-item">开封市</li>
+						<li data-value="kx" data-tags="kx" data-position="108.39311218,31.16098022" class="mui-table-view-cell mui-indexed-list-item">开县</li>
+						<li data-value="kms" data-tags="kms" data-position="102.83322144,24.87965965" class="mui-table-view-cell mui-indexed-list-item">昆明市</li>
+						<li data-value="klmys" data-tags="klmys" data-position="84.88926697,45.57999039" class="mui-table-view-cell mui-indexed-list-item">克拉玛依市</li>
+						<li data-value="kzlskekzzzz" data-tags="kzlskekzzzz" data-position="76.16661072,39.71530151" class="mui-table-view-cell mui-indexed-list-item">克孜勒苏柯尔克孜自治州</li>
+						<li data-value="ksdq" data-tags="ksdq" data-position="75.98976135,39.47042084" class="mui-table-view-cell mui-indexed-list-item">喀什地区</li>
+						<li data-value="kkdls" data-tags="kkdls" data-position="81.04476166,43.94799042" class="mui-table-view-cell mui-indexed-list-item">可克达拉市</li>
+						<li data-value="kkdls" data-tags="kkdls" data-position="81.04476166,43.94799042" class="mui-table-view-cell mui-indexed-list-item">可克达拉市</li>
+						<li data-value="kqq" data-tags="kqq" data-position="114.13654327,22.36054993" class="mui-table-view-cell mui-indexed-list-item">葵青区</li>
+
+						<li data-group="L" class="mui-table-view-divider mui-indexed-list-group">L</li>
+						<li data-value="lfs" data-tags="lfs" data-position="116.6837616,39.53775024" class="mui-table-view-cell mui-indexed-list-item">廊坊市</li>
+						<li data-value="lfs" data-tags="lfs" data-position="111.5196228,36.08821869" class="mui-table-view-cell mui-indexed-list-item">临汾市</li>
+						<li data-value="lls" data-tags="lls" data-position="111.14164734,37.51934052" class="mui-table-view-cell mui-indexed-list-item">吕梁市</li>
+						<li data-value="lys" data-tags="lys" data-position="123.23735809,41.26808929" class="mui-table-view-cell mui-indexed-list-item">辽阳市</li>
+						<li data-value="lys" data-tags="lys" data-position="125.14367676,42.88805008" class="mui-table-view-cell mui-indexed-list-item">辽源市</li>
+						<li data-value="lygs" data-tags="lygs" data-position="119.2229538,34.59669113" class="mui-table-view-cell mui-indexed-list-item">连云港市</li>
+						<li data-value="lss" data-tags="lss" data-position="119.92292786,28.46719933" class="mui-table-view-cell mui-indexed-list-item">丽水市</li>
+						<li data-value="las" data-tags="las" data-position="116.52323914,31.73488045" class="mui-table-view-cell mui-indexed-list-item">六安市</li>
+						<li data-value="lys" data-tags="lys" data-position="117.01721954,25.07504082" class="mui-table-view-cell mui-indexed-list-item">龙岩市</li>
+						<li data-value="lws" data-tags="lws" data-position="117.67666626,36.21358871" class="mui-table-view-cell mui-indexed-list-item">莱芜市</li>
+						<li data-value="lys" data-tags="lys" data-position="118.35646057,35.10464859" class="mui-table-view-cell mui-indexed-list-item">临沂市</li>
+						<li data-value="lcs" data-tags="lcs" data-position="115.98548889,36.45701981" class="mui-table-view-cell mui-indexed-list-item">聊城市</li>
+						<li data-value="lys" data-tags="lys" data-position="112.45361328,34.61811829" class="mui-table-view-cell mui-indexed-list-item">洛阳市</li>
+						<li data-value="lds" data-tags="lds" data-position="111.99458313,27.69728088" class="mui-table-view-cell mui-indexed-list-item">娄底市</li>
+						<li data-value="lzs" data-tags="lzs" data-position="109.41551971,24.32542992" class="mui-table-view-cell mui-indexed-list-item">柳州市</li>
+						<li data-value="lbs" data-tags="lbs" data-position="109.22238159,23.75209999" class="mui-table-view-cell mui-indexed-list-item">来宾市</li>
+						<li data-value="lgx" data-tags="lgx" data-position="109.69077301,19.91242981" class="mui-table-view-cell mui-indexed-list-item">临高县</li>
+						<li data-value="ldlzzzx" data-tags="ldlzzzx" data-position="109.17360687,18.74986076" class="mui-table-view-cell mui-indexed-list-item">乐东黎族自治县</li>
+						<li data-value="lslzzzx" data-tags="lslzzzx" data-position="110.03720093,18.50596046" class="mui-table-view-cell mui-indexed-list-item">陵水黎族自治县</li>
+						<li data-value="lslzzzx" data-tags="lslzzzx" data-position="110.03720093,18.50596046" class="mui-table-view-cell mui-indexed-list-item">陵水黎族自治县</li>
+						<li data-value="ldlzzzx" data-tags="ldlzzzx" data-position="109.17360687,18.74986076" class="mui-table-view-cell mui-indexed-list-item">乐东黎族自治县</li>
+						<li data-value="lgx" data-tags="lgx" data-position="109.69077301,19.91242981" class="mui-table-view-cell mui-indexed-list-item">临高县</li>
+						<li data-value="lpx" data-tags="lpx" data-position="107.80235291,30.67373085" class="mui-table-view-cell mui-indexed-list-item">梁平县</li>
+						<li data-value="lzs" data-tags="lzs" data-position="105.44257355,28.87170029" class="mui-table-view-cell mui-indexed-list-item">泸州市</li>
+						<li data-value="lss" data-tags="lss" data-position="103.76538849,29.55220985" class="mui-table-view-cell mui-indexed-list-item">乐山市</li>
+						<li data-value="lsyzzzz" data-tags="lsyzzzz" data-position="102.26746368,27.88163948" class="mui-table-view-cell mui-indexed-list-item">凉山彝族自治州</li>
+						<li data-value="lpss" data-tags="lpss" data-position="104.83023071,26.5933609" class="mui-table-view-cell mui-indexed-list-item">六盘水市</li>
+						<li data-value="ljs" data-tags="ljs" data-position="100.22709656,26.85647964" class="mui-table-view-cell mui-indexed-list-item">丽江市</li>
+						<li data-value="lcs" data-tags="lcs" data-position="100.08883667,23.88426018" class="mui-table-view-cell mui-indexed-list-item">临沧市</li>
+						<li data-value="lss" data-tags="lss" data-position="91.11450195,29.64414978" class="mui-table-view-cell mui-indexed-list-item">拉萨市</li>
+						<li data-value="lzs" data-tags="lzs" data-position="94.36154938,29.64895058" class="mui-table-view-cell mui-indexed-list-item">林芝市</li>
+						<li data-value="lzs" data-tags="lzs" data-position="103.83416748,36.06137848" class="mui-table-view-cell mui-indexed-list-item">兰州市</li>
+						<li data-value="lns" data-tags="lns" data-position="104.92166138,33.40100098" class="mui-table-view-cell mui-indexed-list-item">陇南市</li>
+						<li data-value="lxhzzzz" data-tags="lxhzzzz" data-position="103.21090698,35.60121918" class="mui-table-view-cell mui-indexed-list-item">临夏回族自治州</li>
+						<li data-value="ldq" data-tags="ldq" data-position="113.94690704,22.28170013" class="mui-table-view-cell mui-indexed-list-item">离岛区</li>
+						<li data-value="ldc" data-tags="ldc" data-position="113.56828308,22.13866997" class="mui-table-view-cell mui-indexed-list-item">路凼城</li>
+						<li data-value="lh" data-tags="lh" data-position="113.55724335,22.11500931" class="mui-table-view-cell mui-indexed-list-item">路环</li>
+
+						<li data-group="M" class="mui-table-view-divider mui-indexed-list-group">M</li>
+						<li data-value="mtgq" data-tags="mtgq" data-position="116.10146332,39.94047928" class="mui-table-view-cell mui-indexed-list-item">门头沟区</li>
+						<li data-value="myq" data-tags="myq" data-position="116.84317017,40.37625122" class="mui-table-view-cell mui-indexed-list-item">密云区</li>
+						<li data-value="mdjs" data-tags="mdjs" data-position="129.63244629,44.5526886" class="mui-table-view-cell mui-indexed-list-item">牡丹江市</li>
+						<li data-value="mhq" data-tags="mhq" data-position="121.38205719,31.11325073" class="mui-table-view-cell mui-indexed-list-item">闵行区</li>
+						<li data-value="mass" data-tags="mass" data-position="118.50611115,31.67066956" class="mui-table-view-cell mui-indexed-list-item">马鞍山市</li>
+						<li data-value="mms" data-tags="mms" data-position="110.92523193,21.66329002" class="mui-table-view-cell mui-indexed-list-item">茂名市</li>
+						<li data-value="mzs" data-tags="mzs" data-position="116.12264252,24.2884407" class="mui-table-view-cell mui-indexed-list-item">梅州市</li>
+						<li data-value="mys" data-tags="mys" data-position="104.67960358,31.46751022" class="mui-table-view-cell mui-indexed-list-item">绵阳市</li>
+						<li data-value="mss" data-tags="mss" data-position="103.84851074,30.07563019" class="mui-table-view-cell mui-indexed-list-item">眉山市</li>
+
+						<li data-group="N" class="mui-table-view-divider mui-indexed-list-group">N</li>
+						<li data-value="nkq" data-tags="nkq" data-position="117.15010834,39.13814926" class="mui-table-view-cell mui-indexed-list-item">南开区</li>
+						<li data-value="nhq" data-tags="nhq" data-position="117.82478333,39.33090973" class="mui-table-view-cell mui-indexed-list-item">宁河区</li>
+						<li data-value="njs" data-tags="njs" data-position="118.79647064,32.05838013" class="mui-table-view-cell mui-indexed-list-item">南京市</li>
+						<li data-value="nts" data-tags="nts" data-position="120.89370728,31.97957993" class="mui-table-view-cell mui-indexed-list-item">南通市</li>
+						<li data-value="nbs" data-tags="nbs" data-position="121.55027008,29.87385941" class="mui-table-view-cell mui-indexed-list-item">宁波市</li>
+						<li data-value="nps" data-tags="nps" data-position="118.12042999,27.33175087" class="mui-table-view-cell mui-indexed-list-item">南平市</li>
+						<li data-value="nds" data-tags="nds" data-position="119.54818726,26.66571045" class="mui-table-view-cell mui-indexed-list-item">宁德市</li>
+						<li data-value="ncs" data-tags="ncs" data-position="115.85794067,28.68202019" class="mui-table-view-cell mui-indexed-list-item">南昌市</li>
+						<li data-value="nys" data-tags="nys" data-position="112.52851105,32.99073029" class="mui-table-view-cell mui-indexed-list-item">南阳市</li>
+						<li data-value="nns" data-tags="nns" data-position="108.36689758,22.8167305" class="mui-table-view-cell mui-indexed-list-item">南宁市</li>
+						<li data-value="naq" data-tags="naq" data-position="106.56256104,29.52168083" class="mui-table-view-cell mui-indexed-list-item">南岸区</li>
+						<li data-value="ncq" data-tags="ncq" data-position="107.09896088,29.15788078" class="mui-table-view-cell mui-indexed-list-item">南川区</li>
+						<li data-value="njs" data-tags="njs" data-position="105.05844116,29.5801506" class="mui-table-view-cell mui-indexed-list-item">内江市</li>
+						<li data-value="ncs" data-tags="ncs" data-position="106.11073303,30.83731079" class="mui-table-view-cell mui-indexed-list-item">南充市</li>
+						<li data-value="njlszzzz" data-tags="njlszzzz" data-position="98.85669708,25.81763077" class="mui-table-view-cell mui-indexed-list-item">怒江傈僳族自治州</li>
+						<li data-value="nqdq" data-tags="nqdq" data-position="92.05136108,31.47613907" class="mui-table-view-cell mui-indexed-list-item">那曲地区</li>
+						<li data-value="nq" data-tags="nq" data-position="114.15805817,22.24542999" class="mui-table-view-cell mui-indexed-list-item">南区</li>
+
+						<li data-group="P" class="mui-table-view-divider mui-indexed-list-group">P</li>
+						<li data-value="pgq" data-tags="pgq" data-position="117.12140656,40.14062119" class="mui-table-view-cell mui-indexed-list-item">平谷区</li>
+						<li data-value="pjs" data-tags="pjs" data-position="122.07077789,41.11996078" class="mui-table-view-cell mui-indexed-list-item">盘锦市</li>
+						<li data-value="ptq" data-tags="ptq" data-position="121.39700317,31.24939919" class="mui-table-view-cell mui-indexed-list-item">普陀区</li>
+						<li data-value="pdxq" data-tags="pdxq" data-position="121.54409027,31.22113991" class="mui-table-view-cell mui-indexed-list-item">浦东新区</li>
+						<li data-value="pts" data-tags="pts" data-position="119.00771332,25.45400047" class="mui-table-view-cell mui-indexed-list-item">莆田市</li>
+						<li data-value="pxs" data-tags="pxs" data-position="113.85427094,27.62289047" class="mui-table-view-cell mui-indexed-list-item">萍乡市</li>
+						<li data-value="pdss" data-tags="pdss" data-position="113.19241333,33.76609039" class="mui-table-view-cell mui-indexed-list-item">平顶山市</li>
+						<li data-value="pys" data-tags="pys" data-position="115.02931976,35.76189041" class="mui-table-view-cell mui-indexed-list-item">濮阳市</li>
+						<li data-value="psmztjzzzx" data-tags="psmztjzzzx" data-position="108.16555023,29.2937603" class="mui-table-view-cell mui-indexed-list-item">彭水苗族土家族自治县</li>
+						<li data-value="pzhs" data-tags="pzhs" data-position="101.71871948,26.58227921" class="mui-table-view-cell mui-indexed-list-item">攀枝花市</li>
+						<li data-value="pes" data-tags="pes" data-position="100.96623993,22.82521057" class="mui-table-view-cell mui-indexed-list-item">普洱市</li>
+						<li data-value="pls" data-tags="pls" data-position="106.66529846,35.54302979" class="mui-table-view-cell mui-indexed-list-item">平凉市</li>
+
+						<li data-group="Q" class="mui-table-view-divider mui-indexed-list-group">Q</li>
+						<li data-value="qhds" data-tags="qhds" data-position="119.59963989,39.93545151" class="mui-table-view-cell mui-indexed-list-item">秦皇岛市</li>
+						<li data-value="qqhes" data-tags="qqhes" data-position="123.91796112,47.35430908" class="mui-table-view-cell mui-indexed-list-item">齐齐哈尔市</li>
+						<li data-value="qths" data-tags="qths" data-position="131.00306702,45.77064896" class="mui-table-view-cell mui-indexed-list-item">七台河市</li>
+						<li data-value="qpq" data-tags="qpq" data-position="121.12425995,31.14978981" class="mui-table-view-cell mui-indexed-list-item">青浦区</li>
+						<li data-value="qzs" data-tags="qzs" data-position="118.87419128,28.93592072" class="mui-table-view-cell mui-indexed-list-item">衢州市</li>
+						<li data-value="qzs" data-tags="qzs" data-position="118.6758728,24.87388992" class="mui-table-view-cell mui-indexed-list-item">泉州市</li>
+						<li data-value="qds" data-tags="qds" data-position="120.38298798,36.06623077" class="mui-table-view-cell mui-indexed-list-item">青岛市</li>
+						<li data-value="qjs" data-tags="qjs" data-position="112.89929962,30.40147018" class="mui-table-view-cell mui-indexed-list-item">潜江市</li>
+						<li data-value="qjs" data-tags="qjs" data-position="112.89929962,30.40147018" class="mui-table-view-cell mui-indexed-list-item">潜江市</li>
+						<li data-value="qys" data-tags="qys" data-position="113.05615234,23.68201065" class="mui-table-view-cell mui-indexed-list-item">清远市</li>
+						<li data-value="qzs" data-tags="qzs" data-position="108.65431213,21.97970009" class="mui-table-view-cell mui-indexed-list-item">钦州市</li>
+						<li data-value="qhs" data-tags="qhs" data-position="110.47463989,19.25838089" class="mui-table-view-cell mui-indexed-list-item">琼海市</li>
+						<li data-value="qzlzmzzzx" data-tags="qzlzmzzzx" data-position="109.83838654,19.03334045" class="mui-table-view-cell mui-indexed-list-item">琼中黎族苗族自治县</li>
+						<li data-value="qzlzmzzzx" data-tags="qzlzmzzzx" data-position="109.83838654,19.03334045" class="mui-table-view-cell mui-indexed-list-item">琼中黎族苗族自治县</li>
+						<li data-value="qhs" data-tags="qhs" data-position="110.47463989,19.25838089" class="mui-table-view-cell mui-indexed-list-item">琼海市</li>
+						<li data-value="qjq" data-tags="qjq" data-position="106.9285202,28.96463013" class="mui-table-view-cell mui-indexed-list-item">綦江区</li>
+						<li data-value="qjq" data-tags="qjq" data-position="108.77101135,29.53327942" class="mui-table-view-cell mui-indexed-list-item">黔江区</li>
+						<li data-value="qxnbyzmzzzz" data-tags="qxnbyzmzzzz" data-position="104.90437317,25.08987999" class="mui-table-view-cell mui-indexed-list-item">黔西南布依族苗族自治州</li>
+						<li data-value="qdnmzdzzzz" data-tags="qdnmzdzzzz" data-position="107.98416138,26.58363914" class="mui-table-view-cell mui-indexed-list-item">黔东南苗族侗族自治州</li>
+						<li data-value="qnbyzmzzzz" data-tags="qnbyzmzzzz" data-position="107.52226257,26.25427055" class="mui-table-view-cell mui-indexed-list-item">黔南布依族苗族自治州</li>
+						<li data-value="qjs" data-tags="qjs" data-position="103.79624939,25.49002075" class="mui-table-view-cell mui-indexed-list-item">曲靖市</li>
+						<li data-value="qys" data-tags="qys" data-position="107.64292145,35.70978165" class="mui-table-view-cell mui-indexed-list-item">庆阳市</li>
+						<li data-value="qwq" data-tags="qwq" data-position="114.12001038,22.37145042" class="mui-table-view-cell mui-indexed-list-item">荃湾区</li>
+
+						<li data-group="R" class="mui-table-view-divider mui-indexed-list-group">R</li>
+						<li data-value="rzs" data-tags="rzs" data-position="119.52719116,35.41645813" class="mui-table-view-cell mui-indexed-list-item">日照市</li>
+						<li data-value="rcq" data-tags="rcq" data-position="105.59443665,29.40485001" class="mui-table-view-cell mui-indexed-list-item">荣昌区</li>
+						<li data-value="rkzs" data-tags="rkzs" data-position="88.88115692,29.26704979" class="mui-table-view-cell mui-indexed-list-item">日喀则市</li>
+
+						<li data-group="S" class="mui-table-view-divider mui-indexed-list-group">S</li>
+						<li data-value="sjsq" data-tags="sjsq" data-position="116.22299194,39.90568924" class="mui-table-view-cell mui-indexed-list-item">石景山区</li>
+						<li data-value="syq" data-tags="syq" data-position="116.6547699,40.13011932" class="mui-table-view-cell mui-indexed-list-item">顺义区</li>
+						<li data-value="sjzs" data-tags="sjzs" data-position="114.51429749,38.04275894" class="mui-table-view-cell mui-indexed-list-item">石家庄市</li>
+						<li data-value="szs" data-tags="szs" data-position="112.43286133,39.3315506" class="mui-table-view-cell mui-indexed-list-item">朔州市</li>
+						<li data-value="sys" data-tags="sys" data-position="123.43235779,41.80562973" class="mui-table-view-cell mui-indexed-list-item">沈阳市</li>
+						<li data-value="sps" data-tags="sps" data-position="124.35035706,43.16645813" class="mui-table-view-cell mui-indexed-list-item">四平市</li>
+						<li data-value="sys" data-tags="sys" data-position="124.82514954,45.14110184" class="mui-table-view-cell mui-indexed-list-item">松原市</li>
+						<li data-value="syss" data-tags="syss" data-position="131.15910339,46.64657974" class="mui-table-view-cell mui-indexed-list-item">双鸭山市</li>
+						<li data-value="shs" data-tags="shs" data-position="126.9693222,46.65245819" class="mui-table-view-cell mui-indexed-list-item">绥化市</li>
+						<li data-value="sjq" data-tags="sjq" data-position="121.22653961,31.03240967" class="mui-table-view-cell mui-indexed-list-item">松江区</li>
+						<li data-value="szs" data-tags="szs" data-position="120.58319092,31.29833984" class="mui-table-view-cell mui-indexed-list-item">苏州市</li>
+						<li data-value="sqs" data-tags="sqs" data-position="118.27548981,33.96192932" class="mui-table-view-cell mui-indexed-list-item">宿迁市</li>
+						<li data-value="sxs" data-tags="sxs" data-position="120.5802002,30.03033066" class="mui-table-view-cell mui-indexed-list-item">绍兴市</li>
+						<li data-value="szs" data-tags="szs" data-position="116.96391296,33.64614105" class="mui-table-view-cell mui-indexed-list-item">宿州市</li>
+						<li data-value="sms" data-tags="sms" data-position="117.63922119,26.26384926" class="mui-table-view-cell mui-indexed-list-item">三明市</li>
+						<li data-value="srs" data-tags="srs" data-position="117.943573,28.4546299" class="mui-table-view-cell mui-indexed-list-item">上饶市</li>
+						<li data-value="smxs" data-tags="smxs" data-position="111.20030212,34.77260971" class="mui-table-view-cell mui-indexed-list-item">三门峡市</li>
+						<li data-value="sqs" data-tags="sqs" data-position="115.65634918,34.41426849" class="mui-table-view-cell mui-indexed-list-item">商丘市</li>
+						<li data-value="sys" data-tags="sys" data-position="110.79801178,32.62918091" class="mui-table-view-cell mui-indexed-list-item">十堰市</li>
+						<li data-value="szs" data-tags="szs" data-position="113.38262177,31.69013023" class="mui-table-view-cell mui-indexed-list-item">随州市</li>
+						<li data-value="snjlq" data-tags="snjlq" data-position="110.67556,31.74456978" class="mui-table-view-cell mui-indexed-list-item">神农架林区</li>
+						<li data-value="snjlq" data-tags="snjlq" data-position="110.67556,31.74456978" class="mui-table-view-cell mui-indexed-list-item">神农架林区</li>
+						<li data-value="sys" data-tags="sys" data-position="111.46769714,27.23889923" class="mui-table-view-cell mui-indexed-list-item">邵阳市</li>
+						<li data-value="sgs" data-tags="sgs" data-position="113.597229,24.81039047" class="mui-table-view-cell mui-indexed-list-item">韶关市</li>
+						<li data-value="szs" data-tags="szs" data-position="114.05956268,22.54286003" class="mui-table-view-cell mui-indexed-list-item">深圳市</li>
+						<li data-value="sts" data-tags="sts" data-position="116.68221283,23.35350037" class="mui-table-view-cell mui-indexed-list-item">汕头市</li>
+						<li data-value="sws" data-tags="sws" data-position="115.37513733,22.78565979" class="mui-table-view-cell mui-indexed-list-item">汕尾市</li>
+						<li data-value="sys" data-tags="sys" data-position="109.51209259,18.25247955" class="mui-table-view-cell mui-indexed-list-item">三亚市</li>
+						<li data-value="sss" data-tags="sss" data-position="112.33355713,16.8327198" class="mui-table-view-cell mui-indexed-list-item">三沙市</li>
+						<li data-value="spbq" data-tags="spbq" data-position="106.45773315,29.54097939" class="mui-table-view-cell mui-indexed-list-item">沙坪坝区</li>
+						<li data-value="sztjzzzx" data-tags="sztjzzzx" data-position="108.114151,29.99967957" class="mui-table-view-cell mui-indexed-list-item">石柱土家族自治县</li>
+						<li data-value="sns" data-tags="sns" data-position="105.59272766,30.5328598" class="mui-table-view-cell mui-indexed-list-item">遂宁市</li>
+						<li data-value="sns" data-tags="sns" data-position="91.77313232,29.2370491" class="mui-table-view-cell mui-indexed-list-item">山南市</li>
+						<li data-value="sls" data-tags="sls" data-position="109.9404068,33.87036133" class="mui-table-view-cell mui-indexed-list-item">商洛市</li>
+						<li data-value="szss" data-tags="szss" data-position="106.38417816,38.98410034" class="mui-table-view-cell mui-indexed-list-item">石嘴山市</li>
+						<li data-value="shzs" data-tags="shzs" data-position="86.07893372,44.30653" class="mui-table-view-cell mui-indexed-list-item">石河子市</li>
+						<li data-value="shs" data-tags="shs" data-position="82.35501099,44.84418106" class="mui-table-view-cell mui-indexed-list-item">双河市</li>
+						<li data-value="shs" data-tags="shs" data-position="82.35501099,44.84418106" class="mui-table-view-cell mui-indexed-list-item">双河市</li>
+						<li data-value="shzs" data-tags="shzs" data-position="86.07893372,44.30653" class="mui-table-view-cell mui-indexed-list-item">石河子市</li>
+						<li data-value="ssbq" data-tags="ssbq" data-position="114.16855621,22.32921028" class="mui-table-view-cell mui-indexed-list-item">深水埗区</li>
+						<li data-value="stq" data-tags="stq" data-position="114.19190979,22.38269997" class="mui-table-view-cell mui-indexed-list-item">沙田区</li>
+
+						<li data-group="T" class="mui-table-view-divider mui-indexed-list-group">T</li>
+						<li data-value="tzq" data-tags="tzq" data-position="116.7572403,39.81092453" class="mui-table-view-cell mui-indexed-list-item">通州区</li>
+						<li data-value="tss" data-tags="tss" data-position="118.18058014,39.63048172" class="mui-table-view-cell mui-indexed-list-item">唐山市</li>
+						<li data-value="tys" data-tags="tys" data-position="112.55066681,37.87059021" class="mui-table-view-cell mui-indexed-list-item">太原市</li>
+						<li data-value="tls" data-tags="tls" data-position="122.24468994,43.65246964" class="mui-table-view-cell mui-indexed-list-item">通辽市</li>
+						<li data-value="tls" data-tags="tls" data-position="123.84240723,42.28620148" class="mui-table-view-cell mui-indexed-list-item">铁岭市</li>
+						<li data-value="ths" data-tags="ths" data-position="125.93990326,41.72829056" class="mui-table-view-cell mui-indexed-list-item">通化市</li>
+						<li data-value="tzs" data-tags="tzs" data-position="119.92553711,32.45545959" class="mui-table-view-cell mui-indexed-list-item">泰州市</li>
+						<li data-value="tzs" data-tags="tzs" data-position="121.42056274,28.65611076" class="mui-table-view-cell mui-indexed-list-item">台州市</li>
+						<li data-value="tls" data-tags="tls" data-position="117.81231689,30.94486046" class="mui-table-view-cell mui-indexed-list-item">铜陵市</li>
+						<li data-value="tas" data-tags="tas" data-position="117.08840179,36.19993973" class="mui-table-view-cell mui-indexed-list-item">泰安市</li>
+						<li data-value="ths" data-tags="ths" data-position="114.01680756,33.58148956" class="mui-table-view-cell mui-indexed-list-item">漯河市</li>
+						<li data-value="tms" data-tags="tms" data-position="113.1661377,30.66338921" class="mui-table-view-cell mui-indexed-list-item">天门市</li>
+						<li data-value="tms" data-tags="tms" data-position="113.1661377,30.66338921" class="mui-table-view-cell mui-indexed-list-item">天门市</li>
+						<li data-value="tcx" data-tags="tcx" data-position="110.10346985,19.35181999" class="mui-table-view-cell mui-indexed-list-item">屯昌县</li>
+						<li data-value="tcx" data-tags="tcx" data-position="110.10346985,19.35181999" class="mui-table-view-cell mui-indexed-list-item">屯昌县</li>
+						<li data-value="tlq" data-tags="tlq" data-position="106.05638123,29.84474945" class="mui-table-view-cell mui-indexed-list-item">铜梁区</li>
+						<li data-value="tnq" data-tags="tnq" data-position="105.83952332,30.19054031" class="mui-table-view-cell mui-indexed-list-item">潼南区</li>
+						<li data-value="trs" data-tags="trs" data-position="109.18099213,27.69066048" class="mui-table-view-cell mui-indexed-list-item">铜仁市</li>
+						<li data-value="tcs" data-tags="tcs" data-position="108.94515228,34.89672852" class="mui-table-view-cell mui-indexed-list-item">铜川市</li>
+						<li data-value="tss" data-tags="tss" data-position="105.72486115,34.58084869" class="mui-table-view-cell mui-indexed-list-item">天水市</li>
+						<li data-value="tlfs" data-tags="tlfs" data-position="89.18953705,42.95130157" class="mui-table-view-cell mui-indexed-list-item">吐鲁番市</li>
+						<li data-value="tcdq" data-tags="tcdq" data-position="82.98046112,46.74531937" class="mui-table-view-cell mui-indexed-list-item">塔城地区</li>
+						<li data-value="tmsks" data-tags="tmsks" data-position="79.06902313,39.86494827" class="mui-table-view-cell mui-indexed-list-item">图木舒克市</li>
+						<li data-value="tmgs" data-tags="tmgs" data-position="85.67582703,41.86867905" class="mui-table-view-cell mui-indexed-list-item">铁门关市</li>
+						<li data-value="tmgs" data-tags="tmgs" data-position="85.67582703,41.86867905" class="mui-table-view-cell mui-indexed-list-item">铁门关市</li>
+						<li data-value="tmsks" data-tags="tmsks" data-position="79.06902313,39.86494827" class="mui-table-view-cell mui-indexed-list-item">图木舒克市</li>
+						<li data-value="tmq" data-tags="tmq" data-position="113.98029327,22.38767052" class="mui-table-view-cell mui-indexed-list-item">屯门区</li>
+
+						<li data-group="W" class="mui-table-view-divider mui-indexed-list-group">W</li>
+						<li data-value="wqq" data-tags="wqq" data-position="117.04412079,39.38325882" class="mui-table-view-cell mui-indexed-list-item">武清区</li>
+						<li data-value="whs" data-tags="whs" data-position="106.79546356,39.65383911" class="mui-table-view-cell mui-indexed-list-item">乌海市</li>
+						<li data-value="wlcbs" data-tags="wlcbs" data-position="113.13375854,40.99391174" class="mui-table-view-cell mui-indexed-list-item">乌兰察布市</li>
+						<li data-value="wxs" data-tags="wxs" data-position="120.3123703,31.49098969" class="mui-table-view-cell mui-indexed-list-item">无锡市</li>
+						<li data-value="wzs" data-tags="wzs" data-position="120.6993866,27.99492073" class="mui-table-view-cell mui-indexed-list-item">温州市</li>
+						<li data-value="whs" data-tags="whs" data-position="118.43312836,31.35246086" class="mui-table-view-cell mui-indexed-list-item">芜湖市</li>
+						<li data-value="wfs" data-tags="wfs" data-position="119.16175842,36.70685959" class="mui-table-view-cell mui-indexed-list-item">潍坊市</li>
+						<li data-value="whs" data-tags="whs" data-position="122.12171173,37.51348114" class="mui-table-view-cell mui-indexed-list-item">威海市</li>
+						<li data-value="whs" data-tags="whs" data-position="114.30525208,30.59276009" class="mui-table-view-cell mui-indexed-list-item">武汉市</li>
+						<li data-value="wzs" data-tags="wzs" data-position="111.27912903,23.4770298" class="mui-table-view-cell mui-indexed-list-item">梧州市</li>
+						<li data-value="wzss" data-tags="wzss" data-position="109.51696014,18.7751503" class="mui-table-view-cell mui-indexed-list-item">五指山市</li>
+						<li data-value="wcs" data-tags="wcs" data-position="110.79773712,19.54328918" class="mui-table-view-cell mui-indexed-list-item">文昌市</li>
+						<li data-value="wns" data-tags="wns" data-position="110.38974762,18.79532051" class="mui-table-view-cell mui-indexed-list-item">万宁市</li>
+						<li data-value="wns" data-tags="wns" data-position="110.38974762,18.79532051" class="mui-table-view-cell mui-indexed-list-item">万宁市</li>
+						<li data-value="wcs" data-tags="wcs" data-position="110.79773712,19.54328918" class="mui-table-view-cell mui-indexed-list-item">文昌市</li>
+						<li data-value="wzss" data-tags="wzss" data-position="109.51696014,18.7751503" class="mui-table-view-cell mui-indexed-list-item">五指山市</li>
+						<li data-value="wzq" data-tags="wzq" data-position="108.40872955,30.80789948" class="mui-table-view-cell mui-indexed-list-item">万州区</li>
+						<li data-value="wlx" data-tags="wlx" data-position="107.75993347,29.32542992" class="mui-table-view-cell mui-indexed-list-item">武隆县</li>
+						<li data-value="wsx" data-tags="wsx" data-position="109.87879944,31.07461929" class="mui-table-view-cell mui-indexed-list-item">巫山县</li>
+						<li data-value="wxx" data-tags="wxx" data-position="109.57015991,31.39859962" class="mui-table-view-cell mui-indexed-list-item">巫溪县</li>
+						<li data-value="wszzmzzzz" data-tags="wszzmzzzz" data-position="104.21504211,23.39849091" class="mui-table-view-cell mui-indexed-list-item">文山壮族苗族自治州</li>
+						<li data-value="wns" data-tags="wns" data-position="109.51014709,34.49996948" class="mui-table-view-cell mui-indexed-list-item">渭南市</li>
+						<li data-value="wws" data-tags="wws" data-position="102.63796997,37.92819977" class="mui-table-view-cell mui-indexed-list-item">武威市</li>
+						<li data-value="wzs" data-tags="wzs" data-position="106.1987915,37.99755096" class="mui-table-view-cell mui-indexed-list-item">吴忠市</li>
+						<li data-value="wlmqs" data-tags="wlmqs" data-position="87.61688232,43.82662964" class="mui-table-view-cell mui-indexed-list-item">乌鲁木齐市</li>
+						<li data-value="wjqs" data-tags="wjqs" data-position="87.54016876,44.16799164" class="mui-table-view-cell mui-indexed-list-item">五家渠市</li>
+						<li data-value="wjqs" data-tags="wjqs" data-position="87.54016876,44.16799164" class="mui-table-view-cell mui-indexed-list-item">五家渠市</li>
+						<li data-value="wzq" data-tags="wzq" data-position="114.17778015,22.27469063" class="mui-table-view-cell mui-indexed-list-item">湾仔区</li>
+
+						<li data-group="X" class="mui-table-view-divider mui-indexed-list-group">X</li>
+						<li data-value="xcq" data-tags="xcq" data-position="116.36611176,39.91231155" class="mui-table-view-cell mui-indexed-list-item">西城区</li>
+						<li data-value="xqq" data-tags="xqq" data-position="117.00739288,39.14110947" class="mui-table-view-cell mui-indexed-list-item">西青区</li>
+						<li data-value="xts" data-tags="xts" data-position="114.50443268,37.07054901" class="mui-table-view-cell mui-indexed-list-item">邢台市</li>
+						<li data-value="xzs" data-tags="xzs" data-position="112.73417664,38.41669846" class="mui-table-view-cell mui-indexed-list-item">忻州市</li>
+						<li data-value="xam" data-tags="xam" data-position="122.03817749,46.08208084" class="mui-table-view-cell mui-indexed-list-item">兴安盟</li>
+						<li data-value="xlglm" data-tags="xlglm" data-position="116.04775238,43.93320084" class="mui-table-view-cell mui-indexed-list-item">锡林郭勒盟</li>
+						<li data-value="xhq" data-tags="xhq" data-position="121.43686676,31.18825912" class="mui-table-view-cell mui-indexed-list-item">徐汇区</li>
+						<li data-value="xzs" data-tags="xzs" data-position="117.2857666,34.20439911" class="mui-table-view-cell mui-indexed-list-item">徐州市</li>
+						<li data-value="xcs" data-tags="xcs" data-position="118.75865936,30.94078064" class="mui-table-view-cell mui-indexed-list-item">宣城市</li>
+						<li data-value="xms" data-tags="xms" data-position="118.08947754,24.47950935" class="mui-table-view-cell mui-indexed-list-item">厦门市</li>
+						<li data-value="xys" data-tags="xys" data-position="114.91712952,27.81776047" class="mui-table-view-cell mui-indexed-list-item">新余市</li>
+						<li data-value="xxs" data-tags="xxs" data-position="113.92675018,35.30323029" class="mui-table-view-cell mui-indexed-list-item">新乡市</li>
+						<li data-value="xcs" data-tags="xcs" data-position="113.85233307,34.03570175" class="mui-table-view-cell mui-indexed-list-item">许昌市</li>
+						<li data-value="xys" data-tags="xys" data-position="114.0927887,32.1471405" class="mui-table-view-cell mui-indexed-list-item">信阳市</li>
+						<li data-value="xys" data-tags="xys" data-position="112.12255096,32.00899887" class="mui-table-view-cell mui-indexed-list-item">襄阳市</li>
+						<li data-value="xgs" data-tags="xgs" data-position="113.9164505,30.92482948" class="mui-table-view-cell mui-indexed-list-item">孝感市</li>
+						<li data-value="xns" data-tags="xns" data-position="114.32244873,29.84126091" class="mui-table-view-cell mui-indexed-list-item">咸宁市</li>
+						<li data-value="xts" data-tags="xts" data-position="113.45449829,30.36251068" class="mui-table-view-cell mui-indexed-list-item">仙桃市</li>
+						<li data-value="xts" data-tags="xts" data-position="113.45449829,30.36251068" class="mui-table-view-cell mui-indexed-list-item">仙桃市</li>
+						<li data-value="xts" data-tags="xts" data-position="112.94410706,27.82975006" class="mui-table-view-cell mui-indexed-list-item">湘潭市</li>
+						<li data-value="xxtjzmzzzz" data-tags="xxtjzmzzzz" data-position="109.73892975,28.31172943" class="mui-table-view-cell mui-indexed-list-item">湘西土家族苗族自治州</li>
+						<li data-value="xstjzmzzzx" data-tags="xstjzmzzzx" data-position="109.00714111,28.44832039" class="mui-table-view-cell mui-indexed-list-item">秀山土家族苗族自治县</li>
+						<li data-value="xsbndzzzz" data-tags="xsbndzzzz" data-position="100.7973938,22.00749016" class="mui-table-view-cell mui-indexed-list-item">西双版纳傣族自治州</li>
+						<li data-value="xas" data-tags="xas" data-position="108.93984222,34.34127045" class="mui-table-view-cell mui-indexed-list-item">西安市</li>
+						<li data-value="xys" data-tags="xys" data-position="108.70928955,34.329319" class="mui-table-view-cell mui-indexed-list-item">咸阳市</li>
+						<li data-value="xns" data-tags="xns" data-position="101.77781677,36.6172905" class="mui-table-view-cell mui-indexed-list-item">西宁市</li>
+						<li data-value="xgq" data-tags="xgq" data-position="114.2769928,22.37943077" class="mui-table-view-cell mui-indexed-list-item">西贡区</li>
+						<li data-value="xg" data-tags="xg" data-position="114.16545868,22.27533913" class="mui-table-view-cell mui-indexed-list-item">香港</li>
+						<li data-value="xj" data-tags="xj" data-position="114.03180695,22.4424305" class="mui-table-view-cell mui-indexed-list-item">新界</li>
+
+						<li data-group="Y" class="mui-table-view-divider mui-indexed-list-group">Y</li>
+						<li data-value="yqq" data-tags="yqq" data-position="115.97502899,40.45677948" class="mui-table-view-cell mui-indexed-list-item">延庆区</li>
+						<li data-value="yqs" data-tags="yqs" data-position="113.58046722,37.85668182" class="mui-table-view-cell mui-indexed-list-item">阳泉市</li>
+						<li data-value="ycs" data-tags="ycs" data-position="111.00698853,35.02627945" class="mui-table-view-cell mui-indexed-list-item">运城市</li>
+						<li data-value="yks" data-tags="yks" data-position="122.23490143,40.66682816" class="mui-table-view-cell mui-indexed-list-item">营口市</li>
+						<li data-value="ybcxzzzz" data-tags="ybcxzzzz" data-position="129.50909424,42.89118958" class="mui-table-view-cell mui-indexed-list-item">延边朝鲜族自治州</li>
+						<li data-value="ycs" data-tags="ycs" data-position="128.84048462,47.72751999" class="mui-table-view-cell mui-indexed-list-item">伊春市</li>
+						<li data-value="ypq" data-tags="ypq" data-position="121.52609253,31.25955963" class="mui-table-view-cell mui-indexed-list-item">杨浦区</li>
+						<li data-value="ycs" data-tags="ycs" data-position="120.16163635,33.34951019" class="mui-table-view-cell mui-indexed-list-item">盐城市</li>
+						<li data-value="yzs" data-tags="yzs" data-position="119.41268921,32.39358139" class="mui-table-view-cell mui-indexed-list-item">扬州市</li>
+						<li data-value="yts" data-tags="yts" data-position="117.06919098,28.26018906" class="mui-table-view-cell mui-indexed-list-item">鹰潭市</li>
+						<li data-value="ycs" data-tags="ycs" data-position="114.41612244,27.81443024" class="mui-table-view-cell mui-indexed-list-item">宜春市</li>
+						<li data-value="yts" data-tags="yts" data-position="121.44801331,37.46353149" class="mui-table-view-cell mui-indexed-list-item">烟台市</li>
+						<li data-value="ycs" data-tags="ycs" data-position="111.28642273,30.6918602" class="mui-table-view-cell mui-indexed-list-item">宜昌市</li>
+						<li data-value="yys" data-tags="yys" data-position="113.12918854,29.35728073" class="mui-table-view-cell mui-indexed-list-item">岳阳市</li>
+						<li data-value="yys" data-tags="yys" data-position="112.35516357,28.5539093" class="mui-table-view-cell mui-indexed-list-item">益阳市</li>
+						<li data-value="yzs" data-tags="yzs" data-position="111.61225128,26.42033958" class="mui-table-view-cell mui-indexed-list-item">永州市</li>
+						<li data-value="yjs" data-tags="yjs" data-position="111.9825592,21.85828972" class="mui-table-view-cell mui-indexed-list-item">阳江市</li>
+						<li data-value="yfs" data-tags="yfs" data-position="112.04453278,22.91525078" class="mui-table-view-cell mui-indexed-list-item">云浮市</li>
+						<li data-value="yls" data-tags="yls" data-position="110.18097687,22.6545105" class="mui-table-view-cell mui-indexed-list-item">玉林市</li>
+						<li data-value="yzq" data-tags="yzq" data-position="106.56860352,29.55314064" class="mui-table-view-cell mui-indexed-list-item">渝中区</li>
+						<li data-value="ybq" data-tags="ybq" data-position="106.63043213,29.71797943" class="mui-table-view-cell mui-indexed-list-item">渝北区</li>
+						<li data-value="ycq" data-tags="ycq" data-position="105.92709351,29.3560009" class="mui-table-view-cell mui-indexed-list-item">永川区</li>
+						<li data-value="yyx" data-tags="yyx" data-position="108.69698334,30.93062973" class="mui-table-view-cell mui-indexed-list-item">云阳县</li>
+						<li data-value="yytjzmzzzx" data-tags="yytjzmzzzx" data-position="108.76777649,28.84126091" class="mui-table-view-cell mui-indexed-list-item">酉阳土家族苗族自治县</li>
+						<li data-value="ybs" data-tags="ybs" data-position="104.64170074,28.75130081" class="mui-table-view-cell mui-indexed-list-item">宜宾市</li>
+						<li data-value="yas" data-tags="yas" data-position="103.04239655,30.01053047" class="mui-table-view-cell mui-indexed-list-item">雅安市</li>
+						<li data-value="yxs" data-tags="yxs" data-position="102.54714203,24.35180092" class="mui-table-view-cell mui-indexed-list-item">玉溪市</li>
+						<li data-value="yas" data-tags="yas" data-position="109.48977661,36.585289" class="mui-table-view-cell mui-indexed-list-item">延安市</li>
+						<li data-value="yls" data-tags="yls" data-position="109.73458099,38.28519821" class="mui-table-view-cell mui-indexed-list-item">榆林市</li>
+						<li data-value="yszzzzz" data-tags="yszzzzz" data-position="97.00650024,33.00527954" class="mui-table-view-cell mui-indexed-list-item">玉树藏族自治州</li>
+						<li data-value="ycs" data-tags="ycs" data-position="106.23248291,38.48643875" class="mui-table-view-cell mui-indexed-list-item">银川市</li>
+						<li data-value="ylhskzzz" data-tags="ylhskzzz" data-position="81.32415771,43.91688919" class="mui-table-view-cell mui-indexed-list-item">伊犁哈萨克自治州</li>
+						<li data-value="yjwq" data-tags="yjwq" data-position="114.17738342,22.31897926" class="mui-table-view-cell mui-indexed-list-item">油尖旺区</li>
+						<li data-value="ylq" data-tags="ylq" data-position="114.03180695,22.4424305" class="mui-table-view-cell mui-indexed-list-item">元朗区</li>
+
+						<li data-group="Z" class="mui-table-view-divider mui-indexed-list-group">Z</li>
+						<li data-value="zyq" data-tags="zyq" data-position="116.44355011,39.9219017" class="mui-table-view-cell mui-indexed-list-item">朝阳区</li>
+						<li data-value="zjks" data-tags="zjks" data-position="114.88755035,40.82444" class="mui-table-view-cell mui-indexed-list-item">张家口市</li>
+						<li data-value="zys" data-tags="zys" data-position="120.45079803,41.57347107" class="mui-table-view-cell mui-indexed-list-item">朝阳市</li>
+						<li data-value="zjs" data-tags="zjs" data-position="119.42500305,32.18959045" class="mui-table-view-cell mui-indexed-list-item">镇江市</li>
+						<li data-value="zss" data-tags="zss" data-position="122.20777893,29.98538971" class="mui-table-view-cell mui-indexed-list-item">舟山市</li>
+						<li data-value="zzs" data-tags="zzs" data-position="117.64724731,24.5134697" class="mui-table-view-cell mui-indexed-list-item">漳州市</li>
+						<li data-value="zbs" data-tags="zbs" data-position="118.05480194,36.81309891" class="mui-table-view-cell mui-indexed-list-item">淄博市</li>
+						<li data-value="zzs" data-tags="zzs" data-position="117.32196045,34.81071091" class="mui-table-view-cell mui-indexed-list-item">枣庄市</li>
+						<li data-value="zzs" data-tags="zzs" data-position="113.62493134,34.7472496" class="mui-table-view-cell mui-indexed-list-item">郑州市</li>
+						<li data-value="zks" data-tags="zks" data-position="114.69695282,33.6258316" class="mui-table-view-cell mui-indexed-list-item">周口市</li>
+						<li data-value="zmds" data-tags="zmds" data-position="114.02298737,33.0114212" class="mui-table-view-cell mui-indexed-list-item">驻马店市</li>
+						<li data-value="zzs" data-tags="zzs" data-position="113.13395691,27.82766914" class="mui-table-view-cell mui-indexed-list-item">株洲市</li>
+						<li data-value="zjjs" data-tags="zjjs" data-position="110.47839355,29.11667061" class="mui-table-view-cell mui-indexed-list-item">张家界市</li>
+						<li data-value="zhs" data-tags="zhs" data-position="113.57668304,22.27072906" class="mui-table-view-cell mui-indexed-list-item">珠海市</li>
+						<li data-value="zjs" data-tags="zjs" data-position="110.35894012,21.27133942" class="mui-table-view-cell mui-indexed-list-item">湛江市</li>
+						<li data-value="zqs" data-tags="zqs" data-position="112.46527863,23.0468998" class="mui-table-view-cell mui-indexed-list-item">肇庆市</li>
+						<li data-value="zss" data-tags="zss" data-position="113.39260101,22.51594925" class="mui-table-view-cell mui-indexed-list-item">中山市</li>
+						<li data-value="zx" data-tags="zx" data-position="108.03766632,30.30026054" class="mui-table-view-cell mui-indexed-list-item">忠县</li>
+						<li data-value="zgs" data-tags="zgs" data-position="104.77844238,29.33919907" class="mui-table-view-cell mui-indexed-list-item">自贡市</li>
+						<li data-value="zys" data-tags="zys" data-position="104.62798309,30.12858963" class="mui-table-view-cell mui-indexed-list-item">资阳市</li>
+						<li data-value="zys" data-tags="zys" data-position="106.92723083,27.72545052" class="mui-table-view-cell mui-indexed-list-item">遵义市</li>
+						<li data-value="zts" data-tags="zts" data-position="103.71679688,27.3381691" class="mui-table-view-cell mui-indexed-list-item">昭通市</li>
+						<li data-value="zys" data-tags="zys" data-position="100.44980621,38.92591858" class="mui-table-view-cell mui-indexed-list-item">张掖市</li>
+						<li data-value="zws" data-tags="zws" data-position="105.19676208,37.5002594" class="mui-table-view-cell mui-indexed-list-item">中卫市</li>
+						<li data-value="zxq" data-tags="zxq" data-position="114.16368103,22.27629089" class="mui-table-view-cell mui-indexed-list-item">中西区</li>
+
+					</ul>
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/config.js"></script>
+		<script src="js/mui.indexedlist.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			var wo = null,
+				ws = null;
+			mui.init();
+			mui.ready(function() {
+				var header = document.querySelector('header.mui-bar');
+				var list = document.getElementById('list');
+				//calc hieght
+				list.style.height = (document.body.offsetHeight - header.offsetHeight) + 'px';
+				//create
+				window.indexedList = new mui.IndexedList(list);
+
+				// 获取窗口对象
+				ws = plus.webview.currentWebview();
+				wo = ws.opener();
+			});
+            mui('#city-list').on('click', '.mui-indexed-list-item', function(){
+                var position = this.getAttribute('data-position');
+                position = position.split(',');
+				wo.evalJS("selectCity(" + position[0] + ',' + position[1] + ");");
+                back();
+            });
+		</script>
+	</body>
+
+</html>

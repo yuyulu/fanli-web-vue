@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>待消费</title>
+  <link rel="stylesheet" href="css/sta.css">
+  <link href="css/mui.css" rel="stylesheet" type="text/css">
+  <script src="js/mui.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/vue.js"></script>
+</head>
+
+<body style="background:#F0F0F0;">
+  <div class="index_box" id="app" style="margin-top: 60px;margin-bottom: 0px;">
+    <div class="nearby_top">
+      <h1>待消费</h1>
+      <a class="index_back mui-action-back"><img src="img/back.png" alt="" width="100%" height="100%"></a>
+    </div>
+
+    <div v-for="order in list">
+      <div class="order_bh">
+        订单编号：{{order.sn}}
+      </div>
+
+      <div class="nearby_box" v-for="order_product in order.order_products">
+        <div class="nearbt_lf">
+          <img :src="getImgUrl(order_product.product.pics[0])" alt="">
+        </div>
+        <div class="nearbt_rt">
+          <h6 style="width:180px;">{{order_product.product.name}}</h6>
+          <div class="clr"></div>
+          <h5></h5>
+          <p>下单时间：{{order.created_at}}</p>
+          <h4>价格：¥{{order_product.product.now_price}}<span style="color:#000;font-size:1em;">X{{order_product.num}}</span></h4>
+          <div class="clr"></div>
+        </div>
+      </div>
+
+      <div class="roder_hj">
+        <span>共{{order.total_num}}件商品</span>合计：¥{{order.total_price}}
+      </div>
+      <div class="roder_bt">
+        <button>待确认</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        list: []
+      },
+      methods: {
+        getImgUrl: function(url) {
+          return config.imgBasePath + url;
+        }
+      },
+      created: function() {
+        getJson(
+          'api/order/waitcomsume',
+          null,
+          function(ret) {
+            if (ret.code == 200) {
+              vm.list = ret.data
+            }
+          }
+        )
+      }
+    })
+  </script>
+</body>
+
+</html>

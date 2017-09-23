@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+		<meta name="format-detection" content="telephone=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>联系人</title>
+    <link rel="stylesheet" href="css/sta.css">
+		<link rel="stylesheet" href="css/mui.css">
+    <link rel="stylesheet" type="text/css" href="css/mui.picker.css">
+    <link rel="stylesheet" type="text/css" href="css/mui.poppicker.css">
+		<script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
+
+	</head>
+	<style>
+		input[type=radio] {
+			position: relative;
+			width: 15px;
+			height: 1px;
+			float: left;
+			margin: 15px 10px 15px 0;
+		}
+		
+		input[type=radio]::before,
+		input[type=radio]::after {
+			position: absolute;
+			display: block;
+			content: '';
+			border-radius: 50%;
+			transition: .3s all esae;
+		}
+		
+		input[type=radio]::before {
+			top: 0;
+			left: 0;
+			width: 15px;
+			height: 15px;
+			border: 2px solid #008CEE;
+		}
+		
+		input[type=radio]::after {
+			top: 4px;
+			left: 4px;
+			width: 11px;
+			height: 11px;
+		}
+		
+		input[type=radio]:checked::before {
+			border-color: 1px solid #008CEE;
+		}
+		
+		input[type=radio]:checked::after {
+			background-color: #008CEE;
+		}
+    .add_box a{-webkit-flex: 5;flex: 5;border: none;color: #666;margin: 0;padding: 0;}
+	</style>
+
+	<body style="background:#F0F0F0;">
+    <div id="app">
+      <router-view></router-view>
+    </div>
+
+  </body>
+  <script type="text/template" id="list">
+		<div class="index_box">
+			<div class="nearby_top">
+				<h1>选择联系人</h1>
+				<a class="index_back mui-action-back"><img src="img/back.png" alt="" width="100%" height="100%"></a>
+			</div>
+
+			<!-- 列表 -->
+			<div style="margin: 60px 0 60px 0;" v-for="(item, k) in list">
+				<div class="contacts_box">
+          <div @tap="selected(item)">
+  					<h6>{{item.name}}<span>{{item.phone}}</span></h6>
+  					<p>{{item.province}}{{item.city}}{{item.country}}{{item.detail}}</p>
+          </div>
+					<h5>
+            <input type="radio" name="is_default" @tap="toggleDefault(k)" value="1" v-model="item.is_default" class="contacts_it1"><label for="">设为默认地址</label>
+            <input type="button" value="删除" @tap="del(k)" class="contacts_it2">
+            <input type="button" value="编辑" @tap="edit(k)" class="contacts_it2">
+          </h5>
+					<div class="clr"></div>
+				</div>
+			</div>
+
+			<!-- 底部-->
+			<div class="order_bottom">
+				<input type="submit" value="新增联系人" @tap="goAdd">
+			</div>
+		</div>
+  </script>
+
+  <script type="text/template" id="edit">
+    <div class="index_box">
+      <div class="nearby_top">
+        <h1>{{index ? '修改联系人' : '添加联系人'}}</h1>
+        <a class="index_back mui-action-back"><img src="img/back.png" alt="" width="100%" height="100%"></a>
+      </div>
+      <div style="margin: 60px 0 60px 0;">
+       <div class="add_box">
+         <form action="" method="">
+           <p><span>姓名</span><input type="text" placeholder="联系人姓名" v-model="address.name"></p>
+           <p><span>手机</span><input type="text" placeholder="手机号码" v-model="address.phone"></p>
+           <p>
+              <span>地区</span>
+              <input type="text" readonly id="cityResult" v-model="all_address">
+            </p>
+           <p><span>邮编</span><input type="text" v-model="address.postcode" placeholder="请输入邮政编码" value=""></p>
+           <p><span>地址</span><input type="text" v-model="address.detail" placeholder="详细地址" value=""></p>
+         </form>
+         <div class="add_tijiao">
+          <input type="submit" value="提交" @tap="save">
+         </div>
+       </div>
+    </div>
+  </div>
+  </script>
+
+  <script src="js/vue.js"></script>
+  <script src="js/vue-router.js"></script>
+  <script src="js/mui.min.js"></script>
+  <script src="js/config.js"></script>
+
+  <script src="js/mui.picker.js"></script>
+  <script src="js/mui.poppicker.js"></script>
+  <script src="js/city.data-3.js" type="text/javascript" charset="utf-8"></script>
+
+  <script type="text/javascript">
+    var address_list;
+
+    var list = {
+      template: document.getElementById('list'),
+      data: function() {
+        return {
+          list: address_list
+        }
+      },
+      created: function() {
+        var self = this;
+        getJson(
+          'api/address',
+          {},
+          function(ret) {
+            if (ret.code == 200) {
+              self.list = address_list = ret.data;
+            }
+          },
+          function() {
+
+          },
+          true
+        );
+      },
+      methods: {
+        goAdd: function() {
+          this.$router.push('add')
+        },
+        del: function(key) {
+          var self = this;
+          postJson(
+            'api/delAddress',
+            {
+              id: this.list[key].id,
+            },
+            function(ret) {
+              mui.toast(ret.message);
+              if (ret.code == 200) {
+                self.list.splice(key, 1)
+              }
+            }
+          )
+        },
+        edit: function(key) {
+          // alert(key); return;
+          this.$router.push('address/' + key)
+        },
+        selected: function(item) {
+          if (window.plus) {
+            var ws = plus.webview.currentWebview();
+            var wo = ws.opener();
+            mui.fire(wo, 'selectAddress', {address: item})
+            mui.back();
+          }
+        },
+        toggleDefault: function(key) {
+          var self = this;
+
+          if (this.list[key].is_default == 1) {
+            return;
+          }
+          var id = this.list[key].id;
+
+          postJson(
+            'api/address/setDefault',
+            {
+              id: id
+            },
+            function(ret) {
+              if (ret.code != 200) {
+                self.list[key].is_default = 0;
+                mui.toast('设置失败');
+              } else {
+                self.list[key].is_default = 1;
+                for (var i = 0, len = self.list.length; i < len; i++) {
+                  if(i == key) {
+                    continue;
+                  }
+                  self.list[i].is_default = 0;
+                }
+              }
+            },
+            function(ret) {
+              mui.toast('设置失败');
+            },
+            true
+          );
+        }
+      }
+    };
+
+    var edit = {
+      template: document.getElementById('edit'),
+      data: function() {
+        return {
+          address: {
+            name: '',
+            phone: '',
+            province: '',
+            city: '',
+            country: '',
+            postcode: '',
+            detail: ''
+          },
+          index: null
+        }
+      },
+      computed: {
+        all_address: {
+          get: function() {
+            return this.address.province + ' ' + this.address.city + ' ' + this.address.country;
+          }
+        }
+      },
+      mounted: function() {
+          var self = this;
+          var cityPicker3 = new mui.PopPicker({
+            layer: 3
+          });
+          cityPicker3.setData(cityData3);
+          var showCityPickerButton = document.getElementById('cityResult');
+          var cityResult = document.getElementById('cityResult');
+          showCityPickerButton.addEventListener('tap', function(event) {
+            cityPicker3.show(function(items) {
+              self.address.province = (items[0] || {}).text;
+              self.address.city = (items[1] || {}).text;
+              self.address.country = (items[2] || {}).text;
+            });
+          }, false);
+      },
+      created: function() {
+        this.setData();
+      },
+      methods: {
+        setData: function() {
+          var id = this.$route.params.id;
+          this.index = id;
+          if (!id) {
+            return;
+          }
+          this.address.id = address_list[id].id;
+          this.address.name = address_list[id].name;
+          this.address.phone = address_list[id].phone;
+          this.address.province = address_list[id].province;
+          this.address.city = address_list[id].city;
+          this.address.country = address_list[id].country;
+          this.address.postcode = address_list[id].postcode;
+          this.address.detail = address_list[id].detail;
+          this.address.is_default = address_list[id].is_default;
+        },
+        save: function() {
+          var url = this.index ? 'api/address/edit' : 'api/address';
+          var self = this;
+          
+          postJson(
+            url,
+            self.address,
+            function(ret) {
+              if (ret.code == 200) {
+                mui.toast(ret.message);
+                if (self.index) {
+                  address_list[self.index] = self.address;
+                }
+                self.$router.back()
+              } else {
+                mui.toast(ret.message)
+              }
+            },
+            function() {
+
+            },
+            true
+          );
+        }
+      }
+    }
+    var router = new VueRouter({
+      routes: [
+        { path: '/', component: list },
+        { path: '/address/:id', component: edit},
+        { path: '/add', component: edit},
+
+      ]
+    })
+    var vm = new Vue({
+      router: router
+    }).$mount('#app');
+  </script>
+</html>

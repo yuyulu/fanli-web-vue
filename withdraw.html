@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>银行卡提现</title>
+    <link rel="stylesheet" href="css/sta.css">
+    <link href="css/mui.css" rel="stylesheet" type="text/css">
+    <script src="js/mui.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/vue.js"></script>
+
+</head>
+<style>
+    .add_box h6 select{-webkit-flex: 3;flex: 3;margin: 0; padding: 10px 0;}
+</style>
+<body style="background:#F0F0F0;">
+    <div class="index_box" id="app">
+        <div class="nearby_top">
+            <h1>银行卡提现</h1>
+            <a class="index_back mui-action-back"><img src="img/back.png" alt="" width="100%" height="100%"></a>
+            <a class="index_empty" onclick="go('withdraw_list.html')">提现记录</a>
+        </div>
+
+        <!-- 列表 -->
+        <div style="margin: 60px 0 60px 0;">
+
+            <div class="add_box">
+                <h5><span>可提额度</span><b>{{amount}}</b></h5>
+            </div>
+            <div class="add_box">
+                <h6><span>提现金额</span><input type="text" placeholder="请输100整数倍金额" v-model="money"></h6>
+            </div>
+            <div class="add_box">
+                <h6>
+                    <span>银行卡号</span>
+                    <select v-model="bank_id">
+                            <template v-for="item in cardList">
+                                <option :value="item.id">{{item.bank}} {{item.card}}</option>
+                            </template>
+                        </select>
+                </h6>
+            </div>
+            <div class="add_box">
+                <h6><span>支付密码</span><input type="password" placeholder="请输入支付密码" v-model="password"></h6>
+            </div>
+            <div class="add_box">
+                <h6><span>提现备注</span><input type="text" placeholder="请输入提现备注(可选)" v-model="mark"></h6>
+            </div>
+            <div class="add_tijiao">
+                <input type="submit" value="提交申请" @tap="submit">
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                amount: 0,
+                cardList: [],
+                money: '',
+                bank_id: 0,
+                password: '',
+                mark: ''
+            },
+            created: function () {
+                this.getAmount();
+                this.getCardList();
+            },
+            methods: {
+                getAmount: function () {
+                    var self = this;
+                    getJson(
+                        'api/user/amount',
+                        null,
+                        function (ret) {
+                            if (ret.code == 200) {
+                                self.amount = ret.data
+                            }
+                        }
+                    )
+                },
+                getCardList: function () {
+                    var self = this;
+                    getJson(
+                        'api/user/banklist',
+                        {},
+                        function (ret) {
+                            if (ret.code == 200) {
+                                self.cardList = ret.data;
+                            }
+                        }
+                    );
+                },
+                submit: function() {
+                    this.money = parseInt(this.money);
+                    console.log(this.money)
+                    if (this.money > this.amount) {
+                        mui.toast('提现不能超过现有余额');
+                        this.money = '';
+                        return;
+                    }
+
+                    if (this.money % 100 !== 0) {
+                        mui.toast('请输入100整数倍金额');
+                        this.money = '';
+                        return;
+                    }
+                    
+                    if (this.bank_id == 0) {
+                        mui.toast('请选择银行卡号');
+                        return;
+                    }
+
+                    if (0 === this.password.length) {
+                        mui.toast('请输入支付密码');
+                        return;
+                    }
+                    var data = {
+                        money: this.money,
+                        bank_id: this.bank_id,
+                        mark: this.mark,
+                        password: this.password
+                    }
+                    postJson(
+                        'api/user/applyWithdraw',
+                        data,
+                        function(ret) {
+                            mui.toast(ret.message);
+                            if (ret.code == 200) {
+                                setTimeout(function(){
+                                    go('people_center.html');
+                                }, 300)
+                            }
+                        }
+                    )
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

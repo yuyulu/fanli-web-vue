@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <link href="css/sta.css" rel="stylesheet" type="text/css">
+    <link href="css/mui.css" rel="stylesheet" type="text/css">
+    <script src="js/mui.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/config.js"></script>
+    <style type="text/css">
+        [v-cloak] {display: none;}
+    </style>
+</head>
+
+<body style="background:#F0F0F0;">
+    <div class="index_box" id="app" v-cloak>
+        <div class="manage_img">
+            <a class="index_back" onclick="go('people_center.html')" style="position: fixed;z-index: 99;"><img src="img/back.png" alt="" width="100%" height="100%"></a>
+            <div class="manage_tittle">
+                <img :src="getImgUrl(pic)" alt="" width="80px" height="80px">
+                <p>{{phone}}</p>
+            </div>
+            <div class="manage_sl">
+             <div class="manage_zhe"></div>
+               <a ><p>{{product_num}}个</p><h6><img src="img/jiesuan.png" alt="">商品数量(个)</h6></a>
+               <a ><p>{{order_completed_sum}}元</p><h6><img src="img/shangp.png" alt="">已结算</h6></a>
+            </div>
+        </div>
+
+        <div class="manage_list">
+            <a @tap="goPage('post_order.html')"><span><img src="img/d1.png" alt=""></span><b>提交订单</b><i><img src="img/bac.png" alt=""></i></a>
+            <a @tap="goPage('trunover.html')"><span><img src="img/d2.png" alt=""></span><b>营业额</b><i><img src="img/bac.png" alt=""></i></a>
+        </div>
+        <div class="manage_list">
+            <a @tap="goPage('shop_orders.html#/waitpay')"><span><img src="img/d3.png" alt=""></span><b>线上订单</b><i><img src="img/bac.png" alt=""></i></a>
+            <a @tap="goPage('shop_orders.html#/waitconsume')"><span><img src="img/d4.png" alt=""></span><b>线下订单</b><i><img src="img/bac.png" alt=""></i></a>
+            <a @tap="goPage('add_product.html')"><span><img src="img/d5.png" alt=""></span><b>添加产品</b><i><img src="img/bac.png" alt=""></i></a>
+            <a @tap="goPage('product_manage.html')"><span><img src="img/d6.png" alt=""></span><b>产品管理</b><i><img src="img/bac.png" alt=""></i></a>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var vm = new Vue({
+          el: '#app',
+          data: {
+            pic: null,
+            phone: null,
+            product_num: null,
+            order_completed_sum: null
+          },
+          created: function() {
+            var self = this;
+            getJson(
+                'api/shopinfo',
+                {},
+                function(ret) {
+                    if (ret.code == 200) {
+                        self.pic = ret.data.pic;
+                        self.phone = ret.data.phone;
+                        self.product_num = ret.data.product_num;
+                        self.order_completed_sum = ret.data.order_completed_sum;
+                    }
+                },
+                null,
+                true
+            );
+          },
+          methods: {
+            getImgUrl: function(url) {
+                if (url) {
+                    return config.imgBasePath + url;
+                } else {
+                    return ''
+                }
+            },
+            goPage: function(page) {
+              go(page);
+            }
+          }
+        })
+  </script>
+</body>
+</html>

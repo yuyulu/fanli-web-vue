@@ -1,0 +1,163 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>登录</title>
+		<link href="css/sta.css" rel="stylesheet" type="text/css">
+		<link href="css/mui.css" rel="stylesheet" type="text/css">
+		<script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/config.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<style>
+		.p2 input {
+			margin: 2px 4px;
+			float: right;
+		}
+		
+		input[type=checkbox] {
+			position: relative;
+			width: 15px;
+			height: 1px;
+		}
+		
+		input[type=checkbox]::before,
+		input[type=checkbox]::after {
+			position: absolute;
+			display: block;
+			content: '';
+			border-radius: 50%;
+			transition: .3s all esae;
+		}
+		
+		input[type=checkbox]::before {
+			top: 0;
+			left: 0;
+			width: 15px;
+			height: 15px;
+			border: 2px solid #fff;
+		}
+		
+		input[type=checkbox]::after {
+			top: 4px;
+			left: 4px;
+			width: 11px;
+			height: 11px;
+		}
+		
+		input[type=checkbox]:checked::before {
+			border-color: 1px solid #fff;
+		}
+		
+		input[type=checkbox]:checked::after {
+			background-color: #fff;
+		}
+	</style>
+
+	<body>
+		<div class="login_box" id="app">
+			<div class="login_top">
+				登 录
+			</div>
+			<!-- Logo图片 -->
+			<div class="login_logo">
+				<img src="img/logo.png" alt="" width="80" height="80">
+			</div>
+			<div class="login_input_box">
+				<div class="login_zz"></div>
+				<div class="login_name">
+					<p><img src="img/iphone.png" alt="" height="30"></p>
+                    <input type="text" placeholder="手机号/会员名" v-model.trim="phone">
+					<div class="clr"></div>
+				</div>
+				<div class="login_pasword">
+					<p><img src="img/pass.png" alt="" height="30"></p>
+                    <input type="text" v-if="password_visibale" placeholder="请输入密码" v-model="password">
+                    <input type="password" v-if="!password_visibale" placeholder="请输入密码" v-model="password">
+					<span @click="password_visibale = !password_visibale">
+                        <img :src="password_visibale ? 'img/ky.png': 'img/by.png'" alt="">
+                    </span>
+					<div class="clr"></div>
+				</div>
+			</div>
+			<div class="login_wj">
+				<a onclick="clicked('reset_password.html')" class="p1">忘记密码</a>
+				<p class="p2">已阅读并同意<input type="checkbox" v-model="agreed" class="register_radio"></p>
+				<div class="clr"></div>
+			</div>
+			<div class="login_dl">
+				<input type="button" value="登 录" @click.prevent="login">
+			</div>
+			<div class="login_zc">
+				<input type="button" onclick="clicked('register.html')" value="注 册">
+			</div>
+			<div class="login_tk">
+				<a onclick="clicked('readme.html')">《软件使用条款》</a>
+			</div>
+		</div>
+		<script src="js/vue.js"></script>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el: '#app',
+				data: {
+                    phone: '',
+                    password: '',
+					password_visibale: false,
+                    agreed: true
+				},
+                computed: {
+                    password_type: function() {
+                        return this.password_visibale ? 'text' : 'password';
+                    }
+                },
+				created: function() {
+					mui.init();
+					
+				},
+                methods: {
+                    login: function() {
+                        if (!this.phone) {
+                            mui.toast('请输入用户名或手机号');
+                            return;
+                        }
+
+                        if (!this.password) {
+                            mui.toast('请输入密码');
+                            return;
+                        }
+
+                        if (!this.agreed) {
+                            mui.toast('请同意使用条款');
+                            return;
+                        }
+                        var self = this;
+                        mui.post(
+                            config.host + 'api/user/login',
+                            {
+                                phone: self.phone,
+                                password: self.password
+                            },
+                            function(ret) {
+                                mui.toast(ret.message)
+                                if (ret.code == 200) {
+                                    storage.token = ret.data.token;
+                                    storage.userinfo = JSON.stringify(ret.data.userinfo);
+//                                     alert(storage.token); return;
+                                    mui.toast('登录成功')
+                                    clicked('index.html');
+                                    return;
+                                }
+                            },
+                            'json'
+                        );
+                    }
+                }
+			})
+		</script>
+	</body>
+
+</html>

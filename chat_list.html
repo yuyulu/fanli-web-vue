@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>动态</title>
+	<link href="css/sta.css" rel="stylesheet" type="text/css">
+	<link href="css/mui.css" rel="stylesheet" type="text/css">
+	<style type="text/css">
+		.mui-media-body h4 span {
+			float: right;
+			font-size: 0.8em;
+			color: #666;
+		}
+	</style>
+	<script src="js/mui.js"></script>
+	<script src="js/vue.js"></script>
+	<script src="js/vue-router.js"></script>
+	<script src="js/common.js"></script>
+	<script src="js/config.js"></script>
+</head>
+
+<body style="background:#F0F0F0;">
+	<div id="app">
+		<router-view></router-view>
+	</div>
+</body>
+
+<script type="text/template" id="index-page">
+	<div class="index_box" style="margin-top:50px">
+		<div class="nearby_top">
+			<h1>动态</h1>
+			<a class="index_back mui-action-back"><img src="img/back.png" alt="" width="100%" height="100%"></a>
+		</div>
+
+		<div class="dynamic_box">
+			<ul class="mui-table-view">
+				<template v-for="msg in msgs">
+					<li class="mui-table-view-cell mui-media" @tap="$router.push('chat/' + msg.uid)" v-if="getUserinfo(msg.uid)">
+						<a href="javascript:;">
+								<img class="mui-media-object mui-pull-left" :src="getUserinfo(msg.uid)['avatar']">
+								<div class="mui-media-body">
+									<h4>{{getUserinfo(msg.uid)['nickname']}}<span>{{msg.time}}</span></h4>
+									<p class='mui-ellipsis'>{{msg.message}}</p>
+								</div>
+							</a>
+					</li>
+
+				</template>
+
+			</ul>
+		</div>
+	</div>
+</script>
+
+<script type="text/template" id="chat-page">
+	<div>
+		<div class="index_box" style="margin-top:70px;margin-bottom:50px;">
+			<div class="nearby_top">
+				<h1>{{to.nickname}}</h1>
+				<a class="index_back mui-action-back"><img src="img/back.png" alt="" width="100%" height="100%"></a>
+			</div>
+			<div @click.stop.prevent="isShowEmoji=false" ref="chattingContent" class="chatting-content">
+				<template v-for="msg in msgs">
+					<div :class="msg.toMe ? 'leftd_box' : 'rightd_box'">
+						<b>{{formatTime(msg.time)}}</b>
+						<div :class="msg.toMe ? 'leftd' : 'rightd'">
+							<span :class="msg.toMe ? 'leftd_h' : 'rightd_h'">
+	                            <img :src="msg.toMe ? getUserinfo(msg.uid)['avatar'] : avatar" onerror="javascript:this.src='img/tittle.png';" alt="" width="60" height="60">
+	                        </span>
+							<div :class="msg.toMe ? 'speech left' : 'speech right'">
+								{{msg.message}}
+							</div>
+						</div>
+						<div class="clr"></div>
+					</div>
+				</template>
+			</div>
+		</div>
+		<nav class="mui-bar mui-bar-tab">
+			<textarea @keyup.enter="send" @input="newLine" ref="textarea" v-model.trim="inputContent" placeholder="输入你想说的话吧" class="chat_bottom_txt"></textarea>
+			<span><img src="img/bq.png" @tap="isShowEmoji = !isShowEmoji"></span>
+			<input type="submit" @tap="send" value="发送" class="chat_bottom_fs">
+		</nav>
+
+		<!-- 表情弹窗 -->
+		<div class="bq_tan" id="con" v-show="isShowEmoji">
+			<ul>
+				<li @click="insertText(emoji)" v-for="emoji in emojis"><span>{{emoji}}</span></li>
+			</ul>
+			<div class="clr"></div>
+		</div>
+	</div>
+</script>
+<script src="js/moment.min.js"></script>
+<script src="js/moment-zh-cn.js"></script>
+<script src="js/vuex.js"></script>
+<script src="js/chat.js"></script>
+<script>
+	mui.init({
+		swipeBack: true //启用右滑关闭功能
+	})
+</script>
+
+</html>

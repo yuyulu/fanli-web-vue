@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>实名认证</title>
+    <link href="css/sta.css" rel="stylesheet" type="text/css">
+    <link href="css/mui.css" rel="stylesheet" type="text/css">
+    <script src="js/mui.js"></script>
+</head>
+<style>
+    input[type=radio] {
+        position: relative;
+        width: 15px;
+        height: 1px;
+    }
+
+    input[type=radio]::before,
+    input[type=radio]::after {
+        position: absolute;
+        display: block;
+        content: '';
+        border-radius: 50%;
+        transition: .3s all esae;
+    }
+
+    input[type=radio]::before {
+        top: 0;
+        left: 0;
+        width: 15px;
+        height: 15px;
+        border: 2px solid #ccc;
+    }
+
+    input[type=radio]::after {
+        top: 4px;
+        left: 4px;
+        width: 11px;
+        height: 11px;
+        background-color: #fff;
+    }
+
+    input[type=radio]:checked::before {
+        border-color: 1px solid #ccc;
+    }
+
+    input[type=radio]:checked::after {
+        background-color: #ccc;
+    }
+
+    .reg_ip1 {
+        background: none!important;
+        text-align: left!important;
+        font-size: 1em;
+        border: none!important;
+    }
+</style>
+
+<body style="background:#F0F0F0;">
+    <div class="index_box" id="app" style="margin-top:50px">
+        <div class="nearby_top">
+            <h1>实名认证</h1>
+            <a class="index_back mui-action-back"><img src="img/back.png" alt="" width="100%" height="100%"></a>
+        </div>
+        <div class="register_box">
+
+            <div class="register_ip" style="border:none;margin-bottom:10px;">
+                <p><span>登录账号</span><input type="button" :value="userinfo.phone" class="reg_ip1"></p>
+                <div class="clr"></div>
+            </div>
+            <div class="register_ip" style="border:none;margin-bottom:10px;">
+                <p>
+                    <span>真实姓名</span>
+                    <input v-if="is_verified" type="button" v-model="userinfo.realname" class="reg_ip1">
+                    <input v-if="!is_verified" type="text" v-model="userinfo.realname" class="reg_ip1">
+                </p>
+                <div class="clr"></div>
+            </div>
+            <div class="register_ip" style="border:none;margin-bottom:10px;">
+                <p><span>用户性别</span>
+                    <b><input type="radio" :disabled="is_verified" v-model="userinfo.sex"  name="demo" value="1" class="register_radio">男</b>
+                    <b><input type="radio" :disabled="is_verified" v-model="userinfo.sex" name="demo" value="0" class="register_radio1">女</b></p>
+                <div class="clr"></div>
+            </div>
+            <div class="register_ip" style="border:none;margin-bottom:10px;">
+                <p>
+                    <span>身份证号</span>
+                    <input v-if="is_verified" type="button" v-model="userinfo.id_number" class="reg_ip1">
+                    <input v-if="!is_verified" type="text" v-model="userinfo.id_number" class="reg_ip1">
+                </p>
+                <div class="clr"></div>
+            </div>
+            <div class="register_ip" style="border:none;">
+                <p><span>手机号码</span><input type="button" :value="userinfo.phone" class="reg_ip1"></p>
+                <div class="clr"></div>
+            </div>
+
+            <div class="register_bt" v-if="!is_verified" @tap="submit">
+                <input type="submit" value="确认">
+            </div>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/vue-router.js"></script>
+    <script>
+        
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                userinfo: {
+
+                },
+                is_verified: null,
+            },
+            created: function() {
+                var userinfo = storage.userinfo;
+                if (userinfo) {
+                    this.userinfo = JSON.parse(userinfo);
+                    this.is_verified = !!this.userinfo.id_number
+                    return;
+                }
+                clicked('login.html');
+            },
+            methods: {
+                submit: function() {
+                    var self = this;
+                    postJson(
+                        'api/user/setRealname',
+                        {
+                            realname: self.userinfo.realname,
+                            id_number: self.userinfo.id_number,
+                            sex: self.userinfo.sex,
+                        },
+                        function(ret) {
+                            mui.toast(ret.message);
+                            if(ret.code == 200) {
+                                var userinfo = storage.userinfo;
+                                userinfo = JSON.parse(userinfo);
+                                userinfo.realname = self.userinfo.realname;
+                                userinfo.id_number = self.userinfo.id_number;
+                                userinfo.sex = self.userinfo.sex;
+                                storage.userinfo = JSON.stringify(userinfo);
+                                setTimeout(function(){
+                                    mui.back();
+                                }, 300);
+                            }
+                        }
+                    )
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

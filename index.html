@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title></title>
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<script src="js/flickity-docs.min.js"></script>
+	<link rel="stylesheet" href="css/sta.css">
+	<link href="css/swiper.min.css" rel="stylesheet" type="text/css">
+
+	<script src="js/jquery.min.js"></script>
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<script src="js/mui.min.js"></script>
+	<script src="js/common.js"></script>
+	<script src="js/config.js" type="text/javascript" charset="utf-8"></script>
+	<style type="text/css">
+		[v-cloak] {
+			display: none;
+		}
+
+		.index_sou_c input {
+			margin: 0;
+			width: 85%;
+			float: left;
+			height: 36px;
+			border: none;
+			background: none;
+		}
+
+		.mui-media-object {
+			line-height: 110px!important;
+			max-width: 110px!important;
+			max-width: 110px!important;
+			margin-right: 6px;
+			margin-top: 4px;
+			height: 110px!important;
+		}
+
+		.mui-media-body {
+			height: 120px;
+		}
+
+		.mui-media-body h6 {
+			font-size: 1.2em;
+			line-height: 24px;
+			color: #333;
+			width: 100%;
+			height: 24px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.mui-media-body h6 i {
+			float: left;
+			font-weight: 600;
+			display: block;
+			font-style: normal;
+			width: 70%;
+			color: #333;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			height: 24px;
+			line-height: 24px;
+		}
+
+		.mui-media-body h6 span {
+			float: left;
+			display: block;
+			width: 30%;
+			height: 24px;
+			line-height: 24px;
+			font-size: 0.6em;
+			text-align: right;
+			color: #666;
+		}
+
+		.mui-media-body h5 {
+			height: 20px;
+			line-height: 20px;
+			margin-top: 4px;
+		}
+
+		.mui-media-body h5 img {
+			margin-right: 4px;
+		}
+
+		.mui-media-body p {
+			font-size: 0.9em;
+			line-height: 22px;
+			color: #6C6C6C;
+			padding: 4px 0;
+		}
+
+		.mui-media-body h4 {
+			position: absolute;
+			bottom: 15px;
+			color: #6C6C6C;
+			font-size: 0.9em;
+			width: 100%;
+			height: 24px;
+			line-height: 24px;
+		}
+
+		.mui-media-body h4 b {
+			color: red;
+			font-size: 1.2em;
+			margin-right: 10px;
+		}
+
+		.mui-media-body h4 span {
+			float: right;
+			font-size: 0.6em;
+		}
+
+		.mui-media a {
+			padding: 10px 0!important;
+		}
+
+		.mui-table-view {
+			width: 100%;
+		}
+	</style>
+</head>
+
+<body style="background:#F0F0F0;">
+	<div class="index_box" id="app">
+		<!-- 顶部功能栏 -->
+		<div class="index_sousuo">
+			<div class="index_sou_l">
+				<a id="cities.html" onclick="clicked(this.id)"><img src="img/dw.png" alt=""></a>
+			</div>
+			<div class="index_sou_c">
+				<span><img src="img/fd.png" alt=""></span><input type="text" placeholder="查找服务或商品" @keyup.enter="search" v-model.trim="keyword">
+			</div>
+			<div class="index_sou_r" onclick="clicked('barcode_scan.html',true,true)">
+				<a href="#"><img src="img/sys.png" alt=""></a>
+			</div>
+			<div class="clr"></div>
+		</div>
+
+		<div id="slider" class="mui-slider" style="margin-top: 50px">
+			<div class="mui-slider-group mui-slider-loop">
+				<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+				<div class="mui-slider-item mui-slider-item-duplicate">
+					<a href="#">
+							<img width="100%" height="135" :src="slides[0] ? slides[0].pic: ''">
+						</a>
+				</div>
+				<template v-for="slide in slides">
+					<div class="mui-slider-item">
+						<a href="#">
+								<img width="100%" height="135" :src="slide.pic">
+							</a>
+					</div>
+				</template>
+
+				<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+				<div class="mui-slider-item mui-slider-item-duplicate">
+					<a href="#">
+							<img width="100%" height="135" :src="slides[slides.length-1] ? slides[slides.length-1].pic: ''">
+						</a>
+				</div>
+			</div>
+			<div class="mui-slider-indicator">
+				<template v-for="(slide, k) in slides">
+					<div :class="k==0 ? 'mui-indicator mui-active' : 'mui-indicator'"></div>
+				</template>
+			</div>
+		</div>
+		<div class="hero-gallery js-flickity" data-flickity-options='{"prevNextButtons":false,"resizeBound":false}' style=" width: 100%;height: 190px;">
+			<div class="hero-gallery__cell hero-gallery__cell--1">
+				<ul>
+					<template v-for="category in categories_1">
+						<li @tap="openCategoryPage(category.id)">
+							<a><img :src="category.icon" alt=""  width="40" height="50">
+									<p>{{category.title}}</p>
+								</a>
+						</li>
+					</template>
+				</ul>
+				<div class="clr"></div>
+			</div>
+			<div class="hero-gallery__cell hero-gallery__cell--2">
+				<ul>
+					<template v-for="category in categories_2">
+						<li @tap="openCategoryPage(category.id)">
+							<a><img :src="category.icon" alt="" width="40" height="50">
+									<p>{{category.title}}</p>
+								</a>
+						</li>
+					</template>
+					<li @tap="openCategoryList()">
+						<a><img src="img/qc.png" alt="">
+								<p>其他</p>
+							</a>
+					</li>
+				</ul>
+				<div class="clr"></div>
+			</div>
+		</div>
+
+		<div class="index_center_box" @tap="openCategoryPage(recommend_categories[0].category_id)">
+			<img :src="getImgUrl(recommend_categories[0] ? recommend_categories[0].img : '')" alt="" height="100%" width="100%">
+		</div>
+
+		<div class="index_main_box">
+			<div class="index_main_left" @tap="openCategoryPage(recommend_categories[1].category_id)">
+				<img :src="getImgUrl(recommend_categories[1] ? recommend_categories[1].img : '')" alt="">
+			</div>
+			<div class="index_main_right">
+				<div class="index_main_right_t" @tap="openCategoryPage(recommend_categories[2].category_id)">
+					<img :src="getImgUrl(recommend_categories[2] ? recommend_categories[2].img : '')" alt="">
+				</div>
+				<div class="index_main_right_t">
+					<div class="index_main_right_t" @tap="openCategoryPage(recommend_categories[3].category_id)">
+						<img :src="getImgUrl(recommend_categories[3] ? recommend_categories[3].img : '')" alt="" style="height:60%;">
+					</div>
+				</div>
+			</div>
+			<div class="clr"></div>
+		</div>
+		<!-- 商品列表 -->
+		<div class="index_feng">
+			<p><span>购物帮</span></p>
+		</div>
+		
+		<div id="shop-list">
+		<template v-for="item in shops">
+			<div class="nearby_box">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell mui-media" @tap="goShopDetail(item.id)">
+						<a href="javascript:;">
+								<img :src="getImgUrl(item.pics)" class="mui-media-object mui-pull-left">
+								<div class="mui-media-body">
+									<h6><i>{{ item.name }}</i><span>{{ item.distance }}</span></h6>
+									<div class="clr"></div>
+									<h5><img src="img/star.png" v-for="i in item.star" alt=""></h5>
+									<p class='mui-ellipsis'>{{ item.city }} {{ item.detail_address }}</p>
+									<h4 style="position: initial;"><b>¥{{ item.price }}</b>{{ item.discount }}折商家<span>已售{{ item.sales }}</span></h4>
+									<div class="clr"></div>
+								</div>
+							</a>
+					</li>
+				</ul>
+			</div>
+		</template>
+		</div>
+		<div @tap="getNextPage" style="text-align: center;">
+			<span class="mui-icon mui-icon-spinner-cycle mui-spin" v-if="loading"></span>
+			<span v-if="!loading" style="font-size: 12px;">{{no_more ? '没有更多了' : '加载更多'}}</span>
+
+		</div>
+
+		<!-- 底部导航 -->
+		<div class="index_bottom">
+			<ul>
+				<li>
+					<a href="javascript:;"><img src="img/nav1.png" alt="">
+							<p style="color:#008CEE;">首页</p>
+						</a>
+				</li>
+				<li>
+					<a id="nearby.html" onclick="jump(this.id)"><img src="img/nav2.png" alt="">
+							<p>附近</p>
+						</a>
+				</li>
+				<li>
+					<a id="reward.html" onclick="go(this.id, false)"><img src="img/nav3.png" alt="" style="margin-top: -15px;height: 50px;">
+							<p>奖励</p>
+						</a>
+				</li>
+				<li>
+					<a onclick="go('cart.html', false)"><img src="img/nav4.png" alt="">
+							<p>购物车</p>
+						</a>
+				</li>
+				<li>
+					<a onclick="go('people_center.html', false)"><img src="img/nav5.png" alt="">
+							<p>我的</p>
+						</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<script src="js/swiper.min.js"></script>
+	<!-- Initialize Swiper -->
+	<script>
+		var swiper = new Swiper('.swiper-container', {
+			autoplay: true,
+			loop: true,
+			speed: 2000,
+			pagination: '.swiper-pagination',
+			paginationClickable: true,
+			observer: true, //修改swiper自己或子元素时，自动初始化swiper
+			observeParents: true //修改swiper的父元素时，自动初始化swiper
+		});
+	</script>
+	<script src="js/vue.js"></script>
+	<script>
+		var as = 'pop-in'; // 默认窗口动画
+		document.addEventListener('touchstart', function () {
+			return false;
+		}, true);
+		mui.init();
+
+		mui.plusReady(function () {
+			plus.navigator.setStatusBarBackground('#008CEE');
+		})
+
+		function scaned(type, result, file) {
+			console.log(type, result, file);
+			if (type == 'QR') {
+				var param = getUrlParams(result);
+				if (param && param.code) {
+					getJson(
+						'api/user/getUserinfoByPhone',
+						{
+							phone: param.code,
+						},
+						function (ret) {
+							if (ret.code == 200) {
+								mui.toast('转账付款') //不明原因 不跳转 hack下 
+								go('offline_pay.html?code=' + param.code); //线下转账 
+
+							} else {
+								mui.toast(ret.message);
+							}
+						}
+					)
+				}
+			}
+
+		}
+
+		function selectCity(lng, lat) {
+			vm.resetPosition(lng, lat);
+		}
+		var vm = new Vue({
+			el: '#app',
+			data: {
+				keyword: '',
+				slides: [],
+				categories: [],
+				recommend_categories: [{}, {}, {}, {}],
+				shops: [],
+				page: 1,
+				no_more: false,
+				loading: false,
+				lat: 0,
+				lng: 0,
+			},
+			computed: {
+				categories_1: function () {
+					return this.categories.slice(0, 10);
+				},
+				categories_2: function () {
+					return this.categories.slice(10, 9);
+				}
+			},
+			created: function () {
+				this.getPos();
+				this.getIndexData();
+			},
+			methods: {
+				search: function () {
+					if (this.keyword.length < 1) {
+						return;
+					}
+					clicked('shoplist.html?keyword=' + this.keyword, 'shoplist.html');
+				},
+				getImgUrl: function (url) {
+					return config.imgBasePath + url;
+				},
+				goShopDetail: function (id) {
+					clicked('shopdetail.html?shop_id=' + id);
+				},
+				openCategoryList: function () {
+					clicked('categories.html')
+				},
+				openCategoryPage: function (category_id) {
+					clicked('shoplist.html?category_id=' + category_id);
+				},
+				getIndexData: function () {
+					var self = this;
+					mui.get(
+						config.host + 'api/index', {
+							lng: self.lng,
+							lat: self.lat
+						},
+						function (ret) {
+							self.loading = false;
+							if (ret.code == 200) {
+								self.slides = ret.data.slides;
+								self.categories = ret.data.categories;
+								self.recommend_categories = ret.data.recommend_categories;
+								Vue.nextTick(function () {
+									mui("#slider").slider({
+										interval: 2000
+									});
+								})
+							} else {
+								mui.toast('获取信息失败');
+							}
+						},
+						'json'
+					)
+				},
+				getNextPage: function () {
+					var self = this;
+					if (self.no_more) {
+						return;
+					}
+					self.loading = true;
+
+					getJson(
+						'api/shops/' + self.page, {
+							lng: self.lng,
+							lat: self.lat,
+						},
+						function (ret) {
+							self.loading = false;
+							if (ret.code == 200) {
+								var len = ret.data.shops.length;
+								console.log(len);
+								for (var i = 0; i < len; i++) {
+									self.shops.push(ret.data.shops[i]);
+								}
+								if (len == 10) {
+									self.page = parseInt(self.page) + 1;
+								} else {
+									self.no_more = true;
+								}
+
+							}
+						},
+						null,
+						false
+					)
+
+				},
+				getPos: function () {
+					var self = this;
+					if (!window.plus) {
+
+						mui.toast("获取位置信息失败，请手动设置位置信息");
+						self.getNextPage();
+						return;
+					}
+					plus.geolocation.getCurrentPosition(function (position) {
+						self.lat = position.coords.latitude
+						self.lng = position.coords.longitude
+						self.getNextPage();
+					}, function (e) {
+						mui.toast("获取位置信息失败，请手动设置位置信息");
+					}, {
+							geocode: false
+						});
+				},
+				resetPosition: function (lng, lat) {
+
+					this.lng = lng;
+					this.lat = lat;
+					this.shops = [];
+					this.page = 1;
+					this.no_more = false;
+					this.getNextPage();
+				}
+			}
+
+		})
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>用户注册</title>
+<link href="css/sta.css" rel="stylesheet" type="text/css">
+<script src="js/common.js"></script>
+<script src="js/config.js"></script>
+<script src="js/vue.js"></script>
+ <link href="css/mui.min.css" rel="stylesheet" /> 
+<script src="js/mui.min.js"></script>
+</head>
+
+<body style="background:#F0F0F0;">
+<div class="register_box" id="app">
+    <div class="register_ip" style="border:none;margin-bottom:10px;">
+        <p><span>登录密码</span><input v-model="password" type="password" placeholder="请输入不少于6位数字密码" class="reg_ip1"></p>
+        <div class="clr"></div>
+    </div>
+    <div class="register_ip">
+        <p><span>确认密码</span><input v-model="password_confirmation" type="password" placeholder="请再次确认密码" class="reg_ip1"></p>
+        <div class="clr"></div>
+    </div>
+    <div class="register_ip_ts">
+        <p><span>提示：</span>该密码默认为支付密码</p>
+    </div>
+    <div class="register_ip">
+        <p><span>推荐人</span><input type="text" v-model="p_user"  placeholder="填写推荐人用户名,可不填" class="reg_ip1" id="add1" style="width: 60%!important;"><i style="width: 10%; float: right;"><img src="img/sss.png" @click="scan"></i></p>
+        <div class="clr"></div>
+    </div>
+    <div class="register_bt">
+    <input type="submit" value="确认注册" @click="confirmRegister">
+    </div>
+    <div class="register_bottom">
+        <p>确认即表示同意<a href="#">《软件用户协议》</a></p>
+    </div>
+</div>
+<script type="text/javascript">
+    function scaned(type, result, file)
+    {
+        console.log(result);
+    }
+
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            password: '',
+            password_confirmation: '',
+            p_user: ''
+        },
+        methods: {
+            scan: function() {
+                clicked('barcode_scan.html');
+            },
+            confirmRegister: function() {
+                var password = this.password;
+                var password_confirmation = this.password_confirmation;
+                var p_user = this.p_user;
+                var phone = localStorage.phone;
+                
+                mui.post(
+                    config.host + 'api/user/register',
+                    {
+                        phone: phone,
+                        password: password,
+                        password_confirmation: password_confirmation,
+                        p_user: p_user
+                    },
+                    function(ret) {
+                        if (ret.code == 200) {
+                            mui.toast('注册成功');
+                            localStorage.phone = '';
+                            clicked('login.html');
+                        } else {
+                            mui.toast(ret.message);
+                        }
+                    }, 
+                    'json'
+                );
+            }
+        }
+
+    })
+</script>
+</body>
+</html>

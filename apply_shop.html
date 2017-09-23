@@ -1,0 +1,370 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>商家入驻</title>
+	<link href="css/sta.css" rel="stylesheet" type="text/css">
+	<link href="css/mui.css" rel="stylesheet" type="text/css">
+	<script src="js/mui.js"></script>
+	<script src="js/common.js"></script>
+	<script src="js/config.js"></script>
+	<script src="js/vue.js"></script>
+	<script src="js/jquery-3.2.1.slim.min.js" type="text/javascript" charset="utf-8"></script>
+
+	<link rel="stylesheet" type="text/css" href="css/mui.picker.css">
+	<link rel="stylesheet" type="text/css" href="css/mui.poppicker.css">
+	<link rel="stylesheet" type="text/css" href="css/cropper.css" />
+	<script src="js/cropper.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+<style>
+	.mui-table-view .mui-media-object {
+		line-height: 60px;
+		max-width: 60px;
+		height: 60px;
+	}
+
+	[v-cloak] {
+		display: none;
+	}
+	/* #openPopove1,#openPopove2,#openPopove3{text-align: center;width: 33.33%;float: left;padding: 0;margin: 0;} */
+</style>
+
+<body style="background:#F0F0F0;">
+	<div id="app" v-cloak>
+		<div class="index_box" style="margin-top:50px">
+			<div class="nearby_top">
+				<h1>成为商户</h1>
+				<a class="index_back mui-action-back"><img src="img/back.png" alt="" width="100%" height="100%"></a>
+			</div>
+			<div class="apply_box">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell mui-media">
+						<a href="javascript:;">
+								<img class="mui-media-object mui-pull-left" id="headimg" src="img/tittle.png">
+								<div class="mui-media-body">
+									手机号码：{{user.phone}}
+									<p class='mui-ellipsis'>{{user.level}}</p>
+									<h6>我的推荐ID：{{user.recommend_uid}}</h6>
+								</div>
+							</a>
+					</li>
+				</ul>
+				<div class="clr"></div>
+			</div>
+
+			<div class="apply_people">
+				<label for="">推荐人</label>
+				<input type="text" placeholder="请输入推荐人手机号" v-model="recommend_phone">
+			</div>
+			<div class="apply_people">
+				<label for="">商户名称</label>
+				<input type="text" placeholder="请输入商户名称" v-model="shop_name">
+			</div>
+			<div class="apply_people">
+				<label for="">商户经营类型</label>
+				<a href="#popover" id="openPopover" class="mui-btn mui-btn-primary mui-btn-block">{{ category_name ? category_name : '请选择商户经营类型' }}<img src="img/bac.png" alt=""></a>
+				<div class="clr"></div>
+			</div>
+			<div class="apply_people">
+				<label for="">商户让利类型</label>
+				<a href="#popoverr" id="openPopover" class="mui-btn mui-btn-primary mui-btn-block">{{discount ? '让利类型:' + discount + '折': '请选择让利类型'}}<img src="img/bac.png" alt=""></a>
+				<div class="clr"></div>
+			</div>
+			<div class="apply_people">
+				<label for="">选择地区</label>
+				<a id="cityResult" class="mui-btn mui-btn-primary mui-btn-block">{{ address.province ? address.province + address.city + address.country : '选择地区' }}<img src="img/bac.png" alt=""></a>
+				<div class="clr"></div>
+			</div>
+			<div class="apply_people">
+				<label for="">详细地址</label>
+				<a onclick="clicked('map.html')" id="" class="mui-btn mui-btn-primary mui-btn-block">{{address_detail ? address_detail : '详细地址'}}<img src="img/dw1.png" alt=""></a>
+			</div>
+			<div class="apply_people">
+				<label for="">联系方式</label>
+				<input type="text" placeholder="请输入联系方式" v-model="phone">
+			</div>
+			<div class="apply_people">
+				<label for="">上传身份证正/反面照</label>
+				<div class="apply_chuan">
+					<img :src="imgs[0] ? imgs[0] : 'img/tj.png'" width="100" height="100" @tap="selectImg(0)">
+					<img :src="imgs[1] ? imgs[1] : 'img/tj.png'" width="100" height="100" @tap="selectImg(1)">
+				</div>
+			</div>
+			<div class="apply_people">
+				<label for="">上传营业执照/店铺店面照</label>
+				<div class="apply_chuan">
+					<img :src="imgs[2] ? imgs[2] : 'img/tj.png'" width="100" height="100" @tap="selectImg(2)">
+					<img :src="imgs[3] ? imgs[3] : 'img/tj.png'" width="100" height="100" @tap="selectImg(3)">
+				</div>
+			</div>
+			<div class="apply_qr">
+				<p>确认即表示同意
+					<a href="#">《返利商城特约商家服务协议》</a>
+				</p>
+			</div>
+			<div class="apply_tj">
+				<button @tap="submit">提交</button>
+			</div>
+
+			<div>
+
+			</div>
+
+		</div>
+		<!-- 商户类型弹窗 -->
+		<div id="popover" class="mui-popover" style="text-align: left;">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell" v-for="item in categories">
+					<a @tap="setCategory(item)">{{ item.pid==0 ? '' : '&nbsp;&nbsp;' }}|--{{ item.title }}</a>
+				</li>
+			</ul>
+		</div>
+		<!-- 商户让利类型弹窗 -->
+		<div id="popoverr" class="mui-popover">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell" v-for="item in discount_list" @tap="setDiscount(item)">
+					<a href="#">{{item}}折</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div id="showEdit" style="width:100%;height: 100%;background-color: #fff;position: absolute;top:60;left: 0;display: none;z-index: 9;">
+		<div id="report" style="width:100%;height: 100%;z-index: 10;">
+			<img id="readyimg" style="width:100%;">
+		</div>
+		<div class="mui-content-padded" style="width:100%;height: 100px;z-index: 110;position: absolute;top:0px;left:0px;margin: 10px 0;">
+			<div class="flex-container" style="height: 40px;background: #000;">
+				<a style="color: #fff;width: 25%;float: left;height: 40px;line-height: 40px;"><span class="mui-icon mui-icon-closeempty" onclick="closepop()" style="font-size: 40px;"></span></a>
+				<a style="color: #fff;width: 25%;float: left;text-align: center;height: 40px;line-height: 40px;"><span class="mui-icon mui-icon-undo" onclick="rotateimgleft()" style="font-size: 40px;"></span></a>
+				<a style="color: #fff;width: 25%;float: left;text-align: center;height: 40px;line-height: 40px;"><span class="mui-icon mui-icon-redo" onclick="rotateimg()" style="font-size: 40px;"></span></a>
+				<a style="color: #fff;width: 25%;float: left;text-align: right;height: 40px;line-height: 40px;"><span class="mui-icon mui-icon-checkmarkempty" onclick="confirmSelect()" style="font-size: 40px;"></span></a>
+				<div class="clr"></div>
+			</div>
+		</div>
+	</div>
+
+	<script src="js/mui.picker.js"></script>
+	<script src="js/mui.poppicker.js"></script>
+	<script src="js/city.data-3.js"></script>
+	<script type="text/javascript">
+		window.addEventListener('setpos', function (e) {
+			vm.address_detail = e.detail.address;
+			vm.lng = e.detail.lng;
+			vm.lat = e.detail.lat;
+		});
+
+		function cutImg() {
+			$("#app").hide();
+			$("#showEdit").show();
+			var $image = $('#report > img');
+			$image.cropper({
+				checkImageOrigin: true,
+				aspectRatio: 1 / 1,
+				autoCropArea: 0.3,
+				zoom: -0.2
+			});
+		}
+
+		//确认照片，展示效果
+		function confirmSelect() {
+			var $image = $('#report > img');
+
+			var dataURL = $image.cropper("getCroppedCanvas");
+			//        var imgurl = dataURL.toDataURL("image/png", 0.5);
+			//换成下边的方法，转成jpeg，但是把质量降低，
+			//经测试51k的png，转成0.3质量，大小为3k多，0.5质量大小为4k多，
+			//这回应该不会出现卡的情况了，
+			//既然差别1k多，还是用0.5的质量，还是要兼顾下显示效果的。
+			var imgurl = dataURL.toDataURL("image/jpeg", 0.5);
+			$image.cropper('destroy');
+			$("#showEdit").hide();
+			$("#app").show();
+			vm.imgs.splice(vm.img_select_index, 1, imgurl)
+
+
+		}
+		//旋转照片
+		function rotateimg() {
+			$("#readyimg").cropper('rotate', 90);
+		}
+
+		function rotateimgleft() {
+			$("#readyimg").cropper('rotate', -90);
+		}
+
+		function closepop() {
+			$("#showEdit").show();
+			var $image = $('#report > img');
+			$image.cropper('destroy');
+			$("#app").show();
+			$("#showEdit").hide();
+		}
+
+		var vm = new Vue({
+			el: '#app',
+			data: {
+				categories: [],
+				discount_list: [
+					9
+				],
+				img_select_index: null,
+
+				category_id: null,
+				category_name: null,
+				discount: 9,
+				address: {},
+				address_detail: null,
+				lng: null,
+				lat: null,
+				imgs: ['', '', '', ''],
+				recommend_phone: '',//推荐人
+				shop_name: '',
+				phone: '',
+				user: {}
+			},
+			methods: {
+				selectImg: function (k) {
+					this.img_select_index = k;
+					console.log(k)
+					var self = this;
+					var bts = [{
+						title: "拍照"
+					}, {
+						title: "从相册选择"
+					}];
+					plus.nativeUI.actionSheet({
+						cancel: "取消",
+						buttons: bts
+					},
+						function (e) {
+							if (e.index == 1) {
+								self.getImage();
+							} else if (e.index == 2) {
+								self.galleryImgs();
+							}
+						}
+					);
+				},
+				getImage: function () {
+					var cmr = plus.camera.getCamera();
+					cmr.captureImage(function (p) {
+						plus.io.resolveLocalFileSystemURL(p, function (entry) {
+							var localurl = entry.toLocalURL();
+							//								$("#report").html('<img src="' + localurl + '">');
+							$("#readyimg").attr("src", localurl);
+							cutImg();
+							mui('#picture').popover('toggle');
+						});
+					});
+				},
+				galleryImgs: function () {
+					plus.gallery.pick(
+						function (e) {
+							$("#readyimg").attr("src", e);
+							cutImg();
+							mui('#picture').popover('toggle');
+
+						},
+						function (e) {
+							//outSet( "取消选择图片" );
+						}, {
+							filter: "image"
+						});
+				},
+				setCategory: function (item) {
+					this.category_id = item.id
+					this.category_name = item.title
+					mui('#popover').popover('hide')
+				},
+				setDiscount: function (item) {
+					this.discount = item;
+					mui('#popoverr').popover('hide')
+				},
+				getUserInfo: function () {
+					var self = this;
+					getJson(
+						'api/userCenterInfo',
+						{},
+						function (ret) {
+							if (ret.code == 200) {
+								self.user = ret.data
+							}
+						}
+					)
+				},
+				submit: function () {
+					var self = this;
+					var data = {
+						recommend_phone: self.recommend_phone,
+						shop_name: self.shop_name,
+						category_id: self.category_id,
+						discount: self.discount,
+						province: self.address.province,
+						city: self.address.city,
+						country: self.address.country,
+						address_detail: self.address_detail,
+						lng: self.lng,
+						lat: self.lat,
+						phone: self.phone,
+						id_pics: self.imgs.slice(0, 2),
+						shop_pics: self.imgs.slice(2)
+					};
+					
+					postJson(
+						'api/shop/apply',
+						data,
+						function (ret) {
+							mui.toast(ret.message)
+							if (ret.code == 200) {
+								setTimeout(function(){
+									go('people_center.html');
+								}, 300)
+							}
+						},
+						function () {
+
+						},
+						true
+					)
+				}
+			},
+			created: function () {
+				var self = this;
+				this.getUserInfo();
+				getJson(
+					'api/categories', {},
+					function (ret) {
+						if (ret.code == 200) {
+							self.categories = ret.data;
+						}
+					}
+				);
+			},
+			mounted: function () {
+				var self = this;
+				var cityPicker3 = new mui.PopPicker({
+					layer: 3
+				});
+				cityPicker3.setData(cityData3);
+				var showCityPickerButton = document.getElementById('cityResult');
+
+				showCityPickerButton.addEventListener('tap', function (event) {
+					cityPicker3.show(function (items) {
+						self.address = {
+							province: (items[0] || {}).text,
+							city: (items[1] || {}).text,
+							country: (items[2] || {}).text
+						}
+					});
+				}, false);
+			}
+		})
+	</script>
+</body>
+
+</html>

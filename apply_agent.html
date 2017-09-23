@@ -1,0 +1,173 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>
+        地区代理
+    </title>
+    <link href="css/sta.css" rel="stylesheet" type="text/css">
+    <link href="css/mui.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="css/mui.picker.css">
+    <link rel="stylesheet" type="text/css" href="css/mui.poppicker.css">
+    <script src="js/mui.js">
+
+    </script>
+</head>
+<style>
+    .mui-table-view .mui-media-object {
+        line-height: 60px;
+        max-width: 60px;
+        height: 60px;
+    }
+</style>
+
+<body style="background:#F0F0F0;">
+    <div class="index_box" style="margin-top:50px" id="app">
+        <div class="nearby_top ">
+            <h1>
+                地区代理
+            </h1>
+            <a class="index_back mui-action-back">
+                    <img src="img/back.png" alt="" width="100%" height="100%">
+                </a>
+        </div>
+        <div class="apply_box">
+            <ul class="mui-table-view">
+                <li class="mui-table-view-cell mui-media">
+                    <a href="javascript:;">
+                            <img class="mui-media-object mui-pull-left" :src="userinfo.avatar">
+                            <div class="mui-media-body">
+                                手机号码：{{userinfo.phone}}
+                                <p class='mui-ellipsis'>
+                                    普通会员
+                                </p>
+                                <h6>
+                                    我的推荐ID：无
+                                </h6>
+                            </div>
+                        </a>
+                </li>
+            </ul>
+            <div class="clr">
+            </div>
+        </div>
+        <div class="apply_people">
+            <label for="">
+                    身份证
+                </label>
+            <input type="text" v-model="id_number" placeholder="请输入身份证" value="">
+        </div>
+        <div class="apply_people">
+            <label for="">
+                    选择地区
+                </label>
+            <input type="text" placeholder="请选择地区" readonly :value="address.province ? address.province + address.city + address.country : ''"
+                id="cityResult">
+        </div>
+        <div class="apply_people">
+            <label for="">
+                    选择代理级别
+                </label>
+            <select name="agent_level" v-model="agent_level">
+            	<option value="1">省级代理</option>
+            	<option value="2">市级代理</option>
+            	<option value="3">区级代理</option>
+            </select>
+        </div>
+        <a style="display:block; margin: 10px 0px;text-align: center;color: #008CEE;" href="tel:15012345678">
+                客服电话：15012345678
+            </a>
+        <div class="apply_tj">
+            <button @tap="submit">
+                    提交
+                </button>
+        </div>
+        <div>
+        </div>
+    </div>
+    <script src="js/mui.picker.js"></script>
+    <script src="js/mui.poppicker.js"></script>
+    <script src="js/city.data-3.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/config.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                address: {},
+                userinfo: {},
+                id_number: null,
+                agent_level: 1,
+            },
+            computed: {
+                userLevelText: function() {
+                    var level_arr = {
+                        1: '普通用户',
+                        2: '业务代表',
+                        3: '地区代理'
+                    }
+                    if (userinfo) {
+                        return level_arr[userinfo.level] ? level_arr[userinfo.level] : '';
+                    }
+                    return '';
+                }
+            },
+            created: function () {
+                var userinfo = storage.getItem('userinfo');
+                if (userinfo) {
+                    this.userinfo = JSON.parse(userinfo);
+                }
+            },
+            mounted: function () {
+                var self = this;
+                var cityPicker3 = new mui.PopPicker({
+                    layer: 3
+                });
+                cityPicker3.setData(cityData3);
+                var showCityPickerButton = document.getElementById('cityResult');
+
+                showCityPickerButton.addEventListener('tap',
+function(event) {
+	cityPicker3.show(function(items) {
+		self.address = {
+			province: (items[0] || {}).text,
+			city: (items[1] || {}).text,
+			country: (items[2] || {}).text
+		}
+	});
+}, false);
+},
+methods: {
+		submit: function() {
+				var data = {
+						id_number: this.id_number,
+						province: this.address.province ||'',
+                        city: this.address.city || '',
+                        country: this.address.country || '',
+                        agent_level: this.agent_level,
+                    }
+
+                    postJson(
+                        'api/user/applyAgent',
+                        data,
+                        function(ret) {
+                            mui.toast(ret.message);
+                            if (ret.code == 200) {
+                                setTimeout(function(){
+                                    mui.back();
+                                }, 300)
+                            }
+                        }
+                    )
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

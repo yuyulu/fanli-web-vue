@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>提现</title>
+    <link href="css/sta.css" rel="stylesheet" type="text/css">
+    <link href="css/mui.css" rel="stylesheet" type="text/css">
+    <script src="js/mui.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/config.js"></script>
+</head>
+
+<body style="background:#FFF;">
+    <div class="index_box">
+        <div class="change_img">
+            <a class="index_back mui-action-back" style="position: fixed;z-index: 99;"><img src="img/back.png" alt="" width="100%" height="100%"></a>
+            <a class="index_empty" onclick="go('yesterday.html')">奖励账单</a>
+            <img src="img/lingqian.png" alt="" class="change_tit">
+            <p>当前余额 (元)</p>
+            <h4 id="amount">0.00</h4>
+        </div>
+
+        <div class="represen_box">
+            <a onclick="go('withdraw.html')"><img src="img/yue.png" alt="" width="30">
+		  提现</a>
+            <div class="clr"></div>
+        </div>
+
+    </div>
+    <script>
+        getJson(
+            'api/user/amount',
+            null,
+            function(ret) {
+                if (ret.code == 200) {
+                    document.getElementById('amount').innerHTML = ret.data
+                }
+            }
+        )
+    </script>
+</body>
+
+</html>

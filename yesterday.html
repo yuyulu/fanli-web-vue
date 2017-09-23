@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>奖励金</title>
+<link rel="stylesheet" href="css/sta.css">
+  <link href="css/mui.css" rel="stylesheet" type="text/css">
+  <script src="js/mui.js"></script>
+  <script src="js/mui.js"></script>
+	<script src="js/common.js"></script>
+	<script src="js/config.js"></script>
+	<script src="js/vue.js"></script>
+  <!-- Swiper JS -->
+
+</head>
+<style>
+  .tb_order {
+    width: 100%;
+  }
+
+  .ctt {
+    clear: both;
+  }
+
+  #tb_ {
+    height: 44px;
+    margin-top: 10px;
+    background: #fff;
+    padding: 0 10px;
+  }
+
+  .tb_ li {
+    float: left;
+    height: 42px;
+    line-height: 42px;
+    cursor: pointer;
+    width: 25%;
+    font-size: 1em;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  .tb_t li {
+    float: left;
+    height: 22px;
+    line-height: 22px;
+    cursor: pointer;
+    margin-right: 20px;
+    font-size: 12px;
+    text-align: center;
+    padding: 0 10px;
+    border-radius: 2px;
+  }
+
+  .normaltab {
+    color: #333;
+  }
+
+  .hovertab {
+    border-bottom: 2px solid #008CEE;
+    color: #333;
+  }
+
+  .dis {
+    display: block;
+  }
+
+  .undis {
+    display: none;
+  }
+</style>
+
+<body style="background:#fff;">
+  <div class="index_box" style="margin-top:50px" id="app">
+    <div class="nearby_top">
+      <h1>昨日奖励金</h1>
+      <a class="index_back mui-action-back"><img src="img/back.png" alt="" width="100%" height="100%"></a>
+    </div>
+
+    <div class="tb_order">
+      
+      <div class="ctt">
+        <!-- 9折商家 -->
+        <div class="dis" id="tbc_02">
+          <div class="bonus_box">
+            <p>昨日奖励金</p>
+            <h6>{{yesterday_money}}</h6>
+          </div>
+          <div class="goods_top" style="position: inherit;">
+            <table border="1">
+              <thead>
+                <tr>
+                  <th><a href="#">类型</a></th>
+                  <th><a href="#">日期</a></th>
+                  <th><a href="#">金额</a></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="item in list">
+                  <td>红包返利</td>
+                  <td>{{item.handler_date}}</td>
+                  <td>{{item.money}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        yesterday_money: 0,
+        list: []
+      },
+      created: function() {
+        this.getData();
+      },
+      methods: {
+        getData: function() {
+          var self = this;
+          getJson(
+            'api/user/backList',
+            null,
+            function(ret) {
+              if (ret.code == 200) {
+                self.list = ret.data.list;
+                self.yesterday_money = ret.data.yesterday_money;
+              }
+            }
+          );
+        }
+      },
+    })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,259 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>个人中心</title>
+	<link rel="stylesheet" href="css/sta.css">
+	<link rel="stylesheet" href="css/mui.min.css">
+	<script src="js/jquery.min.js"></script>
+	<script src="js/flickity-docs.min.js"></script>
+	<script src="js/common.js"></script>
+	<script src="js/config.js"></script>
+	<script src="js/mui.min.js"></script>
+	<style>
+		[v-cloak] {
+			display: none;
+		}
+	</style>
+</head>
+
+<body style="background:#F0F0F0;">
+	<div class="index_box" id="app" v-cloak>
+		<div class="nearby_top">
+			<h1>个人中心</h1>
+			<a @tap="goPage('chat_list.html')" class="index_xiaox"><img src="img/xiaoxi.png" alt="" width="100%" height="100%"></a>
+			<a @tap="goPage('setup.html')" class="index_shez"><img src="img/shezhi.png" alt="" width="100%" height="100%"></a>
+		</div>
+		<!-- 个人中心头部 -->
+		<div class="people_tittle">
+			<div class="people_tittle_box">
+				<a href="#"><img :src="getImgUrl(user.logo)" alt=""></a>
+				<p>{{ user.name }}</p>
+				<p>账户等级：{{ user.level }}</p>
+				<div class="clr"></div>
+			</div>
+			<div class="people_tittle_list">
+				<div class="people_list_zhe"></div>
+				<a @tap="goPage('redpacket.html')">
+					<p>红包</p>
+					<h6>{{ user.redpacket }}</h6>
+				</a>
+				<a @tap="goPage('yesterday.html')">
+					<p>昨日奖励</p>
+					<h6>{{getYesterday()}}</h6>
+				</a>
+				<a @tap="goPage('my_balance.html')">
+					<p>可提余额</p>
+					<h6>{{ user.available_amount }}</h6>
+				</a>
+				<a @tap="goPage('amount.html')">
+					<p>提现</p>
+					<h6>{{ user.available_amount }}</h6>
+				</a>
+			</div>
+		</div>
+		<!-- 全部订单 -->
+		<div class="people_order">
+			<div class="people_od">
+					<img src="img/dingdan.png" alt="" class="peo_order_l" @tap="goPage('order_list.html#/waitpay')">全部购物订单
+					<img src="img/bac.png" alt="" class="peo_order_r" @tap="goPage('order_list.html#/waitpay')">
+					<div class="clr"></div>
+				</div>
+			<ul>
+				<li>
+					<a @tap="goPage('no_pay_orders.html')"><img src="img/daifukuan.png" alt="">
+							<p>待付款</p>
+						</a>
+				</li>
+				<li>
+					<a @tap="goPage('no_consum_orders.html')"><img src="img/daixiaofei.png" alt="">
+							<p>待消费</p>
+						</a>
+				</li>
+				<li>
+					<a @tap="goPage('no_receive_orders.html')"><img src="img/daishouhuo.png" alt="">
+							<p>待收货</p>
+						</a>
+				</li>
+				<li>
+					<a @tap="goPage('payed_orders.html')"><img src="img/yiwancheng.png" alt="">
+							<p>已完成</p>
+						</a>
+				</li>
+			</ul>
+			<div class="clr"></div>
+		</div>
+
+		<!-- 列表 -->
+		<div class="people_order_list">
+			<ul>
+				<li>
+					<a @tap="goPage('favorites.html')"><img src="img/icon-1.png" alt="">
+							<p>我的收藏</p>
+						</a>
+				</li>
+				<li>
+					<a @tap="goPage('consume_list.html')"><img src="img/icon-2.png" alt="">
+							<p>消费明细</p>
+						</a>
+				</li>
+				<li>
+					<a @tap="goPage('barcode_scan.html')"><img src="img/icon-3.png" alt="">
+							<p>扫码付款</p>
+						</a>
+				</li>
+				<li>
+					<a @tap="goPage('apply_delegate.html')"><img src="img/icon-4.png" alt="">
+							<p>业务代表</p>
+						</a>
+				</li>
+				<li>
+					<a @tap="applyAgent"><img src="img/icon-5.png" alt="">
+							<p>地区代理</p>
+						</a>
+				</li>
+				<li>
+					<a @tap="goShopManage"><img src="img/icon-6.png" alt="">
+							<p>商家管理</p>
+						</a>
+				</li>
+				<!-- <li>
+					<a @tap="goPage('share.html')"><img src="img/icon-7.png" alt="">
+							<p>我要分享</p>
+						</a>
+				</li> -->
+				<li>
+					<a :href="'tel:' + user.service_phone"><img src="img/icon-8.png" alt="">
+							<p>联系客服</p>
+						</a>
+				</li>
+			</ul>
+			<div class="clr"></div>
+		</div>
+
+		<!-- 底部导航 -->
+		<div class="index_bottom">
+			<ul>
+				<li>
+					<a onclick="jump('index.html')"><img src="img/nav6.png" alt="">
+							<p>首页</p>
+						</a>
+				</li>
+				<li>
+					<a onclick="jump('nearby.html')"><img src="img/nav2.png" alt="">
+							<p>附近</p>
+						</a>
+				</li>
+				<li>
+					<a onclick="jump('reward.html')"><img src="img/nav3.png" alt="" style="margin-top: -15px;height: 50px;">
+							<p>奖励</p>
+						</a>
+				</li>
+				<li>
+					<a onclick="jump('cart.html')"><img src="img/nav4.png" alt="">
+							<p>购物车</p>
+						</a>
+				</li>
+				<li>
+					<a onclick="jump('people_center.html')"><img src="img/nav9.png" alt="">
+							<p style="color:#008CEE;">我的</p>
+						</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</body>
+
+<script src="js/vue.js"></script>
+<script src="js/moment.min.js"></script>
+<script type="text/javascript">
+	
+	function scaned(type, result, file) {
+		console.log(type, result, file);
+		if (type == 'QR') {
+			var param = getUrlParams(result);
+			if (param && param.code) {
+				getJson(
+					'api/user/getUserinfoByPhone',
+					{
+						phone: param.code,
+					},
+					function(ret) {
+						if (ret.code == 200) {
+							mui.toast('转账付款') //不明原因 不跳转 hack下 
+							go('offline_pay.html?code=' + param.code); //线下转账 
+
+						} else {
+							mui.toast(ret.message);
+						}
+					}
+				)
+			}
+		}
+
+	}
+	var vm = new Vue({
+		el: '#app',
+		data: {
+			user: {
+
+			}
+		},
+		created: function () {
+			this.getUserInfo();
+		},
+		methods: {
+			getYesterday: function() {
+				return moment().subtract(1, 'd').format('YYYY-MM-DD')
+			},
+			applyAgent: function() {
+				if (this.user.level == '普通会员') {
+					mui.alert('只有业务代表才能申请地区代理');
+					return;
+				}
+				if (this.user.level == '业务代表') {
+					this.goPage('apply_agent.html');
+					return;
+				}
+				if (this.user.level == '地区代理') {
+					
+					return;
+				}
+			},
+			goShopManage: function() {
+				// console.log(this.user.account_type);
+				if (this.user.account_type == 0) {
+					this.goPage('apply_shop.html');
+				} else {
+					this.goPage('shop_manage.html')
+				}
+			},
+			goPage: function (page) {
+				go(page);
+			},
+			getImgUrl: function (url) {
+				return config.imgBasePath + url;
+			},
+			getUserInfo: function () {
+				var self = this;
+				getJson(
+					'api/userCenterInfo',
+					{},
+					function (ret) {
+						if (ret.code == 200) {
+							self.user = ret.data
+						}
+					}
+				)
+			}
+		}
+	})
+
+</script>
+
+</html>

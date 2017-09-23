@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="format-detection" content="telephone=no"/> 
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <link rel="stylesheet" href="css/sta.css">
+    <style type="text/css">
+        #map {width: 100%; position: fixed; top: 44px; bottom: 40px; line-height: 200px; text-align: center; background: #FFFFFF; } 
+        #detail {width: 100%; position: fixed; bottom: 0; height: 40px; text-align: left; line-height: 40px; background-color: #008cee; color: #fff; font-size: 10px; z-index: 99;}
+        #detail span {width: 80%; display: inline-block;}
+    </style>
+    <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
+    <link href="css/mui.css" rel="stylesheet" type="text/css">
+   <script src="js/mui.js"></script>
+</head>
+<body style="background:#fff;">
+    <div class="index_box" style="margin-top:50px;" id="app">
+        <div class="nearby_top">
+          <h1>地理位置</h1>
+          <a  class="index_back mui-action-back"><img src="img/back.png" alt="" width="100%" height="100%"></a>
+        </div>
+    </div>
+    <div id="map">
+        地图加载中
+    </div>
+    <div id="detail">
+        <span id="detail-address">当前标识位置：</span><button onclick="javascript:confirmPos();">提交</button>
+    </div>
+    <script type="text/javascript">
+        mui.init();
+        var map = null;
+        var detail, lng, lat;
+        mui.ready(function() {
+            map=new plus.maps.Map("map", {
+                zoom: 18,
+            });
+            userLocation();
+        })
+
+        function userLocation(){
+            map.showUserLocation( true );
+            map.getUserLocation(function(state,pos){
+                if(0 == state){
+                    map.setCenter(pos);
+                    var marker = new plus.maps.Marker(pos);
+                    reverseGeocode(pos)
+                    map.addOverlay(marker);
+
+                    map.onstatuschanged = function( e ){
+                        console.log( "StatusChanged: "+JSON.stringify(e.center) );
+                        marker.setPoint(e.center)
+                        reverseGeocode(e.center)
+                    }
+                }
+            });
+        }
+
+        function reverseGeocode(point) {
+            plus.maps.Map.reverseGeocode(
+                point, 
+                {
+                    coordType: 'bd09',
+                    city: '郑州'
+                }, 
+                function(event) {
+                    var address = event.address;
+                    var point = event.coord;  // 转换后的坐标信息
+                    var coordType = event.coordType;
+                    
+                    updateDetail(address, point.longitude, lat = point.latitude)
+                },  
+                function onError( error ) {
+                    var code = error.code; // 错误编码
+                    var message = error.message; // 错误描述信息
+                }
+            );
+        }
+
+        function updateDetail(address, longitude, latitude) {
+            detail = address;
+            lng = longitude;
+            lat = latitude;
+            document.getElementById('detail-address').innerHTML = '当前标识位置：' + detail;
+        }
+
+        function confirmPos() {
+            mui.fire(plus.webview.currentWebview().opener(), 'setpos', {
+                address: detail,
+                lng: lng,
+                lat: lat
+            })
+            mui.back();
+        }
+    </script>
+</body>
+</html>

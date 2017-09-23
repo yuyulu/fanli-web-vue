@@ -1,0 +1,180 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>业务代表</title>
+    <link href="css/sta.css" rel="stylesheet" type="text/css">
+    <link href="css/mui.css" rel="stylesheet" type="text/css">
+    <script src="js/mui.js"></script>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body style="background:#FFF;">
+    <div class="index_box" id="app" v-cloak>
+        <div class="details_img">
+            <a class="index_back mui-action-back" style="position: fixed;z-index: 99;"><img src="img/back.png" alt="" width="100%" height="100%"></a>
+        </div>
+
+        <div class="represen_box">
+            <img src="img/lingdai.png" alt=""> 升级业务代表
+            <span>5000元</span>
+            <input type="submit" value="开通" @tap="pay_div_show=true">
+            <div class="clr"></div>
+        </div>
+        <div class="represen_bm">
+            <span><input type="checkbox" checked disabled></span><label for="">我同意《返利客户协议》</label>
+            <div class="clr"></div>
+        </div>
+
+        <!-- 支付弹窗 -->
+        <div class="shop_car_zf" v-show="pay_div_show" id="coon">
+            <div class="shop_car_zhe"></div>
+            <div class="shop_car_box">
+                <h4>请选择支付方式<a @tap="pay_div_show=false"><img src="img/close.png" alt="" width="16" height="15"></a></h4>
+                <ul>
+                    <li class="shop_car1">
+                        <a>¥ 5000元</a>
+                    </li>
+                    <li class="shop_car2">
+                        <a>升级业务代表</a>
+                    </li>
+                    <li>
+                        <a @tap="payBy('amount')" class="shop_car"><span><img src="img/yue.png" alt=""></span><b>余额支付</b></a>
+                    </li>
+                    <li>
+                        <a @tap="payBy('wx')" class="shop_car"><span><img src="img/yue.png" alt=""></span><b>微信支付</b></a>
+                    </li>
+                    <li>
+                        <a @tap="payBy('ali')" class="shop_car"><span><img src="img/yue.png" alt=""></span><b>支付宝支付</b></a>
+                    </li>
+                    <!-- <li>
+							<a class="shop_car"><span><img src="img/yinlian.png" alt=""></span><b>银联支付</b></a>
+						</li>
+						<li>
+							<a class="shop_car"><span><img src="img/xianxia.png" alt=""></span><b>线下支付</b></a>
+						</li> -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/vue.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        var wxChannel = null; // 微信支付 
+        var aliChannel = null; // 支付宝支付 
+        mui.plusReady(function () {
+            // 获取支付通道 
+            plus.payment.getChannels(function (channels) {
+                for (var i in channels) {
+                    if (channels[i].id == "wxpay") {
+                        wxChannel = channels[i];
+                    }
+
+                    if (channels[i].id == "alipay") {
+                        aliChannel = channels[i];
+                    }
+                }
+            }, function (e) {
+                alert("获取支付通道失败：" + e.message);
+            });
+        })
+
+        function pay(channel, str) {
+            var paychannel;
+            if (channel == 'ali') {
+                paychannel = aliChannel;
+            } else if (channel == 'wx') {
+                paychannel = wxChannel;
+            } else {
+                return;
+            }
+            plus.payment.request(paychannel, str, function (result) {
+                plus.nativeUI.alert("支付成功！", function () {
+                    back();
+                });
+            }, function (error) {
+                plus.nativeUI.alert("支付失败：" + JSON.stringify(error));
+            });
+        }
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                payMethod: null,
+                order_token: null,
+                pay_div_show: false,
+            },
+            created: function () {
+                var self = this;
+                postJson(
+                    'api/getOrderCreateToken',
+                    {},
+                    function (ret) {
+                        if (ret.code == 200) {
+                            self.order_token = ret.data;
+                        }
+                    }
+                )
+            },
+            methods: {
+                payBy: function (method) {
+                    this.payMethod = method;
+                    var self = this;
+                    mui.prompt('', '请输入支付密码', '请输入支付密码', ['取消', '确定'], function (e) {
+                        if (e.index == 1) {
+                            var password = e.value;
+                            postJson(
+                                'api/verifyPaymentPasswd', {
+                                    password: password
+                                },
+                                function (ret) {
+                                    if (ret.code == 200) {
+                                        self.confirmPay()
+                                    } else {
+                                        mui.toast(ret.message);
+                                    }
+                                }
+
+                            )
+
+                        }
+                    }, 'div')
+                    document.querySelector('.mui-popup-input input').type = 'password'
+                },
+                confirmPay: function () {
+                    var self = this;
+
+                    postJson(
+                        'api/applyDelegate', 
+                        {
+                            payChannel: self.payMethod
+                        },
+                        function (ret) {
+                            if (ret.code == 200) {
+                                pay(self.payMethod, ret.data)
+                            } else {
+                                mui.toast(ret.message)
+                            }
+                        },
+                        function (xhr, type, e) {
+
+                        },
+                        true
+                    )
+
+                },
+            }
+        })
+    </script>
+</body>
+
+</html>

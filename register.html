@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>用户注册</title>
+	<link href="css/sta.css" rel="stylesheet" type="text/css">
+	<script src="js/common.js"></script>
+	<script src="js/config.js"></script>
+	<script src="js/vue.js"></script>
+	<link href="css/mui.css" rel="stylesheet" />
+	<script src="js/mui.min.js"></script>
+	<style type="text/css">
+		.forbit-btn {
+			background-color: #e6e6e6;
+			color: #fff;
+		}
+	</style>
+</head>
+
+<body style="background:#F0F0F0;">
+	<div class="register_box" id="app">
+		<div class="register_ip">
+			<p><span>手机号码</span><input v-model="mobile" placeholder="请输入手机号码" class="reg_ip1" type="text"></p>
+			<div class="clr"></div>
+		</div>
+		<div class="register_ip">
+			<p><span>短信验证</span><input type="text" v-model="code" placeholder="请输入短信验证码" class="reg_ip2" id="add1"><input type="submit" :style="wating ? 'background-color: #e6e6e6' : ''"
+				 class="reg_ip3" v-model="text" @click="getVerifyCode()"></p>
+			<div class="clr"></div>
+		</div>
+		<div class="register_bt">
+			<button class="register_bt_bt" :style="canGoNext ? 'background-color: #008CEE' : ''" @click="goToNext()">下一步</button>
+		</div>
+	</div>
+	<script>
+		var vm = new Vue({
+			el: '#app',
+			data: {
+				mobile: '',
+				code: '',
+				wating: false,
+				text: '获取验证码',
+				nextStyle: ''
+			},
+			created: function () {
+				mui.init();
+				mui.ready(function () {
+					plus.navigator.setStatusBarBackground('#FFFFFF');
+				})
+			},
+			computed: {
+				canGoNext: function () {
+					return (/^1[0-9]{10}$/.test(this.mobile)) && (/^[0-9]{4}$/.test(this.code));
+				}
+			},
+			watch: {
+				wating: function (newval, val) {
+					if (newval == true) {
+						this.text = 60;
+						var self = this;
+						var timeout = setInterval(function () {
+							if (--self.text == 0) {
+								clearInterval(timeout);
+								self.wating = false;
+							}
+						}, 1000);
+					} else {
+						this.text = '获取验证码'
+					}
+				},
+			},
+			methods: {
+				goToNext: function () {
+					if (!this.canGoNext) {
+						return;
+					}
+					var self = this;
+
+					mui.post(
+						config.host + 'api/user/checkSmsCode', {
+							phone: self.mobile,
+							code: self.code
+						},
+						function (ret) {
+							if (ret.code == 200) {
+								localStorage.phone = self.mobile;
+								console.log(sessionStorage.phone)
+								clicked('register_next.html');
+							} else {
+								mui.toast(ret.message);
+								return;
+							}
+						},
+						'json'
+					)
+				},
+				getVerifyCode: function () {
+					if (this.wating) {
+						return;
+					}
+					if (!/^1[0-9]{10}$/.test(this.mobile)) {
+						mui.toast('请输入正确的手机号码');
+						return;
+					}
+					var self = this;
+					self.wating = true;
+					mui.post(
+						config.host + 'api/user/sendSms', 
+						{
+							phone: self.mobile
+						}, 
+						function (ret) {
+							mui.toast(ret.message);
+							if (ret.code == 200) {
+
+							}
+						}, 'json')
+				}
+			}
+		})
+	</script>
+</body>
+
+</html>
